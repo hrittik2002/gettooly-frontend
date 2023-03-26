@@ -1,0 +1,8 @@
+.parentContainer{
+    display: flex;
+    width: 100vw;
+    height: 7vh;
+    background-color: aqua;
+    justify-content: space-between;
+    align-items: center;
+}
