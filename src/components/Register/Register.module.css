@@ -17,6 +17,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     width: 60rem;
+    height : 90vh;
     padding: 2rem 3rem;
     border-radius: 0.5rem;
     background-color: white;

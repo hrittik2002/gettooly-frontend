@@ -10,14 +10,16 @@ import {
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { registerByUserSchema } from "../../schemas";
-import axios from "axios";
+import moment from "moment";
 import { registerUser } from "../../config/apiCalls";
+import PhoneInput from 'react-phone-number-input'
+import 'react-phone-number-input/style.css'
 
 const initialValues = {
   email: "",
   firstName: "",
   lastName: "",
-  phoneNumber: "",
+  // phoneNumber: "",
   state: "",
   city: "",
   pin: "",
@@ -31,6 +33,7 @@ const initialValues = {
 const RegisterByUser = () => {
   const [pic, setPic] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [phoneNumber , setPhoneNumber] = useState();
 
   const poastDetails = async (e) => {
     setPic([...pic, ...Array.from(e.target.files)]);
@@ -40,29 +43,36 @@ const RegisterByUser = () => {
     console.log(pic);
   }, [pic]);
 
-  const { values, errors, handleBlur, handleChange, handleSubmit , touched } = useFormik({
-    initialValues: initialValues,
-    validationSchema: registerByUserSchema,
-    onSubmit: async (values) => {
-      console.log("hiii from r")
-      const formData = new FormData();
-      formData.append("type", 2);
-      formData.append("email", values.email);
-      formData.append("first_name", values.firstName);
-      formData.append("last_name", values.lastName);
-      formData.append("phone_number", "+91" + values.phoneNumber);
-      formData.append("state", values.state);
-      formData.append("city", values.city);
-      formData.append("pin", values.pin);
-      formData.append("gender", values.gender);
-      formData.append("DOB", values.dob);
-      formData.append("profile_photo", pic);
-      formData.append("country", values.country);
-      formData.append("password", values.password);
-      formData.append("password2", values.confirmPassword);
-      registerUser(formData);
-    },
-  });
+  const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
+    useFormik({
+      initialValues: initialValues,
+      validationSchema: registerByUserSchema,
+      onSubmit: async (values) => {
+        console.log("hiii from r");
+        const formData = new FormData();
+        formData.append("type", 2);
+        formData.append("email", values.email);
+        formData.append("first_name", values.firstName);
+        formData.append("last_name", values.lastName);
+        // formData.append("phone_number", "+91" + values.phoneNumber); 
+        formData.append("phone_number", phoneNumber); 
+        formData.append("state", values.state);
+        formData.append("city", values.city);
+        formData.append("pin", values.pin);
+        formData.append("gender", values.gender);
+        formData.append("profile_photo", pic[0]);
+        formData.append("country", values.country);
+        formData.append("password", values.password);
+        formData.append("password2", values.confirmPassword);
+        const dateFormat = "YYYY-MM-DD";
+        const toDateFormat = moment(new Date(values.dob)).format(
+          dateFormat
+        );
+        formData.append("DOB", toDateFormat);
+        console.log(phoneNumber)
+        await registerUser(formData);
+      },
+    });
   // const poastDetails = async(e)=>{
   //   // setPic({"file": e.currentTarget.files[0]);
 
@@ -81,7 +91,9 @@ const RegisterByUser = () => {
           onChange={handleChange}
           onBlur={handleBlur}
         />
-        {errors.email && touched.email ? (<p style={{color : "red"}}>{errors.email}</p>) : null}
+        {errors.email && touched.email ? (
+          <p style={{ color: "red" }}>{errors.email}</p>
+        ) : null}
       </FormControl>
 
       <HStack width="100%">
@@ -95,7 +107,9 @@ const RegisterByUser = () => {
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          {errors.firstName && touched.firstName ? (<p style={{color : "red"}}>{errors.firstName}</p>) : null}
+          {errors.firstName && touched.firstName ? (
+            <p style={{ color: "red" }}>{errors.firstName}</p>
+          ) : null}
         </FormControl>
         <FormControl id="last-name" isRequired>
           <FormLabel>Last Name</FormLabel>
@@ -107,21 +121,25 @@ const RegisterByUser = () => {
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          {errors.lastName && touched.lastName ? (<p style={{color : "red"}}>{errors.lastName}</p>) : null}
+          {errors.lastName && touched.lastName ? (
+            <p style={{ color: "red" }}>{errors.lastName}</p>
+          ) : null}
         </FormControl>
       </HStack>
 
       <FormControl id="phone-number" isRequired>
         <FormLabel>Phone Number</FormLabel>
-        <Input
+        <PhoneInput
+          style={{width : "30%" , border : "1px solid skyblue" , borderRadius : "2px" , padding : "0.5%"}}
+          international
           placeholder="Enter your Phone Number"
-          type="number"
-          name="phoneNumber"
-          value={values.phoneNumber}
-          onChange={handleChange}
-          onBlur={handleBlur}
+          value={phoneNumber}
+          onChange={setPhoneNumber}
+          defaultCountry="US"
         />
-        {errors.phoneNumber && touched.phoneNumber ? (<p style={{color : "red"}}>{errors.phoneNumber}</p>) : null}
+        {/* {errors.phoneNumber && touched.phoneNumber ? (
+          <p style={{ color: "red" }}>{errors.phoneNumber}</p>
+        ) : null} */}
       </FormControl>
       <HStack width="100%">
         <FormControl id="state" isRequired>
@@ -134,7 +152,9 @@ const RegisterByUser = () => {
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          {errors.state && touched.state ? (<p style={{color : "red"}}>{errors.state}</p>) : null}
+          {errors.state && touched.state ? (
+            <p style={{ color: "red" }}>{errors.state}</p>
+          ) : null}
         </FormControl>
         <FormControl id="city" isRequired>
           <FormLabel>City</FormLabel>
@@ -146,7 +166,9 @@ const RegisterByUser = () => {
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          {errors.city && touched.city ? (<p style={{color : "red"}}>{errors.city}</p>) : null}
+          {errors.city && touched.city ? (
+            <p style={{ color: "red" }}>{errors.city}</p>
+          ) : null}
         </FormControl>
       </HStack>
       <HStack width="100%">
@@ -160,7 +182,9 @@ const RegisterByUser = () => {
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          {errors.pin && touched.pin ? (<p style={{color : "red"}}>{errors.pin}</p>) : null}
+          {errors.pin && touched.pin ? (
+            <p style={{ color: "red" }}>{errors.pin}</p>
+          ) : null}
         </FormControl>
         <FormControl>
           <FormLabel>Gender</FormLabel>
@@ -174,7 +198,9 @@ const RegisterByUser = () => {
             <option>Male</option>
             <option>Female</option>
           </Select>
-          {errors.gender && touched.gender ? (<p style={{color : "red"}}>{errors.gender}</p>) : null}
+          {errors.gender && touched.gender ? (
+            <p style={{ color: "red" }}>{errors.gender}</p>
+          ) : null}
         </FormControl>
       </HStack>
 
@@ -189,7 +215,9 @@ const RegisterByUser = () => {
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          {errors.dob && touched.dob ? (<p style={{color : "red"}}>{errors.dob}</p>) : null}
+          {errors.dob && touched.dob ? (
+            <p style={{ color: "red" }}>{errors.dob}</p>
+          ) : null}
         </FormControl>
         <FormControl id="country" isRequired>
           <FormLabel>Country</FormLabel>
@@ -201,7 +229,9 @@ const RegisterByUser = () => {
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          {errors.country && touched.country ? (<p style={{color : "red"}}>{errors.country}</p>) : null}
+          {errors.country && touched.country ? (
+            <p style={{ color: "red" }}>{errors.country}</p>
+          ) : null}
         </FormControl>
       </HStack>
 
@@ -215,7 +245,9 @@ const RegisterByUser = () => {
           onChange={handleChange}
           onBlur={handleBlur}
         />
-        {errors.password && touched.password ? (<p style={{color : "red"}}>{errors.password}</p>) : null}
+        {errors.password && touched.password ? (
+          <p style={{ color: "red" }}>{errors.password}</p>
+        ) : null}
       </FormControl>
       <FormControl id="confirmPassword" isRequired>
         <FormLabel>Confirm Password</FormLabel>
@@ -227,7 +259,9 @@ const RegisterByUser = () => {
           onChange={handleChange}
           onBlur={handleBlur}
         />
-        {errors.confirmPassword && touched.confirmPassword ? (<p style={{color : "red"}}>{errors.confirmPassword}</p>) : null}
+        {errors.confirmPassword && touched.confirmPassword ? (
+          <p style={{ color: "red" }}>{errors.confirmPassword}</p>
+        ) : null}
       </FormControl>
       <FormControl id="pic">
         <FormLabel>Upload your Picture</FormLabel>

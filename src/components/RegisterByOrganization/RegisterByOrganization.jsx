@@ -10,13 +10,14 @@ import {
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { registerByOrganizationSchema } from "../../schemas";
-import axios from "axios";
 import { registerOrganization } from "../../config/apiCalls";
+import PhoneInput from 'react-phone-number-input'
+import 'react-phone-number-input/style.css'
 
 const initialValues = {
   email: "",
   name: "",
-  phoneNumber: "",
+  // phoneNumber: "",
   state: "",
   city: "",
   pin: "",
@@ -27,6 +28,7 @@ const initialValues = {
 };
 const RegisterByOrganization = () => {
   const [pic, setPic] = useState([]);
+  const [phoneNumber , setPhoneNumber] = useState();
   const poastDetails = async (e) => {
     setPic([...pic, ...Array.from(e.target.files)]);
   };
@@ -37,19 +39,19 @@ const RegisterByOrganization = () => {
 
   const { values, errors, handleBlur, handleChange, handleSubmit , touched } = useFormik({
     initialValues: initialValues,
-    //validationSchema: registerByOrganizationSchema,
+    validationSchema: registerByOrganizationSchema,
     onSubmit: async (values) => {
       console.log(values);
       const formData = new FormData();
       formData.append("type", 1);
       formData.append("email", values.email);
       formData.append("name", values.name);
-      formData.append("phone_number", values.phoneNumber);
+      formData.append("phone_number", phoneNumber); 
       formData.append("state", values.state);
       formData.append("city", values.city);
       formData.append("pin", values.pin);
       formData.append("gender", values.gender);
-      formData.append("profile_photo", pic);
+      formData.append("profile_photo", pic[0]);
       formData.append("country", values.country);
       formData.append("password", values.password);
       formData.append("password2", values.confirmPassword);
@@ -86,15 +88,15 @@ const RegisterByOrganization = () => {
 
       <FormControl id="phone-number" isRequired>
         <FormLabel>Phone Number</FormLabel>
-        <Input
+        <PhoneInput
+        style={{width : "30%" , border : "1px solid skyblue" , borderRadius : "2px" , padding : "0.5%"}}
           placeholder="Enter your Phone Number"
-          type="number"
-          name="phoneNumber"
-          value={values.phoneNumber}
-          onChange={handleChange}
-          onBlur={handleBlur}
+          value={phoneNumber}
+          onChange={setPhoneNumber}
+          international
+          defaultCountry="US"
         />
-        {errors.phoneNumber && touched.phoneNumber ? (<p style={{color : "red"}}>{errors.phoneNumber}</p>) : null}
+        {/* {errors.phoneNumber && touched.phoneNumber ? (<p style={{color : "red"}}>{errors.phoneNumber}</p>) : null} */}
       </FormControl>
       <HStack width="100%">
         <FormControl id="state" isRequired>
