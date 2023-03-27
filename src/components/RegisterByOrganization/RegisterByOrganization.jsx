@@ -7,9 +7,11 @@ import {
   Select,
   VStack,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { registerByOrganizationSchema } from "../../schemas";
+import axios from "axios";
+import { registerOrganization } from "../../config/apiCalls";
 
 const initialValues = {
   email: "",
@@ -22,14 +24,36 @@ const initialValues = {
   country: "",
   password: "",
   confirmPassword: "",
-  pic: "",
 };
 const RegisterByOrganization = () => {
-  const { values, errors, handleBlur, handleChange, handleSubmit } = useFormik({
+  const [pic, setPic] = useState([]);
+  const poastDetails = async (e) => {
+    setPic([...pic, ...Array.from(e.target.files)]);
+  };
+
+  useEffect(() => {
+    console.log(pic);
+  }, [pic]);
+
+  const { values, errors, handleBlur, handleChange, handleSubmit , touched } = useFormik({
     initialValues: initialValues,
-    validationSchema : registerByOrganizationSchema,
-    onSubmit: (values) => {
+    //validationSchema: registerByOrganizationSchema,
+    onSubmit: async (values) => {
       console.log(values);
+      const formData = new FormData();
+      formData.append("type", 1);
+      formData.append("email", values.email);
+      formData.append("name", values.name);
+      formData.append("phone_number", values.phoneNumber);
+      formData.append("state", values.state);
+      formData.append("city", values.city);
+      formData.append("pin", values.pin);
+      formData.append("gender", values.gender);
+      formData.append("profile_photo", pic);
+      formData.append("country", values.country);
+      formData.append("password", values.password);
+      formData.append("password2", values.confirmPassword);
+      registerOrganization(formData);
     },
   });
   return (
@@ -44,6 +68,7 @@ const RegisterByOrganization = () => {
           onChange={handleChange}
           onBlur={handleBlur}
         />
+        {errors.email && touched.email ? (<p style={{color : "red"}}>{errors.email}</p>) : null}
       </FormControl>
 
       <FormControl id="Name" isRequired>
@@ -56,6 +81,7 @@ const RegisterByOrganization = () => {
           onChange={handleChange}
           onBlur={handleBlur}
         />
+        {errors.name && touched.name ? (<p style={{color : "red"}}>{errors.name}</p>) : null}
       </FormControl>
 
       <FormControl id="phone-number" isRequired>
@@ -68,6 +94,7 @@ const RegisterByOrganization = () => {
           onChange={handleChange}
           onBlur={handleBlur}
         />
+        {errors.phoneNumber && touched.phoneNumber ? (<p style={{color : "red"}}>{errors.phoneNumber}</p>) : null}
       </FormControl>
       <HStack width="100%">
         <FormControl id="state" isRequired>
@@ -80,6 +107,7 @@ const RegisterByOrganization = () => {
             onChange={handleChange}
             onBlur={handleBlur}
           />
+          {errors.state && touched.state ? (<p style={{color : "red"}}>{errors.state}</p>) : null}
         </FormControl>
         <FormControl id="city" isRequired>
           <FormLabel>City</FormLabel>
@@ -91,6 +119,7 @@ const RegisterByOrganization = () => {
             onChange={handleChange}
             onBlur={handleBlur}
           />
+          {errors.city && touched.city ? (<p style={{color : "red"}}>{errors.city}</p>) : null}
         </FormControl>
       </HStack>
       <HStack width="100%">
@@ -104,6 +133,7 @@ const RegisterByOrganization = () => {
             onChange={handleChange}
             onBlur={handleBlur}
           />
+          {errors.pin && touched.pin ? (<p style={{color : "red"}}>{errors.pin}</p>) : null}
         </FormControl>
         <FormControl>
           <FormLabel>Gender</FormLabel>
@@ -117,6 +147,7 @@ const RegisterByOrganization = () => {
             <option>Male</option>
             <option>Female</option>
           </Select>
+          {errors.gender && touched.gender ? (<p style={{color : "red"}}>{errors.gender}</p>) : null}
         </FormControl>
       </HStack>
 
@@ -130,6 +161,7 @@ const RegisterByOrganization = () => {
           onChange={handleChange}
           onBlur={handleBlur}
         />
+         {errors.country && touched.country ? (<p style={{color : "red"}}>{errors.country}</p>) : null}
       </FormControl>
 
       <FormControl id="password" isRequired>
@@ -142,6 +174,7 @@ const RegisterByOrganization = () => {
           onChange={handleChange}
           onBlur={handleBlur}
         />
+        {errors.password && touched.password ? (<p style={{color : "red"}}>{errors.password}</p>) : null}
       </FormControl>
       <FormControl id="confirmPassword" isRequired>
         <FormLabel>Confirm Password</FormLabel>
@@ -153,6 +186,7 @@ const RegisterByOrganization = () => {
           onChange={handleChange}
           onBlur={handleBlur}
         />
+        {errors.confirmPassword && touched.confirmPassword ? (<p style={{color : "red"}}>{errors.confirmPassword}</p>) : null}
       </FormControl>
       <FormControl id="pic">
         <FormLabel>Upload your Picture</FormLabel>
@@ -160,10 +194,10 @@ const RegisterByOrganization = () => {
           type="file"
           p={1.5}
           accept="image/*"
-          name="pic"
-          value={values.pic}
-          onChange={handleChange}
-          onBlur={handleBlur}
+          //name="pic"
+          //value={values.pic}
+          onChange={poastDetails}
+          //onBlur={handleBlur}
 
           // onChange={(e) => postDetails(e.target.files[0])}
         />
