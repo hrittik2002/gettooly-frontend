@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { FaBars, FaHome, FaLock, FaMoneyBill, FaUser } from "react-icons/fa";
 import { MdMessage } from "react-icons/md";
 import { BiAnalyse, BiSearch } from "react-icons/bi";
@@ -10,26 +10,26 @@ import { AnimatePresence, motion } from "framer-motion";
 import SidebarMenu from "./SidebarMenu";
 import styles from "./sidebar.module.css"
 import { useSelector } from "react-redux";
-const routes = [
-  {
-    path: "/",
-    name: "Dashboard",
-    icon: <FaHome />,
-  },
-  {
-    path: "/users",
-    name: "About",
-    icon: <FaUser />,
-  },
-  
-];
+
 
 const SideNavbar = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const userData = useSelector((state) => state.user.currentUser)
-  //console.log(userData.name);
+  console.log(userData.id);
   
-
+  const routes = [
+    {
+      path: "/",
+      name: "Dashboard",
+      icon: <FaHome />,
+    },
+    {
+      path: `/ConductUser/${userData.id}/about`,
+      name: "About",
+      icon: <FaUser />,
+    },
+    
+  ];
   const toggle = () => setIsOpen(!isOpen);
   const inputAnimation = {
     hidden: {
@@ -130,7 +130,7 @@ const SideNavbar = ({ children }) => {
               }
 
               return (
-                <div
+                <Link
                   to={route.path}
                   key={index}
                   className={styles.link}
@@ -150,7 +150,7 @@ const SideNavbar = ({ children }) => {
                       </motion.div>
                     )}
                   </AnimatePresence>
-                </div>
+                </Link>
               );
             })}
           </section>
