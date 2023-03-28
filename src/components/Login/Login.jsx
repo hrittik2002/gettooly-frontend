@@ -15,13 +15,15 @@ import axios from "axios";
 import { useSelector, useDispatch } from 'react-redux'
 import { login } from "../../config/apiCalls";
 import { color } from "framer-motion";
-
+import { useNavigate } from "react-router-dom";
+import { getUserId } from "../../config/Cookie";
 const initialValues = {
   email: "",
   password: "",
 };
 
 const Login = ({ closeDialogForLogin }) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch()
   const { values, errors, handleBlur, handleChange, handleSubmit , touched } = useFormik({
     initialValues: initialValues,
@@ -31,18 +33,8 @@ const Login = ({ closeDialogForLogin }) => {
       const formData = new FormData();
         formData.append("email", values.email);
         formData.append("password", values.password);
-        login(dispatch , formData);
-      // try{
-      //   const { data } = await axios.post(
-      //     "http://localhost:8000/api/auth/login/token/", 
-      //     formData,
-      //     // headers: { "Content-Type": "multipart/form-data" }
-      //   )
-      //     console.log(data);
-      // }
-      // catch(err){
-      //   console.log(err);
-      // }
+        const userId = await login(dispatch , formData);
+        navigate(`ConductUser/${userId}`);
     },
   });
   return (
