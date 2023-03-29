@@ -29,7 +29,6 @@ const AfterLoginHomePage = () => {
         }
         
         getUserData().then(userData => {
-          //console.log(userData); // Object
           dispatch(setUserData(userData));
         });
       }, []);

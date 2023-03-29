@@ -270,6 +270,7 @@ const RegisterByUser = () => {
           p={1.5}
           accept="image/*"
           name="pic"
+          
           onChange={poastDetails}
           // value={values.pic}
           // onChange={handleChange}

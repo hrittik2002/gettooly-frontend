@@ -1,4 +1,16 @@
 .parent{
     width: 100%;
-
+    
+}
+.parentComponent{
+    background-color: #f7f0f0;
+}
+.contentContainer{
+    padding-top: 5%;
+    padding-bottom: 5%;
+    padding-right: 2%;
+    padding-left: 2%;
+    background-color: #d1cccc;
+    text-transform: uppercase;
+    border-radius: 25px;
 }

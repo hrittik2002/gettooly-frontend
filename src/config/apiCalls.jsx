@@ -51,7 +51,7 @@ export const registerOrganization = async(formData) => {
 export const getCoductUserData = async(id) => {
   try{
     const { data } = await axios.get(
-      `http://localhost:8000/api/ConductUser/user/${id}`,
+      `http://localhost:8000/api/ConductUser/user/${id}`, 
       {
           headers: {
               Authorization: `Bearer ${getCookie("access_token")}`,
@@ -61,6 +61,28 @@ export const getCoductUserData = async(id) => {
   );
   //console.log(data);
   return data;
+  }
+  catch(err){
+    return err;
+  }
+}
+
+export const updateConductUserData = async(id , formData) => {
+  try{
+    const { data } = await axios.put(
+      `http://localhost:8000/api/ConductUser/update-profile/${id}/`,
+      formData,
+      {
+          headers: {
+              Authorization: `Bearer ${getCookie("access_token")}`,
+          },
+      },
+  );
+
+  console.log(data);
+  const userData = await getCoductUserData(id);
+  console.log(userData);
+  return userData;
   }
   catch(err){
     return err;
