@@ -15,7 +15,7 @@ import { useSelector } from "react-redux";
 const SideNavbar = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const userData = useSelector((state) => state.user.currentUser)
-  console.log(userData.id);
+  //console.log(userData.id);
   
   const routes = [
     {

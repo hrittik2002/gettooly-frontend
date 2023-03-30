@@ -1,12 +1,15 @@
 import React from "react";
 import SideNavbar from "../../components/SideNavbar/SideNavbar";
 import styles from "./AboutPage.module.css";
-import { Box, FormControl, FormLabel, Heading, Image, Switch, Text } from "@chakra-ui/react";
+import { Box, Button, FormControl, FormLabel, Heading, Image, Switch, Text } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 import UpdateProfile from "../../components/UpdateProfile/UpdateProfile";
+import { logout } from "../../config/Cookie";
+import { useNavigate } from "react-router-dom";
 const AboutPage = () => {
+  const navigate = useNavigate();
   const [settings , setSettings] = useState(false);
   const userData = useSelector((state) => state.user.currentUser);
   const handleSwitch=()=>{
@@ -15,11 +18,17 @@ const AboutPage = () => {
   const closeSettings = () => {
     setSettings(false);
   }
+  const logoutHandler = () => {
+    logout();
+    navigate("/");
+  }
   return (
     <div style={{ display: "flex"}} className={styles.parentComponent}>
       <SideNavbar />
       
-      {settings ? <UpdateProfile closeSettings={closeSettings}/> :
+      {settings ? 
+      <UpdateProfile closeSettings={closeSettings}/> 
+      :
       (<div className={styles.parent}>
         <Box display="flex" width="100%" justifyContent="center" marginTop="2%">
           <Image
@@ -52,6 +61,7 @@ const AboutPage = () => {
         >
           <FormLabel textTransform="uppercase" paddingRight="1%">Update Profile</FormLabel>
           <Switch id='email-alerts' onChange={()=>{handleSwitch()}}/>
+          <Button onClick={logoutHandler}>Logout</Button>
         </FormControl>
         {/* Location */}
         <Box paddingLeft="20%" paddingRight="20%" marginTop="1%">

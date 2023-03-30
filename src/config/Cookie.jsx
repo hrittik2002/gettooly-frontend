@@ -29,7 +29,18 @@ export const getUserId = () => {
 export const authenticate = (response) => {
     setCookie("access_token" , response.access);
     setCookie("refresh_token" , response.refresh);
-    const decoded = jwtDecode(response.access);
+    //const decoded = jwtDecode(response.access);
     //console.log(decoded);
 }
 
+// 
+export const removeCookie = (key) =>{
+    if(window !== 'undefiend'){
+        Cookies.remove(key);
+    }
+}
+
+export const logout = (key) =>{
+    removeCookie("access_token");
+    removeCookie("refresh_token");
+}
