@@ -130,7 +130,10 @@ const AboutPage = () => {
                 {userData.is_email_verified ? (
                   <CheckIcon color="green" />
                 ) : (
+                  <>
                   <CloseIcon color="red.500" />
+                  <Text>verity email</Text>
+                  </>
                 )}
               </Text>
             </Box>
