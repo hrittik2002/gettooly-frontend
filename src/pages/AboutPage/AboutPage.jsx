@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import SideNavbar from "../../components/SideNavbar/SideNavbar";
 import styles from "./AboutPage.module.css";
 import { Box, Button, FormControl, FormLabel, Heading, Image, Switch, Text } from "@chakra-ui/react";
@@ -7,11 +7,29 @@ import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 import UpdateProfile from "../../components/UpdateProfile/UpdateProfile";
 import { logout } from "../../config/Cookie";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { emailVerification } from "../../config/apiCalls";
+import { useToast } from '@chakra-ui/react'
 const AboutPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [settings , setSettings] = useState(false);
+  const toast = useToast()
   const userData = useSelector((state) => state.user.currentUser);
+  useEffect(()=>{
+    console.log(location)
+    if(location.state){
+      if(location.state.isVerified === true){
+        toast({
+          title: 'Email Verified.',
+          description: "Your Email is now verified.",
+          status: 'success',
+          duration: 9000,
+          isClosable: true,
+        })
+      }
+    }
+  } , [])
   const handleSwitch=()=>{
     setSettings(!settings);
   }
@@ -21,6 +39,11 @@ const AboutPage = () => {
   const logoutHandler = () => {
     logout();
     navigate("/");
+  }
+  const verifyEmail = async() =>{
+    console.log("helllooo")
+    const res = await emailVerification();
+    console.log(res);
   }
   return (
     <div style={{ display: "flex"}} className={styles.parentComponent}>
@@ -132,7 +155,7 @@ const AboutPage = () => {
                 ) : (
                   <>
                   <CloseIcon color="red.500" />
-                  <Text>verity email</Text>
+                  <Button onClick={verifyEmail}>verity email</Button>
                   </>
                 )}
               </Text>

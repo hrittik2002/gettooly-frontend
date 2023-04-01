@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import { useMemo } from "react";
 import { AutomaticLogin } from "./config/automaticLogin";
 import LoadingScreen from "./pages/LoadingScreen/LoadingScreen";
+import EmailVerifyPage from "./pages/EmailVerifyPage/EmailVerifyPage";
 
 
 
@@ -48,7 +49,10 @@ function App() {
         />
 
         <Route path="/" exact element={<BeforeLoginHomePage />} />
-
+        <Route
+                    path="/api/auth/user/email-veryfy"
+                    element={<EmailVerifyPage />}
+                />
        
       </Routes>
     </Router>

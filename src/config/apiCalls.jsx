@@ -121,3 +121,56 @@ export const getAccessToken = async()=>{
     setCookie("refresh_token" , res.data.refresh);
   return res.access;
 }
+
+// export const emailVerification = async () => {
+//   console.log("apicalls")
+//   const formdata = new FormData();
+//   const { data } = await axios.post(
+//     `http://localhost:8000/api/auth/ConductUser/email/verify/link/`, 
+//     formdata,
+//     {
+//         headers: {
+//             Authorization: `Bearer ${getCookie("access_token")}`,
+//         },
+//         credentials : "include",
+//     }
+//     )
+//   console.log(data);
+// }
+export const emailVerification = async () => {
+  const response = await fetch('http://localhost:8000/api/auth/ConductUser/email/verify/link/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${getCookie("access_token")}`,
+    },
+    body: JSON.stringify({}),
+  });
+  
+  const data = await response.json();
+  console.log(data);
+}
+
+//http://127.0.0.1:8000/api/auth/user/email-veryfy/?token=
+
+export const emailVerificationContinution = async (token) =>{
+  try{
+    const { data } = await axios.get(
+      `http://127.0.0.1:8000/api/auth/user/email-veryfy/?token=${token}`, 
+      {
+          headers: {
+              Authorization: `Bearer ${getCookie("access_token")}`,
+          },
+          credentials : "include"
+      }
+    );
+    console.log(data);
+    return true;
+
+  }
+  catch(err){
+    return false;
+  }
+  
+  
+}
