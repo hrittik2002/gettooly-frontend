@@ -161,14 +161,14 @@ const AboutPage = () => {
               </Text>
             </Box>
             <Box flex="1">
-              <Text>
+              {/* <Text>
                 <b>Is Phone Number Verified:</b>{" "}
                 {userData.is_phone_verified ? (
                   <CheckIcon color="green" />
                 ) : (
                   <CloseIcon color="red.500" />
                 )}
-              </Text>
+              </Text> */}
             </Box>
           </Box>
         </Box>

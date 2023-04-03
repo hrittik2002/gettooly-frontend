@@ -1,13 +1,16 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { emailVerificationContinution } from "../../config/apiCalls";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserData } from "../../redux/userSlice";
+import { AutomaticLogin } from "../../config/automaticLogin";
 
 const EmailVerifyPage = () => {
   const [token, setToken] = useState("");
+  const [verified , setVerified] = useState(false);
   const navigate = useNavigate();
   const userData = useSelector((state) => state.user.currentUser);
-
+  const dispatch = useDispatch();
   useEffect(() => {
     const tokenParam = findGetParameter("token");
     setToken(tokenParam);
@@ -18,16 +21,27 @@ const EmailVerifyPage = () => {
       const check = async () => {
         const isVerified = await emailVerificationContinution(token);
         console.log(isVerified);
-        if (isVerified) {
-          navigate(`/ConductUser/${userData.id}/about`, {
-            state: { isVerified: true },
-          });
+        if (isVerified === true) {
+          console.log(userData)
+          setVerified(true);
         }
       };
       check();
     }
   }, [token]);
-
+  const loginUserUsingCookie = async () => {
+    const data = await AutomaticLogin();
+    dispatch(setUserData(data));
+    console.log(data);
+    navigate(`/ConductUser/${data.id}/about`, {
+      state: { isVerified: true },
+    });
+  };
+  useMemo(() => {
+    if (!userData) {
+      loginUserUsingCookie();
+    }
+  });
   function findGetParameter(parameterName) {
     const queryString = window.location.search.substr(1);
     const params = new URLSearchParams(queryString);
