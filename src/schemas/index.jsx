@@ -31,3 +31,18 @@ export const registerByUserSchema = Yup.object({
   password: Yup.string().min(8).required("Password is required"),
   confirmPassword: Yup.string().required().oneOf([Yup.ref("password") , null], "Password must match"),
 });
+
+export const forgotPasswordSchema = Yup.object({
+  email: Yup.string().email().required("Email is required"),
+});
+
+export const passwordSchema = Yup.object({
+  password: Yup.string().min(8).required("Password is required"),
+  confirmPassword: Yup.string().required().oneOf([Yup.ref("password"), null], "Password must match"),
+});
+
+export const passwordChangeSchema = Yup.object({
+  oldPassword: Yup.string().min(8).required("Password is required"),
+  newPassword: Yup.string().min(8).required("Password is required"),
+  confirmPassword: Yup.string().required().oneOf([Yup.ref("newPassword") , null], "Password must match"),
+});

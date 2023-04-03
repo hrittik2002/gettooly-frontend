@@ -151,8 +151,6 @@ export const emailVerification = async () => {
   console.log(data);
 }
 
-//http://127.0.0.1:8000/api/auth/user/email-veryfy/?token=
-
 export const emailVerificationContinution = async (token) =>{
   try{
     const { data } = await axios.get(
@@ -171,6 +169,69 @@ export const emailVerificationContinution = async (token) =>{
   catch(err){
     return false;
   }
-  
-  
+}
+/**
+ * Forgot Password 
+ */
+// Function to request a password reset link
+export const requestPasswordReset = async(email)=>{
+  try{
+    const res = await axios.post("http://localhost:8000/api/auth/user/email/request-reset/" , {
+      email : email
+    })
+    //console.log(res);
+    return res.data;
+  }
+  catch(err){
+    console.log(err);
+  }
+}
+export const checkPasswordResetToken = async (uidb64, token) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:8000/api/auth/user/email/password-reset/${uidb64}/${token}/`
+    );
+    //console.log(response)
+    return response;
+  } catch (error) {
+    console.error(error);
+    return { error: "Failed to check password reset token" };
+  }
+};
+
+export const setNewPassword = async (newPassword, token, uidb64) => {
+  try {
+    console.log(newPassword , token , uidb64);
+    const response = await axios.patch(
+      `http://localhost:8000/api/auth/user/email/password-reset-complete/`,
+      {
+        password: newPassword,
+        uidb64: uidb64,
+        token: token,
+      }
+    );
+    console.log(response.data);
+    return true;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const changePassword = async (formData , id) => {
+  try{
+    const {data} = await axios.put(`http://127.0.0.1:8000/api/auth/ConductUser/change-password/${id}/`,
+    formData,
+      {
+          headers: {
+              Authorization: `Bearer ${getCookie("access_token")}`,
+          },
+          credentials : "include"
+      },
+  )
+  console.log(data);
+  return true;
+}
+  catch(err){
+    return false;
+  }
 }

@@ -10,6 +10,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import SidebarMenu from "./SidebarMenu";
 import styles from "./sidebar.module.css"
 import { useSelector } from "react-redux";
+import { Password } from "@mui/icons-material";
 
 
 const SideNavbar = ({ children }) => {
@@ -28,6 +29,11 @@ const SideNavbar = ({ children }) => {
       name: "About",
       icon: <FaUser />,
     },
+    {
+      path: `/ConductUser/${userData.id}/changePassword`,
+      name: "Change Password",
+      icon: <Password />,
+    }
     
   ];
   const toggle = () => setIsOpen(!isOpen);

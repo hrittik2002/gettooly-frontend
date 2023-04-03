@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   FormControl,
@@ -6,6 +6,7 @@ import {
   HStack,
   Input,
   Select,
+  Text,
   VStack,
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
@@ -17,12 +18,14 @@ import { login } from "../../config/apiCalls";
 import { color } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { getUserId } from "../../config/Cookie";
+import ForgotPassword from "../ForgotPassword/ForgotPassword";
 const initialValues = {
   email: "",
   password: "",
 };
 
 const Login = ({ closeDialogForLogin }) => {
+  const [forgotPassword , setForgotPassword] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch()
   const { values, errors, handleBlur, handleChange, handleSubmit , touched } = useFormik({
@@ -39,7 +42,14 @@ const Login = ({ closeDialogForLogin }) => {
   });
   return (
     <>
-      <div className={styles.dialogWrapper} onClick={closeDialogForLogin}></div>
+    {
+      forgotPassword ? 
+      (
+        <ForgotPassword closeDialogForLogin={closeDialogForLogin}/>
+      ) :
+      (
+        <>
+        <div className={styles.dialogWrapper} onClick={closeDialogForLogin}></div>
       <div className={styles.dialogContainer}>
         <VStack spacing="5px">
           <FormControl id="email" isRequired>
@@ -75,7 +85,12 @@ const Login = ({ closeDialogForLogin }) => {
             Login
           </Button>
         </VStack>
+        <Text onClick={()=>{setForgotPassword(true)}}>Forgot Password?</Text>
       </div>
+      </>
+      )
+    }
+      
     </>
   );
 };

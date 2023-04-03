@@ -14,9 +14,8 @@ import { useMemo } from "react";
 import { AutomaticLogin } from "./config/automaticLogin";
 import LoadingScreen from "./pages/LoadingScreen/LoadingScreen";
 import EmailVerifyPage from "./pages/EmailVerifyPage/EmailVerifyPage";
-
-
-
+import PasswordResetPage from "./pages/PasswordResetPage/PasswordResetPage";
+import PasswordChangePage from "./pages/PasswordChangePage/PasswordChangePage";
 
 function App() {
   const userData = useSelector((state) => state.user.currentUser);
@@ -27,11 +26,9 @@ function App() {
     dispatch(setUserData(data));
   };
   useMemo(() => {
-    if(!userData){
+    if (!userData) {
       loginUserUsingCookie();
-
     }
-
   });
 
   return (
@@ -40,20 +37,31 @@ function App() {
         <Route
           path="/ConductUser/:userId"
           exact
-          element={ userData ? <AfterLoginHomePage /> : <LoadingScreen />}
+          element={userData ? <AfterLoginHomePage /> : <LoadingScreen />}
         />
         <Route
           path="/ConductUser/:userId/about"
           exact
           element={userData ? <AboutPage /> : <LoadingScreen />}
         />
+        <Route
+          path="/ConductUser/:userId/changePassword"
+          element={<PasswordChangePage/>}
+        />
 
         <Route path="/" exact element={<BeforeLoginHomePage />} />
+
         <Route
-                    path="/api/auth/user/email-veryfy"
-                    element={<EmailVerifyPage />}
-                />
-       
+          path="/api/auth/user/email-veryfy"
+          element={<EmailVerifyPage />}
+        />
+
+        <Route
+          path="/api/auth/user/email/password-reset/:uibd/:token"
+          element={<PasswordResetPage/>}
+        />
+
+        
       </Routes>
     </Router>
   );
