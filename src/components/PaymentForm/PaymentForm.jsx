@@ -45,7 +45,7 @@ export default function PaymentForm() {
     if(!error) {
         try {
             const {id} = paymentMethod
-            const response = await paymentAPICall(1000 , 'B' , 1 , id , 'card');
+            const response = await paymentAPICall(10 , 'price_1MtB77SJstE3ZNVNybe6QZiM' , 1 , id , 'card');
                 // (amount: 1000,
                 // plan : 'B',
                 // duration : 1,
