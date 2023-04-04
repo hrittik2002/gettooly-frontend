@@ -16,6 +16,8 @@ import LoadingScreen from "./pages/LoadingScreen/LoadingScreen";
 import EmailVerifyPage from "./pages/EmailVerifyPage/EmailVerifyPage";
 import PasswordResetPage from "./pages/PasswordResetPage/PasswordResetPage";
 import PasswordChangePage from "./pages/PasswordChangePage/PasswordChangePage";
+import SubscriptionPage from "./pages/SubscriptionPage/SubscriptionPage";
+import PaymentPage from "./pages/PaymentPage/PaymentPage";
 
 function App() {
   const userData = useSelector((state) => state.user.currentUser);
@@ -60,6 +62,15 @@ function App() {
           path="/api/auth/user/email/password-reset/:uibd/:token"
           element={<PasswordResetPage/>}
         />
+         <Route
+        path="/ConductUser/:userId/subscription"
+        element={<SubscriptionPage/>}
+       />
+
+       <Route
+       path="/ConductUser/:userId/payment"
+       element={<PaymentPage/>}
+       />
 
         
       </Routes>

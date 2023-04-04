@@ -11,31 +11,63 @@ import SidebarMenu from "./SidebarMenu";
 import styles from "./sidebar.module.css"
 import { useSelector } from "react-redux";
 import { Password } from "@mui/icons-material";
-
+import CreditCardIcon from '@mui/icons-material/CreditCard';
 
 const SideNavbar = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const userData = useSelector((state) => state.user.currentUser)
-  //console.log(userData.id);
-  
+  //console.log(userData);
+  const userId = userData ? userData.id :  null;
   const routes = [
     {
       path: "/",
       name: "Dashboard",
       icon: <FaHome />,
     },
-    {
-      path: `/ConductUser/${userData.id}/about`,
-      name: "About",
-      icon: <FaUser />,
-    },
-    {
-      path: `/ConductUser/${userData.id}/changePassword`,
-      name: "Change Password",
-      icon: <Password />,
-    }
-    
   ];
+  
+  if (userData) {
+    routes.push(
+      {
+        path: `/ConductUser/${userData.id}/about`,
+        name: "About",
+        icon: <FaUser />,
+      },
+      {
+        path: `/ConductUser/${userData.id}/changePassword`,
+        name: "Change Password",
+        icon: <Password />,
+      },
+      {
+        path: `/ConductUser/${userData.id}/subscription`,
+        name: "Subscription",
+        icon: <CreditCardIcon />,
+      }
+    );
+  }
+  // const routes = [
+  //   {
+  //     path: "/",
+  //     name: "Dashboard",
+  //     icon: <FaHome />,
+  //   },
+  //   {
+  //     path: `/ConductUser/${userId}/about`,
+  //     name: "About",
+  //     icon: <FaUser />,
+  //   },
+  //   {
+  //     path: `/ConductUser/${userId}/changePassword`,
+  //     name: "Change Password",
+  //     icon: <Password />,
+  //   },
+  //   {
+  //     path: `/ConductUser/${userId}/subscription`,
+  //     name: "Subscription",
+  //     icon: <CreditCardIcon />,
+  //   }
+    
+  // ];
   const toggle = () => setIsOpen(!isOpen);
   const inputAnimation = {
     hidden: {

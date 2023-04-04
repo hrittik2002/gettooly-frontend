@@ -235,3 +235,28 @@ export const changePassword = async (formData , id) => {
     return false;
   }
 }
+// Payment Gateway 
+export const paymentAPICall = async (amount , plan , duration , payment_method_id , payment_method_type) => {
+  try{
+    const {data} = await axios.post(`http://127.0.0.1:8000/api/payment/payment-intent/`,
+      {
+        amount : amount,
+        plan : plan,
+        duration : duration,
+        payment_method_id : payment_method_id,
+        payment_method_type : payment_method_type,
+      },
+      {
+          headers: {
+              Authorization: `Bearer ${getCookie("access_token")}`,
+          },
+          credentials : "include"
+      },
+  )
+  console.log(data);
+  return true;
+}
+  catch(err){
+    return false;
+  }
+}
