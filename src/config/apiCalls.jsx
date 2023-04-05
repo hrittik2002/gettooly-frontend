@@ -238,14 +238,14 @@ export const changePassword = async (formData , id) => {
 // Payment Gateway 
 export const paymentAPICall = async (amount , plan , duration , payment_method_id , payment_method_type) => {
   try{
+    const formData = new FormData();
+    formData.append("amount", amount);
+    formData.append("plan", plan);
+    formData.append("duration", duration);
+    formData.append("payment_method_id", payment_method_id);
+    formData.append("payment_method_type", payment_method_type);
     const {data} = await axios.post(`http://127.0.0.1:8000/api/payment/payment-intent/`,
-      {
-        amount : amount,
-        plan : plan,
-        duration : duration,
-        payment_method_id : payment_method_id,
-        payment_method_type : payment_method_type,
-      },
+      formData,
       {
           headers: {
               Authorization: `Bearer ${getCookie("access_token")}`,
