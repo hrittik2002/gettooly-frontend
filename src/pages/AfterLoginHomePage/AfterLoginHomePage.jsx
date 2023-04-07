@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import SideNavbar from '../../components/SideNavbar/SideNavbar'
-import { getUserId } from '../../config/Cookie';
 import { getCoductUserData } from '../../config/apiCalls';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';

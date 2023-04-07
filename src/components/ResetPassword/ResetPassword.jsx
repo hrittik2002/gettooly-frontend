@@ -4,7 +4,6 @@ import React from "react";
 import { passwordSchema } from "../../schemas";
 import { setNewPassword } from "../../config/apiCalls";
 import { useNavigate } from "react-router-dom";
-import { AutomaticLogin } from "../../config/automaticLogin";
 
 const initialValues = {
     password: "",

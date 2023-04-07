@@ -1,10 +1,5 @@
 import { Link, NavLink } from "react-router-dom";
 import { FaBars, FaHome, FaLock, FaMoneyBill, FaUser } from "react-icons/fa";
-import { MdMessage } from "react-icons/md";
-import { BiAnalyse, BiSearch } from "react-icons/bi";
-import { BiCog } from "react-icons/bi";
-import { AiFillHeart, AiTwotoneFileExclamation } from "react-icons/ai";
-import { BsCartCheck } from "react-icons/bs";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import SidebarMenu from "./SidebarMenu";
@@ -21,7 +16,7 @@ const SideNavbar = ({ children }) => {
   const routes = [
     {
       path: "/",
-      name: "Dashboard",
+      name: "Home",
       icon: <FaHome />,
     },
   ];
