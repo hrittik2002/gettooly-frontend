@@ -1,9 +1,7 @@
-
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js"
 import React, { useState } from 'react'
-import { paymentAPICall } from "../../config/apiCalls"
+import { handlePayment, paymentAPICall } from "../../config/apiCalls"
 import styles from "./PaymentForm.module.css"
-
 
 const CARD_OPTIONS = {
 	iconStyle: "solid",
@@ -25,9 +23,6 @@ const CARD_OPTIONS = {
 	}
 }
 
-
-
-
 export default function PaymentForm() {
     const [success, setSuccess ] = useState(false)
     const stripe = useStripe()
@@ -46,11 +41,6 @@ export default function PaymentForm() {
         try {
             const {id} = paymentMethod
             const data = await paymentAPICall(10.00 , "price_1MtB77SJstE3ZNVNybe6QZiM" , 1 , id , 'card');
-                // (amount: 1000,
-                // plan : 'B',
-                // duration : 1,
-                // payment_method_id : id,
-                // payment_method_type : 'card')
                 console.log(data)
                 console.log("aaaaaaaaaaaaaaaaaaaaaaaaa")
                 const result = await stripe.confirmCardPayment(data.client_secret , {
@@ -58,30 +48,18 @@ export default function PaymentForm() {
                     card: elements.getElement(CardElement)
                   }
                 })
-                console.log(result)
-                console.log(result)
-                // if(paymentIntent.status === "require_action"){
-                //   try{
-                //     console.log("bbbbbbbbbbbbbbbbbb")
-                //     const res = await stripe.handleCardAction(data.client_secret)
-                //     return res;
-                //   }
-                //   catch(err){
-                //     console.log(err)
-                //   }
-                  
-                // }
-                // const res = await stripe.handleCardAction(data.client_secret)
-                // console.log(res.status)
-                // if(res.error){
-                //   console.log("Error", error)
-                // }
-                // else{
-                //   //submitPaymentIntent(res.paymentIntent.id);
-                // }
-                if(data.success) {
-                console.log("Successful payment")
-                setSuccess(true)
+                console.log(result)         
+                if(result.paymentIntent.status === "succeeded") {
+                  try{
+                    console.log(result.paymentIntent.id)
+                    const createSubscription = await handlePayment(result.paymentIntent.id , data.subscription_id);
+                    console.log(createSubscription)
+                    console.log("Successful payment")
+                    setSuccess(true)
+                  }
+                  catch(err){
+                    console.log(err)
+                  }
             }
         } catch (error) {
             console.log("Error", error)

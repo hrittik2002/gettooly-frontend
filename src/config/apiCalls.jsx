@@ -260,3 +260,26 @@ export const paymentAPICall = async (amount , plan , duration , payment_method_i
     console.log(err);
   }
 }
+
+// handle payment and create subscription
+export const handlePayment = async (paymentIntentId , subscription_id) => {
+  try{
+    const formData = new FormData();
+    formData.append("payment_intent_id", paymentIntentId);
+    formData.append("stripe_subscription_id", subscription_id);
+    const res = await axios.post(`http://127.0.0.1:8000/api/payment/payment-handel/`, 
+    formData,
+      {
+          headers: {
+              Authorization: `Bearer ${getCookie("access_token")}`,
+          },
+          credentials : "include"
+      },
+    )
+    console.log(res);
+    return res;
+  }
+  catch(err){
+    console.log(err);
+  }
+};
