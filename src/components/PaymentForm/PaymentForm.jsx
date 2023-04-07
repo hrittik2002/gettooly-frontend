@@ -45,18 +45,44 @@ export default function PaymentForm() {
     if(!error) {
         try {
             const {id} = paymentMethod
-            const response = await paymentAPICall(10.00 , "price_1MtB77SJstE3ZNVNybe6QZiM" , 1 , id , 'card');
+            const data = await paymentAPICall(10.00 , "price_1MtB77SJstE3ZNVNybe6QZiM" , 1 , id , 'card');
                 // (amount: 1000,
                 // plan : 'B',
                 // duration : 1,
                 // payment_method_id : id,
                 // payment_method_type : 'card')
-                console.log(response)
-            if(response.success) {
+                console.log(data)
+                console.log("aaaaaaaaaaaaaaaaaaaaaaaaa")
+                const result = await stripe.confirmCardPayment(data.client_secret , {
+                  payment_method: {
+                    card: elements.getElement(CardElement)
+                  }
+                })
+                console.log(result)
+                console.log(result)
+                // if(paymentIntent.status === "require_action"){
+                //   try{
+                //     console.log("bbbbbbbbbbbbbbbbbb")
+                //     const res = await stripe.handleCardAction(data.client_secret)
+                //     return res;
+                //   }
+                //   catch(err){
+                //     console.log(err)
+                //   }
+                  
+                // }
+                // const res = await stripe.handleCardAction(data.client_secret)
+                // console.log(res.status)
+                // if(res.error){
+                //   console.log("Error", error)
+                // }
+                // else{
+                //   //submitPaymentIntent(res.paymentIntent.id);
+                // }
+                if(data.success) {
                 console.log("Successful payment")
                 setSuccess(true)
             }
-
         } catch (error) {
             console.log("Error", error)
         }

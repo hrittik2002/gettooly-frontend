@@ -244,7 +244,7 @@ export const paymentAPICall = async (amount , plan , duration , payment_method_i
     formData.append("duration", duration);
     formData.append("payment_method_id", payment_method_id);
     formData.append("payment_method_type", payment_method_type);
-    const {data} = await axios.post(`http://127.0.0.1:8000/api/payment/payment-intent/`,
+    const res = await axios.post(`http://127.0.0.1:8000/api/payment/payment-intent/`,
       formData,
       {
           headers: {
@@ -253,10 +253,10 @@ export const paymentAPICall = async (amount , plan , duration , payment_method_i
           credentials : "include"
       },
   )
-  console.log(data);
-  return true;
+  console.log(res);
+  return res.data;
 }
   catch(err){
-    return false;
+    console.log(err);
   }
 }
