@@ -1,0 +1,37 @@
+.formHeader{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin:5px 15px;
+    background-color: #fff;
+}
+.formHeaderLeft{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    
+}
+.formName{
+    border: none;
+    outline: none;
+    font-family: 'Google Sans',Roboto,Arial, sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 24px;
+    margin-left: 15px;
+    color: #202124;
+    width: 120px;
+}
+.formHeaderIcon{
+    color: #202124;
+    font-size: 20px;
+}
+.formName:focus{
+    border-bottom: 1px solid black;
+}
+.formHeaderRight{
+ 
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}

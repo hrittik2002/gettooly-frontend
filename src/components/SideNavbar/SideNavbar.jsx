@@ -15,7 +15,7 @@ const SideNavbar = ({ children }) => {
   const userId = userData ? userData.id :  null;
   const routes = [
     {
-      path: "/",
+      path: `/ConductUser/${userData.id}`,
       name: "Home",
       icon: <FaHome />,
     },
@@ -40,29 +40,6 @@ const SideNavbar = ({ children }) => {
       }
     );
   }
-  // const routes = [
-  //   {
-  //     path: "/",
-  //     name: "Dashboard",
-  //     icon: <FaHome />,
-  //   },
-  //   {
-  //     path: `/ConductUser/${userId}/about`,
-  //     name: "About",
-  //     icon: <FaUser />,
-  //   },
-  //   {
-  //     path: `/ConductUser/${userId}/changePassword`,
-  //     name: "Change Password",
-  //     icon: <Password />,
-  //   },
-  //   {
-  //     path: `/ConductUser/${userId}/subscription`,
-  //     name: "Subscription",
-  //     icon: <CreditCardIcon />,
-  //   }
-    
-  // ];
   const toggle = () => setIsOpen(!isOpen);
   const inputAnimation = {
     hidden: {

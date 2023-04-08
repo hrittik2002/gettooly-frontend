@@ -13,6 +13,7 @@ import PasswordResetPage from "./pages/PasswordResetPage/PasswordResetPage";
 import PasswordChangePage from "./pages/PasswordChangePage/PasswordChangePage";
 import SubscriptionPage from "./pages/SubscriptionPage/SubscriptionPage";
 import PaymentPage from "./pages/PaymentPage/PaymentPage";
+import FormEditPage from "./pages/FormEditPage/FormEditPage";
 
 function App() {
   const userData = useSelector((state) => state.user.currentUser);
@@ -65,6 +66,11 @@ function App() {
        <Route
        path="/ConductUser/:userId/payment"
        element={<PaymentPage/>}
+       />
+
+       <Route
+        path="/form/:formCode/edit"
+        element={<FormEditPage/>}
        />
       
 
