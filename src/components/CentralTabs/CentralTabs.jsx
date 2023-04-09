@@ -5,7 +5,7 @@ import QuestionForm from '../QuestionForm/QuestionForm'
 const CentralTabs = () => {
   return (
     <div>
-        <Tabs position="relative" variant="unstyled" align='center'>
+        <Tabs position="relative" variant="unstyled" align='center' width="100%">
     <TabList>
       <Tab>Questions</Tab>
       <Tab>Responses</Tab>
@@ -22,8 +22,8 @@ const CentralTabs = () => {
         marginBottom="3px"
         backgroundColor="gray"
     ></Box>
-    <TabPanels>
-      <TabPanel>
+    <TabPanels width="100%" backgroundColor="#F4F4F9">
+      <TabPanel width="100%">
         <QuestionForm/>
       </TabPanel>
       <TabPanel>
