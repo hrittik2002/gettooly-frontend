@@ -83,7 +83,6 @@ const QuestionForm = () => {
     }
     setQuestions(qs);
   };
-
   const changeQuestion = (text, i) => {
     const newQuestion = [...questions];
     newQuestion[i].questionText = text;
@@ -183,7 +182,6 @@ const QuestionForm = () => {
     setQuestions(Question);
     console.log(qno + " " + ans);
   };
-
   const setOptionPoints = (points, qno) => {
     let Question = [...questions];
     Question[qno].points = points;
@@ -224,7 +222,7 @@ const QuestionForm = () => {
                       fontSize="small"
                     />
                   </div>
-
+                  {/* Code Starts from here */}
                   <div>
                     <Accordion
                       expanded={questions[i].open}
@@ -239,6 +237,7 @@ const QuestionForm = () => {
                         elevation={1}
                         style={{ width: "100%" }}
                       >
+                        {/* If ith qs is not*/}
                         {!questions[i].open ? (
                           <div className={styles.savedQuestions}>
                             <Typography
@@ -296,6 +295,7 @@ const QuestionForm = () => {
                         )}
                       </AccordionSummary>
 
+                      {/** If qs us opened */}
                       {questions[i].open ? (
                         <div
                           className={`${styles.questionBoxes}`}
@@ -303,8 +303,10 @@ const QuestionForm = () => {
                         >
                           {" "}
                           {!questions[i].answer ? (
+                            // If we dont want to put answer key
                             <AccordionDetails className={styles.addQuestion}>
                               <div className={styles.addQuestionTop}>
+                                {/* Change Question Field */}
                                 <input
                                   type="text"
                                   className={styles.question}
@@ -314,7 +316,11 @@ const QuestionForm = () => {
                                     changeQuestion(e.target.value, i);
                                   }}
                                 />
+
+                                {/* Image */}
                                 <CropOriginal style={{ color: "#5f6368" }} />
+
+                                {/* Choose radio or box or paragraph field */}
                                 <Select
                                   className={styles.select}
                                   style={{ color: "#5f6368", fontSize: "13px" }}
@@ -363,18 +369,27 @@ const QuestionForm = () => {
                                   </MenuItem>
                                 </Select>
                               </div>
+
+                              {/** Edit Options for Questions Field */}
                               {ques.options.map((op, j) => (
                                 <div className={styles.addQuestionBody} key={j}>
+                                  {/**If question type is text then there will be short rounded icon from mui
+                                   * else there will be input (for radio of box)
+                                   */}
                                   {ques.questionType != "text" ? (
+                                    //  If Qs type is not text
                                     <input
                                       type={ques.questionType}
                                       style={{ marginRight: "10px" }}
                                     />
                                   ) : (
+                                    /*********  If Qs type is text *************/
                                     <ShortTextRounded
                                       style={{ marginRight: "10px" }}
                                     />
                                   )}
+
+                                  {/** Input text value */}
                                   <div>
                                     <input
                                       type="text"
@@ -386,9 +401,13 @@ const QuestionForm = () => {
                                       }}
                                     />
                                   </div>
+
+                                  {/* Image icon */}
                                   <CropOriginalOutlined
                                     style={{ color: "#516368" }}
                                   />
+
+                                  {/* Cross Icon */}
                                   <IconButton aria-label="delete">
                                     <Close
                                       onClick={() => {
@@ -399,12 +418,17 @@ const QuestionForm = () => {
                                 </div>
                               ))}
 
+                              {/** If there are more than equal 5 option then dont show add more option button
+                               * else show add more option button.
+                               */}
                               {ques.options.length < 5 ? (
+                                // If no of options is less than 5
                                 <div className={styles.addQuestionBody}>
                                   <FormControlLabel
                                     disabled
                                     control={
                                       ques.questionType != "text" ? (
+                                        // if not text then input field
                                         <input
                                           type={ques.questionType}
                                           color="primary"
@@ -418,6 +442,7 @@ const QuestionForm = () => {
                                           disabled
                                         />
                                       ) : (
+                                        // if text then short text icon
                                         <ShortTextRounded
                                           style={{
                                             marginRight: 10,
@@ -428,6 +453,7 @@ const QuestionForm = () => {
                                     }
                                     label={
                                       <div>
+                                        {/* add new option input */}
                                         <input
                                           type="text"
                                           className={styles.textInput}
@@ -437,6 +463,7 @@ const QuestionForm = () => {
                                           }}
                                           placeholder="Add other"
                                         />
+                                        {/* Add new option button */}
                                         <Button
                                           size="small"
                                           onClick={() => {
@@ -456,9 +483,13 @@ const QuestionForm = () => {
                                   />
                                 </div>
                               ) : (
+                                // if no of options > 5 dont show any options
                                 ""
                               )}
+
+                              {/* Footer */}
                               <div className={styles.addFooter}>
+                                {/* Answer key button */}
                                 <div className={styles.addQuestionBottomLeft}>
                                   <Button
                                     size="small"
@@ -468,7 +499,9 @@ const QuestionForm = () => {
                                       fontSize: "13px",
                                       fontWeight: "600",
                                     }}
-                                    onClick={()=>{addAnswer(i)}}
+                                    onClick={() => {
+                                      addAnswer(i);
+                                    }}
                                   >
                                     <NorthEastIcon
                                       style={{
@@ -481,7 +514,9 @@ const QuestionForm = () => {
                                   </Button>
                                 </div>
 
+                                {/* Icons at bottom right */}
                                 <div className={styles.addQuestionBottom}>
+                                  {/* Copy qs icon */}
                                   <IconButton
                                     aria-label="Copy"
                                     onClick={() => {
@@ -491,6 +526,7 @@ const QuestionForm = () => {
                                     <FilterNone />
                                   </IconButton>
 
+                                  {/* delete qs icon */}
                                   <IconButton
                                     aria-label="delete"
                                     onClick={() => {
@@ -500,6 +536,7 @@ const QuestionForm = () => {
                                     <DeleteIcon />
                                   </IconButton>
 
+                                  {/* IS required or not switch */}
                                   <span
                                     style={{
                                       color: "#5f6368",
@@ -518,6 +555,7 @@ const QuestionForm = () => {
                                     checked={getRequiredOrNot(i)}
                                   />
 
+                                  {/* more icon */}
                                   <IconButton>
                                     <MoreVert />
                                   </IconButton>
@@ -525,6 +563,7 @@ const QuestionForm = () => {
                               </div>
                             </AccordionDetails>
                           ) : (
+                            // If we want to put ans key
                             <AccordionDetails className={styles.addQuestion}>
                               <div className={styles.topHeader}>
                                 Choose Correct Answer
@@ -616,6 +655,7 @@ const QuestionForm = () => {
                               </div>
                             </AccordionDetails>
                           )}
+                          {/* options at right side */}
                           {!ques.answer ? (
                             <div className={styles.questionEdit}>
                               <AddCircleOutline
