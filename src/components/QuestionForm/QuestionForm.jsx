@@ -124,7 +124,7 @@ const QuestionForm = () => {
   const copyQuestion = (i) => {
     expandCloseAll();
     let qs = [...questions];
-    let newQuestion = qs[i];
+    let newQuestion = {...qs[i]};
     setQuestions([...questions, newQuestion]);
   };
   const deleteQuestion = (i) => {
@@ -226,7 +226,7 @@ const QuestionForm = () => {
                                 paddingBottom: "8px",
                               }}
                             >
-                              {questions[i].questionText}
+                              {`${i+1} . `}{questions[i].questionText}
                             </Typography>
                             {ques.options.map((op, j) => (
                               <div key={j}>
@@ -270,6 +270,7 @@ const QuestionForm = () => {
                         )}
                       </AccordionSummary>
 
+                      {questions[i].open?(
                       <div
                         className={`${styles.questionBoxes}`}
                         style={{ display: "flex" }}
@@ -502,7 +503,7 @@ const QuestionForm = () => {
                           <CropOriginal className={styles.edit} />
                           <TextFields className={styles.edit} />
                         </div>
-                      </div>
+                      </div>):" "}
                     </Accordion>
                     ;
                   </div>
