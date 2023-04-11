@@ -35,6 +35,24 @@ import {
   Subject,
   TextFields,
 } from "@mui/icons-material";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import {
+  setQuestions,
+  changeQuestionHandler,
+  addQuestionTypeHandler,
+  changeOptionValueHandler,
+  removeOptionHandler,
+  addOptionHandler,
+  expandCloseAllHandler,
+  handleExpandHandler,
+  copyQuestionHandler,
+  deleteQuestionHandler,
+  requiredQuestionHandler,
+  addAnswerHandler,
+  doneAnswerHandler,
+  setOptionAnswerHandler,
+} from "../../redux/questionsSlice";
 
 const theme = createTheme({
   typography: {
@@ -48,115 +66,76 @@ const theme = createTheme({
 });
 
 const QuestionForm = () => {
-  const [questions, setQuestions] = useState([
-    {
-      questionText: "Which is the capital city of West Bengal ? ",
-      questionType: "radio",
-      options: [
-        { optionText: "Bangaluru" },
-        { optionText: "Kolkata" },
-        { optionText: "Mumbai" },
-        { optionText: "Delhi" },
-      ],
-      answer: false,
-      answerKey: "",
-      points: 0,
-      open: true,
-      required: false,
-    },
-  ]);
+  const questions = useSelector((state) => state.questions.questions);
+  const dispatch = useDispatch();
+  // const [questions, setQuestions] = useState([
+  //   {
+  //     questionText: "Which is the capital city of West Bengal ? ",
+  //     questionType: "radio",
+  //     options: [
+  //       { optionText: "Bangaluru" },
+  //       { optionText: "Kolkata" },
+  //       { optionText: "Mumbai" },
+  //       { optionText: "Delhi" },
+  //     ],
+  //     answer: false,
+  //     answerKey: "",
+  //     points: 0,
+  //     open: true,
+  //     required: false,
+  //   },
+  // ]);
   const expandCloseAll = () => {
-    let qs = [...questions];
-    for (let j = 0; j < qs.length; j++) {
-      qs[j].open = false;
-    }
-    setQuestions(qs);
+    dispatch(expandCloseAllHandler());
   };
   const handleExpand = (i) => {
-    let qs = [...questions];
-    for (let j = 0; j < qs.length; j++) {
-      if (i === j) {
-        qs[i].open = true;
-      } else {
-        qs.open = false;
-      }
-    }
-    setQuestions(qs);
+    dispatch(handleExpandHandler({ i }));
   };
   const changeQuestion = (text, i) => {
-    const newQuestion = [...questions];
-    newQuestion[i].questionText = text;
-    setQuestions(newQuestion);
-    console.log(newQuestion);
+    dispatch(changeQuestionHandler({ text, i }));
   };
   const addQuestionType = (i, type) => {
-    //console.log(type)
-    let qs = [...questions];
-    //console.log(type)
-    qs[i].questionType = type;
-    setQuestions(qs);
+    dispatch(addQuestionTypeHandler({ i, type }));
   };
   const changeOptionValue = (text, i, j) => {
-    //console.log(text)
-    let optionsQuestion = [...questions];
-    optionsQuestion[i].options[j].optionText = text;
-    setQuestions(optionsQuestion);
+    dispatch(changeOptionValueHandler({ text, i, j }));
   };
   const removeOption = (i, j) => {
-    let RemoveOptionQuestion = [...questions];
-    if (RemoveOptionQuestion[i].options.length > 1) {
-      RemoveOptionQuestion[i].options.splice(j, 1);
-      setQuestions(RemoveOptionQuestion);
-      //console.log(i , j);
-    }
+    dispatch(removeOptionHandler({ i, j }));
   };
   const addOption = (i) => {
-    let optionOfQuestion = [...questions];
-    if (optionOfQuestion[i].options.length < 5) {
-      optionOfQuestion[i].options.push({
-        optionText: "Option " + (optionOfQuestion[i].options.length + 1),
-      });
-    } else {
-      console.log("Max 5 options");
-    }
-    setQuestions(optionOfQuestion);
+    dispatch(addOptionHandler({ i }));
   };
   const copyQuestion = (i) => {
-    expandCloseAll();
-    let qs = [...questions];
-    let newQuestion = { ...qs[i] };
-    setQuestions([...questions, newQuestion]);
+    dispatch(expandCloseAllHandler());
+    dispatch(copyQuestionHandler({ i }));
   };
   const deleteQuestion = (i) => {
-    console.log("hii");
-    let qs = [...questions];
-    if (questions.length > 1) {
-      qs.splice(i, 1);
-    }
-    setQuestions(qs);
+    console.log("hii")
+    dispatch(deleteQuestionHandler({ i }));
   };
   const requiredQuestion = (i) => {
-    let reqQuestion = [...questions];
-    reqQuestion[i].required = !reqQuestion[i].required;
-    console.log(reqQuestion[i].required + " " + i);
-    setQuestions(reqQuestion);
+    console.log("hiii")
+    dispatch(requiredQuestionHandler({i}));
   };
   const getRequiredOrNot = (i) => {
     let reqQuestion = [...questions];
     return reqQuestion[i].required;
   };
   const addMoreQuestionField = () => {
-    expandCloseAll();
-    setQuestions([
-      ...questions,
-      {
-        questionText: "Question",
-        questionType: "radio",
-        options: [{ optionText: "Option 1" }],
-        open: true,
-        required: false,
-      },
-    ]);
+    dispatch(expandCloseAllHandler());
+    dispatch(
+      setQuestions([
+        ...questions,
+        {
+          questionText: "Question",
+          questionType: "radio",
+          options: [{ optionText: "Option 1" }],
+          open: true,
+          required: false,
+        },
+      ])
+    );
   };
   const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
@@ -174,29 +153,22 @@ const QuestionForm = () => {
       result.source.index,
       result.destination.index
     );
-    setQuestions(itemF);
+    dispatch(setQuestions(itemF));
   };
   const setOptionAnswer = (ans, qno) => {
-    let Question = [...questions];
-    Question[qno].answerKey = ans;
-    setQuestions(Question);
-    console.log(qno + " " + ans);
+    dispatch(setOptionAnswerHandler({ans,qno}));
   };
   const setOptionPoints = (points, qno) => {
     let Question = [...questions];
     Question[qno].points = points;
-    setQuestions(Question);
+    dispatch(setQuestions(Question));
     console.log(qno + " " + points);
   };
   const doneAnswer = (i) => {
-    let answerOfQuestion = [...questions];
-    answerOfQuestion[i].answer = !answerOfQuestion[i].answer;
-    setQuestions(answerOfQuestion);
+    dispatch(doneAnswerHandler({i}));
   };
   const addAnswer = (i) => {
-    let answerOfQuestion = [...questions];
-    answerOfQuestion[i].answer = !answerOfQuestion[i].answer;
-    setQuestions(answerOfQuestion);
+    dispatch(addAnswerHandler({i}));
   };
 
   function questionUI() {
@@ -237,7 +209,7 @@ const QuestionForm = () => {
                         elevation={1}
                         style={{ width: "100%" }}
                       >
-                        {/* If ith qs is not*/}
+                        {/* If ith qs is not open*/}
                         {!questions[i].open ? (
                           <div className={styles.savedQuestions}>
                             <Typography
