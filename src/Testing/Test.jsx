@@ -7,6 +7,8 @@ const Test = () => {
   const question = useSelector((state)=>state.questions.questions)
   const dispatch = useDispatch();
   const title = useSelector((state)=>state.questions.formTitle)
+  const formCode = useSelector((state)=>state);
+  console.log(formCode);
   console.log(question[0].questionText);
   const handleClick = () =>{
     // console.log("hii")

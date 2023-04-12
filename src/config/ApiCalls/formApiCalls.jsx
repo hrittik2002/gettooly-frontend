@@ -24,9 +24,9 @@ export const createForm = async() =>{
 }
 
 // Get Form Data
-export const getFormData = async() =>{
+export const getFormData = async(code) =>{
     try{
-        const res = await axios.get(`http://127.0.0.1:8000/api/form/create`, 
+        const res = await axios.get(`http://127.0.0.1:8000/api/form/${code}`, 
           {
               headers: {
                   Authorization: `Bearer ${getCookie("access_token")}`,

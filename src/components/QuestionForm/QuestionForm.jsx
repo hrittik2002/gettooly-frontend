@@ -53,6 +53,10 @@ import {
   doneAnswerHandler,
   setOptionAnswerHandler,
 } from "../../redux/questionsSlice";
+import { useMemo } from "react";
+import { useLocation } from "react-router-dom";
+import { getFormData } from "../../config/ApiCalls/formApiCalls";
+import { useEffect } from "react";
 
 const theme = createTheme({
   typography: {
@@ -67,24 +71,20 @@ const theme = createTheme({
 
 const QuestionForm = () => {
   const questions = useSelector((state) => state.questions.questions);
+  const formTitle = useSelector((state) => state.questions.formTitle);
+  const formDescription = useSelector((state) => state.questions.formDescription);
+  const formCode = useSelector((state)=>state.form.code);
+  console.log(formCode);
   const dispatch = useDispatch();
-  // const [questions, setQuestions] = useState([
-  //   {
-  //     questionText: "Which is the capital city of West Bengal ? ",
-  //     questionType: "radio",
-  //     options: [
-  //       { optionText: "Bangaluru" },
-  //       { optionText: "Kolkata" },
-  //       { optionText: "Mumbai" },
-  //       { optionText: "Delhi" },
-  //     ],
-  //     answer: false,
-  //     answerKey: "",
-  //     points: 0,
-  //     open: true,
-  //     required: false,
-  //   },
-  // ]);
+  // useEffect(()=>{
+  //   console.log(formCode);
+  //   const getFormData = async()=>{
+  //     const formDetails = await getFormData(formCode);
+  //     console.log(formDetails);
+  //     return formDetails;
+  //   }
+  //   getFormData();
+  // },[questions])
   const expandCloseAll = () => {
     dispatch(expandCloseAllHandler());
   };
@@ -123,7 +123,7 @@ const QuestionForm = () => {
     return reqQuestion[i].required;
   };
   const addMoreQuestionField = () => {
-    dispatch(expandCloseAllHandler());
+    expandCloseAll();
     dispatch(
       setQuestions([
         ...questions,
@@ -668,13 +668,13 @@ const QuestionForm = () => {
                 type="text"
                 className={styles.questionFormTopName}
                 style={{ color: "black" }}
-                placeholder="Untitled Document"
+                placeholder={`${formTitle}`}
               />
               <input
                 type="text"
                 className={styles.questionFormTopDesc}
                 style={{ color: "black" }}
-                placeholder="Form Description"
+                placeholder={`${formDescription}`}
               />
             </div>
           </div>

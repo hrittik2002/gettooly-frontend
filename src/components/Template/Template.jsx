@@ -2,9 +2,10 @@ import React from 'react'
 import styles from "./Template.module.css"
 import { MoreVert, UnfoldMore } from '@mui/icons-material'
 import { IconButton } from '@chakra-ui/react'
-import { createForm } from '../../config/ApiCalls/formApiCalls'
+import { createForm, getFormData } from '../../config/ApiCalls/formApiCalls'
 import { useDispatch } from 'react-redux'
-import { setFormCode, setFormCreator, setFormTitle } from '../../redux/formSlice'
+// import { setFormCode, setFormCreator, setFormTitle } from '../../redux/formSlice'
+import { setFormTitle , setFormCode, setFormCreator } from '../../redux/questionsSlice'
 import { useNavigate } from 'react-router-dom'
 
 
@@ -13,10 +14,19 @@ const Template = () => {
     const navigate = useNavigate();
     const createNewForm = async () =>{
         const res = await createForm(); // create new form
-        dispatch(setFormCode(res.data.code));
-        dispatch(setFormCreator(res.data.creator));
-        dispatch(setFormTitle(res.data.title));
-        navigate(`/form/${res.data.code}/edit`);
+        const res2 = await getFormData(res.data.code); // get form data
+        console.log(res)
+        console.log(res2)
+
+        /* Store all data in redux */
+        dispatch(setFormCode(res2.data.code));
+        dispatch(setFormCreator(res2.data.creator));
+        dispatch(setFormTitle(res2.data.title));
+        // dispatch(set)
+
+        /***************************/
+
+        navigate(`/form/${res.data.code}/edit` , {formCode : res.data.code});
     }
   return (
     <div className={styles.templateSection}>

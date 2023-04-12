@@ -3,7 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 const questionsSlice = createSlice({
   name: "questions",
   initialState: {
-    formTitle: "Untiled Form",
+    formTitle: "",
+    formCode : "",
+    formCreator : "",
     formDescription: "Untiled Description",
     questions: [
       {
@@ -24,7 +26,14 @@ const questionsSlice = createSlice({
   },
   reducers: {
     setFormTitle: (state, action) => {
+      console.log(action.payload)
       state.formTitle = action.payload;
+    },
+    setFormCode: (state, action) => {
+      state.formCode = action.payload;
+    },
+    setFormCreator: (state, action) => {
+      state.formCreator = action.payload;
     },
     setQuestions: (state, action) => {
       console.log("hii");
@@ -141,6 +150,8 @@ const questionsSlice = createSlice({
 });
 
 export const {
+  setFormCode,
+  setFormCreator,
   setFormTitle,
   setQuestions,
   changeQuestionHandler,
