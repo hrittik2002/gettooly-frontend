@@ -5,7 +5,7 @@ import { IconButton } from '@chakra-ui/react'
 import { createForm, getFormData } from '../../config/ApiCalls/formApiCalls'
 import { useDispatch } from 'react-redux'
 // import { setFormCode, setFormCreator, setFormTitle } from '../../redux/formSlice'
-import { setFormTitle , setFormCode, setFormCreator, setQuestions } from '../../redux/questionsSlice'
+import { setFormTitle , setFormCode, setFormCreator, setQuestions, setFormDescription } from '../../redux/questionsSlice'
 import { useNavigate } from 'react-router-dom'
 
 
@@ -22,6 +22,7 @@ const Template = () => {
         dispatch(setFormCode(res2.data.code));
         dispatch(setFormCreator(res2.data.creator));
         dispatch(setFormTitle(res2.data.title));
+        dispatch(setFormDescription(res2.data.description));
         const dummyQuestion = [];
         for(let i in res2.data.questions){
             dummyQuestion.push({});

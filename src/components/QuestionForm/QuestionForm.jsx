@@ -11,7 +11,6 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Button,
   FormControlLabel,
   IconButton,
   MenuItem,
@@ -52,11 +51,21 @@ import {
   addAnswerHandler,
   doneAnswerHandler,
   setOptionAnswerHandler,
+  setFormTitle,
+  setFormDescription,
 } from "../../redux/questionsSlice";
 import { useMemo } from "react";
 import { useLocation } from "react-router-dom";
-import { getFormData } from "../../config/ApiCalls/formApiCalls";
+import {
+  addQuestionAPICall,
+  getFormData,
+  updateFormDescriptionAPICall,
+  updateFormTitleAPICall,
+} from "../../config/ApiCalls/formApiCalls";
 import { useEffect } from "react";
+import { CheckIcon } from "@chakra-ui/icons";
+import { Button } from "@chakra-ui/react";
+import FormOption from "../FormComponents/FormOption/FormOption";
 
 const theme = createTheme({
   typography: {
@@ -69,9 +78,11 @@ const theme = createTheme({
   },
 });
 
-
-
 const QuestionForm = () => {
+  const [formTitleChange, setFormTitleChange] = useState(false);
+  const [formTitleValue, setFormTitleValue] = useState("");
+  const [formDescChange, setFormDescChange] = useState(false);
+  const [formDescValue, setFormDescValue] = useState("");
   const questions = useSelector((state) => state.questions.questions);
   const formTitle = useSelector((state) => state.questions.formTitle);
   const formDescription = useSelector(
@@ -80,9 +91,12 @@ const QuestionForm = () => {
   const formCode = useSelector((state) => state.questions.formCode);
   console.log(formCode);
   const dispatch = useDispatch();
+
   const getFormData2 = async () => {
     const res2 = await getFormData(formCode);
     console.log(res2);
+
+    // Refresh Form
     const dummyQuestion = [];
     for (let i in res2.data.questions) {
       dummyQuestion.push({});
@@ -103,6 +117,11 @@ const QuestionForm = () => {
       }
     }
     dispatch(setQuestions(dummyQuestion));
+
+    // Refresh Form Title
+    dispatch(setFormTitle(res2.data.title));
+    // Refresh Form Description
+    dispatch(setFormDescription(res2.data.description));
     return dummyQuestion;
   };
   //getFormData();
@@ -152,20 +171,11 @@ const QuestionForm = () => {
     let reqQuestion = [...questions];
     return reqQuestion[i].required;
   };
-  const addMoreQuestionField = () => {
+  const addMoreQuestionField = async () => {
     expandCloseAll();
-    dispatch(
-      setQuestions([
-        ...questions,
-        {
-          questionText: "Question",
-          questionType: "radio",
-          options: [{ optionText: "Option 1" }],
-          open: true,
-          required: false,
-        },
-      ])
-    );
+    const res = await addQuestionAPICall(formCode);
+    console.log(res);
+    getFormData2();
   };
   const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
@@ -199,6 +209,38 @@ const QuestionForm = () => {
   };
   const addAnswer = (i) => {
     dispatch(addAnswerHandler({ i }));
+  };
+  const titleChangeHandler = (e) => {
+    const value = e.target.value;
+    setFormTitleValue(value);
+    if (value === undefined || value === null || value === "") {
+      setFormTitleChange(false);
+    } else {
+      setFormTitleChange(true);
+    }
+  };
+  const formTitleSubmitHandler = async (e) => {
+    const newTitle = formTitleValue;
+    const res = await updateFormTitleAPICall(newTitle, formCode);
+    getFormData2();
+    setFormTitleChange(false);
+    setFormTitleValue("");
+  };
+  const descChangeHandler = (e) => {
+    const value = e.target.value;
+    setFormDescValue(value);
+    if (value === undefined || value === null || value === "") {
+      setFormDescChange(false);
+    } else {
+      setFormDescChange(true);
+    }
+  };
+  const formDescSubmitHandler = async (e) => {
+    const newDesc = formDescValue;
+    const res = await updateFormDescriptionAPICall(newDesc, formCode);
+    getFormData2();
+    setFormDescChange(false);
+    setFormDescValue("");
   };
 
   function questionUI() {
@@ -374,50 +416,59 @@ const QuestionForm = () => {
 
                               {/** Edit Options for Questions Field */}
                               {ques.options.map((op, j) => (
-                                <div className={styles.addQuestionBody} key={j}>
-                                  {/**If question type is text then there will be short rounded icon from mui
-                                   * else there will be input (for radio of box)
-                                   */}
-                                  {ques.questionType != "text" ? (
-                                    //  If Qs type is not text
-                                    <input
-                                      type={ques.questionType}
-                                      style={{ marginRight: "10px" }}
-                                    />
-                                  ) : (
-                                    /*********  If Qs type is text *************/
-                                    <ShortTextRounded
-                                      style={{ marginRight: "10px" }}
-                                    />
-                                  )}
+                                <FormOption i={i} j={j} ques={ques}/>
+                                // <div className={styles.addQuestionBody} key={j}>
+                                //   {/**If question type is text then there will be short rounded icon from mui
+                                //    * else there will be input (for radio of box)
+                                //    */}
+                                //   {ques.questionType != "text" ? (
+                                //     //  If Qs type is not text
+                                //     <input
+                                //       type={ques.questionType}
+                                //       style={{ marginRight: "10px" }}
+                                //     />
+                                //   ) : (
+                                //     /*********  If Qs type is text *************/
+                                //     <ShortTextRounded
+                                //       style={{ marginRight: "10px" }}
+                                //     />
+                                //   )}
 
-                                  {/** Input text value */}
-                                  <div>
-                                    <input
-                                      type="text"
-                                      className={styles.textInput}
-                                      placeholder="Option"
-                                      value={ques.options[j].optionText}
-                                      onChange={(e) => {
-                                        changeOptionValue(e.target.value, i, j);
-                                      }}
-                                    />
-                                  </div>
+                                //   {/** Input text value */}
+                                //   <div>
+                                //     <input
+                                //       type="text"
+                                //       className={styles.textInput}
+                                //       placeholder="Option"
+                                //       value={ques.options[j].optionText}
+                                //       onChange={(e) => {
+                                //         changeOptionValue(e.target.value, i, j);
+                                //       }}
+                                //     />
+                                //     <Button
+                                //           leftIcon={<CheckIcon />}
+                                //           colorScheme="teal"
+                                //           variant="solid"
+                                //           //onClick={(e) => formDescSubmitHandler(e)}
+                                //       >
+                                //               Add
+                                //       </Button>
+                                //   </div>
 
-                                  {/* Image icon */}
-                                  <CropOriginalOutlined
-                                    style={{ color: "#516368" }}
-                                  />
+                                //   {/* Image icon */}
+                                //   <CropOriginalOutlined
+                                //     style={{ color: "#516368" }}
+                                //   />
 
-                                  {/* Cross Icon */}
-                                  <IconButton aria-label="delete">
-                                    <Close
-                                      onClick={() => {
-                                        removeOption(i, j);
-                                      }}
-                                    />
-                                  </IconButton>
-                                </div>
+                                //   {/* Cross Icon */}
+                                //   <IconButton aria-label="delete">
+                                //     <Close
+                                //       onClick={() => {
+                                //         removeOption(i, j);
+                                //       }}
+                                //     />
+                                //   </IconButton>
+                                // </div>
                               ))}
 
                               {/** If there are more than equal 5 option then dont show add more option button
@@ -694,18 +745,49 @@ const QuestionForm = () => {
         <div className={styles.section}>
           <div className={styles.questionTitleSection}>
             <div className={styles.questionFormTop}>
-              <input
-                type="text"
-                className={styles.questionFormTopName}
-                style={{ color: "black" }}
-                placeholder={`${formTitle}`}
-              />
-              <input
-                type="text"
-                className={styles.questionFormTopDesc}
-                style={{ color: "black" }}
-                placeholder={`${formDescription}`}
-              />
+              <div className={styles.parentContainer1}>
+                <input
+                  type="text"
+                  className={styles.questionFormTopName}
+                  style={{ color: "black" }}
+                  placeholder={`${formTitle}`}
+                  onChange={(e) => {
+                    titleChangeHandler(e);
+                  }}
+                />
+                {formTitleChange && (
+                  <Button
+                    className={styles.questionFormBtn}
+                    leftIcon={<CheckIcon />}
+                    colorScheme="teal"
+                    variant="solid"
+                    onClick={(e) => formTitleSubmitHandler(e)}
+                  >
+                    Add
+                  </Button>
+                )}
+              </div>
+              <div className={styles.parentContainer1}>
+                <input
+                  type="text"
+                  className={styles.questionFormTopDesc}
+                  style={{ color: "black" }}
+                  placeholder={`${formDescription}`}
+                  onChange={(e) => {
+                    descChangeHandler(e);
+                  }}
+                />
+                {formDescChange && (
+                  <Button
+                    leftIcon={<CheckIcon />}
+                    colorScheme="teal"
+                    variant="solid"
+                    onClick={(e) => formDescSubmitHandler(e)}
+                  >
+                    Add
+                  </Button>
+                )}
+              </div>
             </div>
           </div>
 

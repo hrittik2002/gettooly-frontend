@@ -26,8 +26,10 @@ const questionsSlice = createSlice({
   },
   reducers: {
     setFormTitle: (state, action) => {
-      console.log(action.payload)
       state.formTitle = action.payload;
+    },
+    setFormDescription: (state, action) => {
+      state.formDescription = action.payload;
     },
     setFormCode: (state, action) => {
       state.formCode = action.payload;
@@ -153,6 +155,7 @@ export const {
   setFormCode,
   setFormCreator,
   setFormTitle,
+  setFormDescription,
   setQuestions,
   changeQuestionHandler,
   addQuestionTypeHandler,

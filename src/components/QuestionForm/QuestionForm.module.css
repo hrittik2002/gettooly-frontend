@@ -7,6 +7,9 @@
   margin: auto;
   width: 50%;
 }
+.parentContainer1{
+  display: flex;
+}
 .questionFormTop {
   background-color: white;
   border-top: 8px solid rgb(103, 58, 183);

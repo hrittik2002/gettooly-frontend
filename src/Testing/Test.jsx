@@ -11,23 +11,10 @@ const Test = () => {
   console.log(formCode);
   console.log(question[0].questionText);
   const handleClick = () =>{
-    // console.log("hii")
-    // let q = [...question];
-    // let p = q;
-    // console.log(p[0].questionText);
-    // p[0].questionText = "idk";
-    // console.log(p , title)
-    // dispatch(setQuestions(p))
     let text = "idk";
     let i = 0;
     //dispatch(changeQuestions({text , i}))
   }
-  // const changeQuestion = (text, i) => {
-  //   let newQuestion = [...questions];
-  //   newQuestion[i].questionText = text;
-  //   dispatch(setQuestions(newQuestion))
-  //   console.log(newQuestion);
-  // };
  
   return (
     <>
