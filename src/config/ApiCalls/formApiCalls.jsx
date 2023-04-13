@@ -108,7 +108,7 @@ export const updateFormDescriptionAPICall = async(newDesc , code)=> {
 // update option
 export const updateOptionAPICall = async(newOption , optionId ,  code)=> {
   try{
-    const res = await axios.put(`http://127.0.0.1:8000/api/form/${code}/choices/${optionId}/`, 
+    const res = await axios.patch(`http://127.0.0.1:8000/api/form/${code}/choices/${optionId}/`, 
     {
       choice : newOption
     },
@@ -124,5 +124,28 @@ export const updateOptionAPICall = async(newOption , optionId ,  code)=> {
   }
   catch(err){
     console.log(err);
+  }
+}
+
+// add option
+export const addOptionApiCall = async(code , questionId) => {
+  try{
+
+    const res = await axios.post(`http://127.0.0.1:8000/api/form/${code}/add-choice/`, 
+    {
+      question : questionId
+    },
+      {
+          headers: {
+              Authorization: `Bearer ${getCookie("access_token")}`,
+          },
+          withCredentials: true,
+      },
+    )
+    // console.log(res);
+    return res;
+  }
+  catch(err){
+    console.log(err)
   }
 }

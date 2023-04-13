@@ -57,6 +57,7 @@ import {
 import { useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import {
+  addOptionApiCall,
   addQuestionAPICall,
   getFormData,
   updateFormDescriptionAPICall,
@@ -83,25 +84,17 @@ const QuestionForm = () => {
   const [formTitleValue, setFormTitleValue] = useState("");
   const [formDescChange, setFormDescChange] = useState(false);
   const [formDescValue, setFormDescValue] = useState("");
-  const questions = useSelector((state) => state.questions.questions);
-  const formTitle = useSelector((state) => state.questions.formTitle);
-  const formDescription = useSelector(
-    (state) => state.questions.formDescription
-  );
-  const formCode = useSelector((state) => state.questions.formCode);
-  console.log(formCode);
-  const dispatch = useDispatch();
 
   const getFormData2 = async () => {
     const res2 = await getFormData(formCode);
     console.log(res2);
-
     // Refresh Form
     const dummyQuestion = [];
     for (let i in res2.data.questions) {
       dummyQuestion.push({});
       dummyQuestion[i].questionText = res2.data.questions[i].question;
       dummyQuestion[i].answerKey = res2.data.questions[i].answer_key;
+      dummyQuestion[i].id = res2.data.questions[i].id;
       dummyQuestion[i].required = res2.data.questions[i].required;
       dummyQuestion[i].points = res2.data.questions[i].score;
       if (res2.data.questions[i].question_type === "multiple choice")
@@ -116,6 +109,7 @@ const QuestionForm = () => {
           res2.data.questions[i].choices[j].is_answer;
       }
     }
+    console.log(dummyQuestion);
     dispatch(setQuestions(dummyQuestion));
 
     // Refresh Form Title
@@ -124,16 +118,20 @@ const QuestionForm = () => {
     dispatch(setFormDescription(res2.data.description));
     return dummyQuestion;
   };
-  //getFormData();
+
   useEffect(() => {
-    // console.log(formCode);
-    // const getFormData = async()=>{
-    //   const formDetails = await getFormData(formCode);
-    //   console.log(formDetails);
-    //   return formDetails;
-    // }
     getFormData2();
   }, []);
+
+  const questions = useSelector((state) => state.questions.questions);
+  const formTitle = useSelector((state) => state.questions.formTitle);
+  const formDescription = useSelector(
+    (state) => state.questions.formDescription
+  );
+  const formCode = useSelector((state) => state.questions.formCode);
+  console.log(formCode);
+  const dispatch = useDispatch();
+
   const expandCloseAll = () => {
     dispatch(expandCloseAllHandler());
   };
@@ -152,8 +150,12 @@ const QuestionForm = () => {
   const removeOption = (i, j) => {
     dispatch(removeOptionHandler({ i, j }));
   };
-  const addOption = (i) => {
-    dispatch(addOptionHandler({ i }));
+  const addOption = async (i) => {
+    //dispatch(addOptionHandler({ i }));
+    console.log(formCode)
+    console.log(questions[i].id)
+    const res = await addOptionApiCall(formCode, questions[i].id);
+    getFormData2();
   };
   const copyQuestion = (i) => {
     dispatch(expandCloseAllHandler());
@@ -416,7 +418,7 @@ const QuestionForm = () => {
 
                               {/** Edit Options for Questions Field */}
                               {ques.options.map((op, j) => (
-                                <FormOption i={i} j={j} ques={ques}/>
+                                <FormOption i={i} j={j} ques={ques} />
                                 // <div className={styles.addQuestionBody} key={j}>
                                 //   {/**If question type is text then there will be short rounded icon from mui
                                 //    * else there will be input (for radio of box)

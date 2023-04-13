@@ -11,6 +11,7 @@ const questionsSlice = createSlice({
       {
         questionText: "Untitled question ? ",
         questionType: "radio",
+        id : "",
         options: [
           { optionText: "Option 1" , id : "" , isAnswer : "false" },
           { optionText: "Option 2" , id : "" , isAnswer : "false" },

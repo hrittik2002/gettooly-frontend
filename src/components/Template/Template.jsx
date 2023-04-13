@@ -29,6 +29,7 @@ const Template = () => {
             dummyQuestion[i].questionText = res2.data.questions[i].question;
             dummyQuestion[i].answerKey = res2.data.questions[i].answer_key;
             dummyQuestion[i].required = res2.data.questions[i].required;
+            dummyQuestion[i].id = res2.data.questions[i].id;
             dummyQuestion[i].points = res2.data.questions[i].score;
             if(res2.data.questions[i].question_type === "multiple choice") dummyQuestion[i].questionType = "radio"; 
             dummyQuestion[i].options = [];
