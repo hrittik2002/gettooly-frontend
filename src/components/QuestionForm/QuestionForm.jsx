@@ -67,6 +67,8 @@ import { useEffect } from "react";
 import { CheckIcon } from "@chakra-ui/icons";
 import { Button } from "@chakra-ui/react";
 import FormOption from "../FormComponents/FormOption/FormOption";
+import QuestionTop from "../FormComponents/QuestionTop/QuestionTop";
+import QuestionFooter from "../FormComponents/QuestionFooter/QuestionFooter";
 
 const theme = createTheme({
   typography: {
@@ -97,8 +99,17 @@ const QuestionForm = () => {
       dummyQuestion[i].id = res2.data.questions[i].id;
       dummyQuestion[i].required = res2.data.questions[i].required;
       dummyQuestion[i].points = res2.data.questions[i].score;
-      if (res2.data.questions[i].question_type === "multiple choice")
+      dummyQuestion[i].questionType = "radio";
+      if (res2.data.questions[i].question_type === "multiple choice"){
         dummyQuestion[i].questionType = "radio";
+      }
+      else if(res2.data.questions[i].question_type === "paragraph"){
+        dummyQuestion[i].questionType = "text";
+      }
+      else if(res2.data.questions[i].question_type === "checkbox"){
+        dummyQuestion[i].questionType = "checkbox";
+      }
+        
       dummyQuestion[i].options = [];
       for (let j in res2.data.questions[i].choices) {
         dummyQuestion[i].options.push({});
@@ -246,6 +257,7 @@ const QuestionForm = () => {
   };
 
   function questionUI() {
+    console.log(questions);
     return questions.map((ques, i) => (
       <ThemeProvider theme={theme}>
         <Draggable key={1} draggableId={i + "id"} index={i}>
@@ -351,126 +363,11 @@ const QuestionForm = () => {
                           {!questions[i].answer ? (
                             // If we dont want to put answer key
                             <AccordionDetails className={styles.addQuestion}>
-                              <div className={styles.addQuestionTop}>
-                                {/* Change Question Field */}
-                                <input
-                                  type="text"
-                                  className={styles.question}
-                                  placeholder="Question"
-                                  value={ques.questionText}
-                                  onChange={(e) => {
-                                    changeQuestion(e.target.value, i);
-                                  }}
-                                />
-
-                                {/* Image */}
-                                <CropOriginal style={{ color: "#5f6368" }} />
-
-                                {/* Choose radio or box or paragraph field */}
-                                <Select
-                                  className={styles.select}
-                                  style={{ color: "#5f6368", fontSize: "13px" }}
-                                >
-                                  <MenuItem
-                                    id="text"
-                                    value="Text"
-                                    onClick={() => {
-                                      addQuestionType(i, "text");
-                                    }}
-                                  >
-                                    <Subject style={{ marginRight: "10px" }} />
-                                    Paragraph
-                                  </MenuItem>
-                                  <MenuItem
-                                    id="checkbox"
-                                    value="Checkbox"
-                                    onClick={() => {
-                                      addQuestionType(i, "checkbox");
-                                    }}
-                                  >
-                                    <CheckBox
-                                      style={{
-                                        marginRight: "10px",
-                                        color: "#70757a",
-                                      }}
-                                      checked
-                                    />
-                                    Checkbox
-                                  </MenuItem>
-                                  <MenuItem
-                                    id="radio"
-                                    value="Radio"
-                                    onClick={() => {
-                                      addQuestionType(i, "radio");
-                                    }}
-                                  >
-                                    <Radio
-                                      style={{
-                                        marginRight: "10px",
-                                        color: "#78757a",
-                                      }}
-                                      checked
-                                    />
-                                    Multiple Choice
-                                  </MenuItem>
-                                </Select>
-                              </div>
+                              <QuestionTop i={i} ques={ques} getFormData2={getFormData2}/>
 
                               {/** Edit Options for Questions Field */}
                               {ques.options.map((op, j) => (
-                                <FormOption i={i} j={j} ques={ques} />
-                                // <div className={styles.addQuestionBody} key={j}>
-                                //   {/**If question type is text then there will be short rounded icon from mui
-                                //    * else there will be input (for radio of box)
-                                //    */}
-                                //   {ques.questionType != "text" ? (
-                                //     //  If Qs type is not text
-                                //     <input
-                                //       type={ques.questionType}
-                                //       style={{ marginRight: "10px" }}
-                                //     />
-                                //   ) : (
-                                //     /*********  If Qs type is text *************/
-                                //     <ShortTextRounded
-                                //       style={{ marginRight: "10px" }}
-                                //     />
-                                //   )}
-
-                                //   {/** Input text value */}
-                                //   <div>
-                                //     <input
-                                //       type="text"
-                                //       className={styles.textInput}
-                                //       placeholder="Option"
-                                //       value={ques.options[j].optionText}
-                                //       onChange={(e) => {
-                                //         changeOptionValue(e.target.value, i, j);
-                                //       }}
-                                //     />
-                                //     <Button
-                                //           leftIcon={<CheckIcon />}
-                                //           colorScheme="teal"
-                                //           variant="solid"
-                                //           //onClick={(e) => formDescSubmitHandler(e)}
-                                //       >
-                                //               Add
-                                //       </Button>
-                                //   </div>
-
-                                //   {/* Image icon */}
-                                //   <CropOriginalOutlined
-                                //     style={{ color: "#516368" }}
-                                //   />
-
-                                //   {/* Cross Icon */}
-                                //   <IconButton aria-label="delete">
-                                //     <Close
-                                //       onClick={() => {
-                                //         removeOption(i, j);
-                                //       }}
-                                //     />
-                                //   </IconButton>
-                                // </div>
+                                <FormOption i={i} j={j} ques={ques} />                   
                               ))}
 
                               {/** If there are more than equal 5 option then dont show add more option button
@@ -543,79 +440,7 @@ const QuestionForm = () => {
                               )}
 
                               {/* Footer */}
-                              <div className={styles.addFooter}>
-                                {/* Answer key button */}
-                                <div className={styles.addQuestionBottomLeft}>
-                                  <Button
-                                    size="small"
-                                    style={{
-                                      textTransform: "none",
-                                      color: "#4285f4",
-                                      fontSize: "13px",
-                                      fontWeight: "600",
-                                    }}
-                                    onClick={() => {
-                                      addAnswer(i);
-                                    }}
-                                  >
-                                    <NorthEastIcon
-                                      style={{
-                                        border: "2px solid #42854",
-                                        padding: "2px",
-                                        marginRight: "8px",
-                                      }}
-                                    />
-                                    Answer key
-                                  </Button>
-                                </div>
-
-                                {/* Icons at bottom right */}
-                                <div className={styles.addQuestionBottom}>
-                                  {/* Copy qs icon */}
-                                  <IconButton
-                                    aria-label="Copy"
-                                    onClick={() => {
-                                      copyQuestion(i);
-                                    }}
-                                  >
-                                    <FilterNone />
-                                  </IconButton>
-
-                                  {/* delete qs icon */}
-                                  <IconButton
-                                    aria-label="delete"
-                                    onClick={() => {
-                                      deleteQuestion(i);
-                                    }}
-                                  >
-                                    <DeleteIcon />
-                                  </IconButton>
-
-                                  {/* IS required or not switch */}
-                                  <span
-                                    style={{
-                                      color: "#5f6368",
-                                      fontSize: "13px",
-                                    }}
-                                  >
-                                    Required
-                                  </span>
-
-                                  <Switch
-                                    name="checked"
-                                    color="primary"
-                                    onClick={() => {
-                                      requiredQuestion(i);
-                                    }}
-                                    checked={getRequiredOrNot(i)}
-                                  />
-
-                                  {/* more icon */}
-                                  <IconButton>
-                                    <MoreVert />
-                                  </IconButton>
-                                </div>
-                              </div>
+                             <QuestionFooter i ={i} questions={questions} getFormData2={getFormData2}/>
                             </AccordionDetails>
                           ) : (
                             // If we want to put ans key

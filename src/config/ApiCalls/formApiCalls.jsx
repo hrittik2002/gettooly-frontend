@@ -149,3 +149,42 @@ export const addOptionApiCall = async(code , questionId) => {
     console.log(err)
   }
 }
+// update question 
+export const updateQuestionAPICall = async (code , id , questionText , questionType , required) => {
+  let type = "multiple choice";
+  if(questionType === "radio"){
+    type = "multiple choice"
+  }
+  else if(questionType === "checkbox"){
+    type = "checkbox"
+  }
+  else if(questionType === "text"){
+    type = "paragraph"
+  }
+  try{
+    console.log(type)
+
+    const res = await axios.patch(`http://127.0.0.1:8000/api/form/edit_question/${code}/`, 
+    {
+      id : id,
+      question_data : {
+        id : id,
+        question : questionText,
+        question_type : type,
+        required : required
+      }
+    },
+      {
+          headers: {
+              Authorization: `Bearer ${getCookie("access_token")}`,
+          },
+          withCredentials: true,
+      },
+    )
+    // console.log(res);
+    return res;
+  }
+  catch(err){
+    console.log(err)
+  }
+};

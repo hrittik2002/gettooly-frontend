@@ -283,3 +283,4 @@ export const handlePayment = async (paymentIntentId , subscription_id) => {
     console.log(err);
   }
 };
+
