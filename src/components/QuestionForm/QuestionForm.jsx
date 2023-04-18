@@ -70,6 +70,7 @@ import { Button } from "@chakra-ui/react";
 import FormOption from "../FormComponents/FormOption/FormOption";
 import QuestionTop from "../FormComponents/QuestionTop/QuestionTop";
 import QuestionFooter from "../FormComponents/QuestionFooter/QuestionFooter";
+import { set_allow_view_score, set_authenticated_responder, set_collect_email, set_confirmation_message, set_edit_after_submit, set_is_quiz } from "../../redux/settingsSlice";
 
 
 const theme = createTheme({
@@ -132,7 +133,14 @@ const QuestionForm = () => {
 
     // refresh bg color
     dispatch(setBackgroundColor(res2.data.background_color));
-    return dummyQuestion;
+
+    // refresh the settings
+    dispatch(set_collect_email(res2.data.collect_email));
+    dispatch(set_authenticated_responder(res2.data.authenticated_responder));
+    dispatch(set_edit_after_submit(res2.data.edit_after_submit));
+    dispatch(set_confirmation_message(res2.data.confirmation_message));
+    dispatch(set_is_quiz(res2.data.is_quiz));
+    dispatch(set_allow_view_score(res2.data.allow_view_score));
   };
 
   useEffect(() => {

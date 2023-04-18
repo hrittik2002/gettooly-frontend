@@ -231,3 +231,29 @@ export const updateBgColorApiCall = async(code , color) => {
     console.log(err)
   }
 }
+// update settings 
+export const updateSettingsApiCall = async(code , obj) => {
+  try{
+    const res = axios.put(`http://127.0.0.1:8000/api/form/update/setting/${code}/`, 
+    {
+      collect_email: obj.collect_email,
+      authenticated_responder: obj.authenticated_responder,
+      edit_after_submit: obj.edit_after_submit,
+      confirmation_message : obj.confirmation_message,
+      is_quiz: obj.is_quiz,
+      allow_view_score: obj.allow_view_score
+    },
+      {
+          headers: {
+              Authorization: `Bearer ${getCookie("access_token")}`,
+          },
+          withCredentials: true,
+      },
+    )
+    // console.log(res);
+    return res;
+  }
+  catch(err){
+    console.log(err)
+  }
+}
