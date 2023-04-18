@@ -31,6 +31,7 @@ const Template = () => {
             dummyQuestion[i].required = res2.data.questions[i].required;
             dummyQuestion[i].id = res2.data.questions[i].id;
             dummyQuestion[i].points = res2.data.questions[i].score;
+          
             if(res2.data.questions[i].question_type === "multiple choice") dummyQuestion[i].questionType = "radio"; 
             dummyQuestion[i].options = [];
             for(let j in res2.data.questions[i].choices){
@@ -42,6 +43,7 @@ const Template = () => {
         }
         console.log(dummyQuestion);
         dispatch(setQuestions(dummyQuestion));
+        
         // dispatch(set)
 
         /***************************/

@@ -10,14 +10,16 @@ import { useDispatch } from "react-redux";
 import {
   changeOptionValueHandler,
   removeOptionHandler,
+  setBackgroundColor,
   setFormDescription,
   setFormTitle,
   setQuestions,
 } from "../../../redux/questionsSlice";
 import { CheckIcon } from "@chakra-ui/icons";
 import { useState } from "react";
-import { getFormData, updateOptionAPICall } from "../../../config/ApiCalls/formApiCalls";
+import { deleteOptionApiCall, getFormData, updateOptionAPICall } from "../../../config/ApiCalls/formApiCalls";
 import { useSelector } from "react-redux";
+
 
 const FormOption = ({ i, j, ques }) => {
     const [optionBtn , setOptionBtn] = useState(false);
@@ -51,7 +53,8 @@ const FormOption = ({ i, j, ques }) => {
           }
         }
         dispatch(setQuestions(dummyQuestion));
-    
+    // refresh bg color
+    dispatch(setBackgroundColor(res2.data.background_color));
         // Refresh Form Title
         dispatch(setFormTitle(res2.data.title));
         // Refresh Form Description
@@ -76,8 +79,13 @@ const FormOption = ({ i, j, ques }) => {
     setOptionBtn(false);
     setOptionValue("");
   };
-  const removeOption = (i, j) => {
-    dispatch(removeOptionHandler({ i, j }));
+  const removeOption = async(i, j) => {
+   console.log(i , j  , ques.options[j].id);
+   const optId =  ques.options[j].id;
+   const res = await deleteOptionApiCall(formCode , optId);
+   getFormData2();
+   setOptionBtn(false);
+   setOptionValue("");
   };
   return (
     <div className={styles.addQuestionBody} key={j}>

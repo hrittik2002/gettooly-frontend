@@ -149,6 +149,27 @@ export const addOptionApiCall = async(code , questionId) => {
     console.log(err)
   }
 }
+// delete option
+export const deleteOptionApiCall = async(code , optionId) => {
+  try{
+    const res = axios.delete(`http://127.0.0.1:8000/api/form/${code}/remove-choice/`, 
+    {
+      id : optionId
+    },
+      {
+          headers: {
+              Authorization: `Bearer ${getCookie("access_token")}`,
+          },
+          withCredentials: true,
+      },
+    )
+    // console.log(res);
+    return res;
+  }
+  catch(err){
+    console.log(err)
+  }
+}
 // update question 
 export const updateQuestionAPICall = async (code , id , questionText , questionType , required) => {
   let type = "multiple choice";
@@ -188,3 +209,25 @@ export const updateQuestionAPICall = async (code , id , questionText , questionT
     console.log(err)
   }
 };
+
+// update background color
+export const updateBgColorApiCall = async(code , color) => {
+  try{
+    const res = axios.put(`http://127.0.0.1:8000/api/form/update/background_color/${code}/`, 
+    {
+      background_color : color
+    },
+      {
+          headers: {
+              Authorization: `Bearer ${getCookie("access_token")}`,
+          },
+          withCredentials: true,
+      },
+    )
+    // console.log(res);
+    return res;
+  }
+  catch(err){
+    console.log(err)
+  }
+}

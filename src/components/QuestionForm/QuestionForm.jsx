@@ -53,6 +53,7 @@ import {
   setOptionAnswerHandler,
   setFormTitle,
   setFormDescription,
+  setBackgroundColor,
 } from "../../redux/questionsSlice";
 import { useMemo } from "react";
 import { useLocation } from "react-router-dom";
@@ -69,6 +70,7 @@ import { Button } from "@chakra-ui/react";
 import FormOption from "../FormComponents/FormOption/FormOption";
 import QuestionTop from "../FormComponents/QuestionTop/QuestionTop";
 import QuestionFooter from "../FormComponents/QuestionFooter/QuestionFooter";
+
 
 const theme = createTheme({
   typography: {
@@ -127,6 +129,9 @@ const QuestionForm = () => {
     dispatch(setFormTitle(res2.data.title));
     // Refresh Form Description
     dispatch(setFormDescription(res2.data.description));
+
+    // refresh bg color
+    dispatch(setBackgroundColor(res2.data.background_color));
     return dummyQuestion;
   };
 
@@ -136,6 +141,7 @@ const QuestionForm = () => {
 
   const questions = useSelector((state) => state.questions.questions);
   const formTitle = useSelector((state) => state.questions.formTitle);
+  const bgColor = useSelector((state) => state.questions.bgColor);
   const formDescription = useSelector(
     (state) => state.questions.formDescription
   );
@@ -564,10 +570,11 @@ const QuestionForm = () => {
       </ThemeProvider>
     ));
   }
+  console.log(bgColor)
 
   return (
     <div style={{ width: "100%" }}>
-      <div className={styles.questionForm}>
+      <div className={styles.questionForm} style={{backgroundColor : `${bgColor}`}}>
         <br></br>
         <div className={styles.section}>
           <div className={styles.questionTitleSection}>

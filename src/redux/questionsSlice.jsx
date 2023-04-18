@@ -6,6 +6,7 @@ const questionsSlice = createSlice({
     formTitle: "",
     formCode : "",
     formCreator : "",
+    bgColor : "",
     formDescription: "Untiled Description",
     questions: [
       {
@@ -34,6 +35,13 @@ const questionsSlice = createSlice({
     },
     setFormCode: (state, action) => {
       state.formCode = action.payload;
+    },
+    setBackgroundColor : (state , action) => {
+      
+      state.bgColor = action.payload;
+      console.log("holaaaaaaaaaaaaaaaaaaaaaa")
+      console.log(state.bgColor)
+      console.log(action.payload);
     },
     setFormCreator: (state, action) => {
       state.formCreator = action.payload;
@@ -156,6 +164,7 @@ export const {
   setFormCode,
   setFormCreator,
   setFormTitle,
+  setBackgroundColor,
   setFormDescription,
   setQuestions,
   changeQuestionHandler,
