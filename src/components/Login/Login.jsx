@@ -78,7 +78,8 @@ const Login = ({ closeDialogForLogin }) => {
           </FormControl>
           <Button
             onClick={handleSubmit}
-            colorScheme="blue"
+            backgroundColor="#8700f5"
+            color="white"
             width="100%"
             style={{ marginTop: 15 }}
           >

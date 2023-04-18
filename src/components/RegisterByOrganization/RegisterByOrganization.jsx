@@ -205,7 +205,8 @@ const RegisterByOrganization = () => {
         />
       </FormControl>
       <Button
-        colorScheme="blue"
+        backgroundColor="#8700f5"
+        color="white"
         width="100%"
         onClick={handleSubmit}
         style={{ marginTop: 15 }}

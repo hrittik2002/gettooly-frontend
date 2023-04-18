@@ -10,13 +10,13 @@ const initialValues = {
 };
 const ForgotPassword = ({closeDialogForLogin}) => {
     const toast = useToast();
-    const showToast = (title , description) =>{
+    const showToast = (title , status) =>{
         toast({
-            title: `'Check Your Email'`,
-            description: "Password reset link to your email",
-            status: 'success',
-            duration: 9000,
+            title: `${title}`,
+            status: `${status}`,
+            duration: 6000,
             isClosable: true,
+            position: 'top'
           })
     }
     const { values, errors, handleBlur, handleChange, handleSubmit , touched } = useFormik({
@@ -26,6 +26,13 @@ const ForgotPassword = ({closeDialogForLogin}) => {
           console.log(values);
             const data = await requestPasswordReset(values.email);
             console.log(data);
+            if(data.success){
+              console.log(data.success);
+              showToast(data.success , "success")
+            }
+            else{
+              showToast("Something went wrong" , "error")
+            }
         },
       });
   return (
@@ -47,7 +54,8 @@ const ForgotPassword = ({closeDialogForLogin}) => {
           </FormControl>
           <Button
             onClick={handleSubmit}
-            colorScheme="blue"
+            backgroundColor="#8700f5"
+            color="white"
             width="100%"
             style={{ marginTop: 15 }}
           >

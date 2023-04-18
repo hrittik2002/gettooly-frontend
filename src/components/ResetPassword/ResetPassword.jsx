@@ -4,7 +4,7 @@ import React from "react";
 import { passwordSchema } from "../../schemas";
 import { setNewPassword } from "../../config/apiCalls";
 import { useNavigate } from "react-router-dom";
-
+import styles from './ResetPassword.module.css'
 const initialValues = {
     password: "",
     confirmPassword: "",
@@ -24,6 +24,9 @@ const ResetPassword = ({uibd , token}) => {
       });
     
   return (
+    <div className={styles.parentContainer}>
+
+    
     <VStack spacing="5px">
      <FormControl id="password" isRequired>
         <FormLabel>Password</FormLabel>
@@ -51,13 +54,15 @@ const ResetPassword = ({uibd , token}) => {
       </FormControl>
       <Button
         onClick={handleSubmit}
-        colorScheme="blue"
+        backgroundColor="#8700f5"
+        color="white"
         width="100%"
         style={{ marginTop: 15 }}
       >
         Submit
       </Button>
     </VStack>
+    </div>
   );
 };
 

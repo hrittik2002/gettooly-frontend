@@ -279,7 +279,8 @@ const RegisterByUser = () => {
         />
       </FormControl>
       <Button
-        colorScheme="blue"
+        backgroundColor="#8700f5"
+        color="white"
         width="100%"
         style={{ marginTop: 15 }}
         onClick={handleSubmit}
