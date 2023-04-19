@@ -257,3 +257,45 @@ export const updateSettingsApiCall = async(code , obj) => {
     console.log(err)
   }
 }
+// update score
+export const updateScoreAPICall = async(code , qsId , score) => {
+  try{
+    const res = axios.post(`http://127.0.0.1:8000/api/edit_score/${code}/`, 
+    {
+      question_id:qsId,
+	    score:score
+    },
+      {
+          headers: {
+              Authorization: `Bearer ${getCookie("access_token")}`,
+          },
+          withCredentials: true,
+      },
+    )
+    // console.log(res);
+    return res;
+  }
+  catch(err){
+    console.log(err)
+  }
+}
+// delete question
+export const deleteQuestionAPICall = async(code , qsId) => {
+  try{
+    //console.log(token);
+    const formData = new FormData();
+    const res = axios.delete(`http://localhost:8000/api/forms/${code}/questions/${qsId}/`, 
+    {
+      headers: {
+        Authorization: `Bearer ${getCookie("access_token")}`,
+    }
+    
+  },
+    )
+    // console.log(res);
+    return res;
+  }
+  catch(err){
+    console.log(err)
+  }
+}

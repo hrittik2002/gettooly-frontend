@@ -1,4 +1,4 @@
-import { Button, FormControl, FormLabel, Input, VStack } from "@chakra-ui/react";
+import { Button, FormControl, FormLabel, Input, VStack, useToast } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import React from "react";
 import { passwordSchema } from "../../schemas";
@@ -11,6 +11,15 @@ const initialValues = {
   };
 const ResetPassword = ({uibd , token}) => {
     const navigate = useNavigate();
+    const toast = useToast();
+    const showToast = (title , status) => {
+      toast({
+        title: `${title}`,
+        status: `${status}`,
+        duration: 9000,
+        isClosable: true,
+      })
+    }
     const { values, errors, handleBlur, handleChange, handleSubmit , touched } = useFormik({
         initialValues: initialValues,
         validationSchema: passwordSchema,
@@ -18,35 +27,42 @@ const ResetPassword = ({uibd , token}) => {
           console.log(uibd , token);
           const res = await setNewPassword(values.password , token , uibd);
           if(res === true){
+            showToast("Password Succesfully Updated" , "success");
             navigate('/');
+          }
+          else{
+            showToast("Password Reset Failed" , "error")
           }
         },
       });
     
   return (
-    <div className={styles.parentContainer}>
+    <div className={styles.passwordSetForm}>
 
-    
-    <VStack spacing="5px">
-     <FormControl id="password" isRequired>
-        <FormLabel>Password</FormLabel>
+  <h2>Set Your Password</h2>
+
+   <div>
+     <FormControl className={styles.formGroup} id="password" isRequired>
+        <FormLabel className={styles.label}>Password</FormLabel>
         <Input
           placeholder="Enter your Passowrd"
           type="password"
           name="password"
           value={values.password}
+          className={styles.input}
           onChange={handleChange}
           onBlur={handleBlur}
         />
         {errors.password && touched.password ? (<p style={{color : "red"}}>{errors.password}</p>) : null}
       </FormControl>
-      <FormControl id="confirmPassword" isRequired>
-        <FormLabel>Confirm Password</FormLabel>
+      <FormControl className={styles.formGroup} id="confirmPassword" isRequired>
+        <FormLabel className={styles.label}>Confirm Password</FormLabel>
         <Input
           placeholder="Enter your Confirm Password"
           type="password"
           name="confirmPassword"
           value={values.confirmPassword}
+          className={styles.input}
           onChange={handleChange}
           onBlur={handleBlur}
         />
@@ -61,7 +77,7 @@ const ResetPassword = ({uibd , token}) => {
       >
         Submit
       </Button>
-    </VStack>
+      </div>
     </div>
   );
 };
