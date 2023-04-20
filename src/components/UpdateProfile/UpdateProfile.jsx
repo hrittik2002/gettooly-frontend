@@ -22,7 +22,7 @@ const UpdateProfile = ({ closeSettings }) => {
   const toast = useToast()
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.user.currentUser);
-  const [pic, setPic] = useState(userData.profile_photo);
+  const [pic, setPic] = useState([]);
   const p = userData.phone_number.toString();
   //console.log(userData.profile_photo);
 
@@ -57,7 +57,9 @@ const UpdateProfile = ({ closeSettings }) => {
         formData.append("phone_number", values.phoneNumber);
         formData.append("pin", values.pin);
         formData.append("state", values.state);
-        formData.append("profile_photo", pic[pic.length - 1]);
+        if (pic && pic.length > 0) {
+          formData.append("profile_photo", pic[pic.length - 1]);
+        }
         console.log(pic);
         const data = await updateConductUserData(userData.id, formData);
         console.log(data);
