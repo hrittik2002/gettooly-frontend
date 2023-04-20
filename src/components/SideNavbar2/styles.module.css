@@ -1,8 +1,8 @@
 .toolBar{
-    background-color: #222f3e;
+    background-color: var(--primary-color);
     color: #fff;
     display: flex;
-    gap: 1rem;
+    gap: 2rem;
     align-items: center;
     padding: 1rem;
 }
@@ -40,4 +40,10 @@
 }
 .backdropOpen{
     display: block;
+}
+.listItem{
+    display: flex;
+    letter-spacing: 1px;
+    gap: 5%;
+    cursor: pointer;
 }
