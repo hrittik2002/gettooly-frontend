@@ -4,10 +4,12 @@ import { emailVerificationContinution } from "../../config/apiCalls";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserData } from "../../redux/userSlice";
 import { AutomaticLogin } from "../../config/automaticLogin";
+import { Box, Spinner, useToast } from "@chakra-ui/react";
 
 const EmailVerifyPage = () => {
   const [token, setToken] = useState("");
-  const [verified , setVerified] = useState(false);
+  const toast = useToast();
+  const [verified, setVerified] = useState(false);
   const navigate = useNavigate();
   const userData = useSelector((state) => state.user.currentUser);
   const dispatch = useDispatch();
@@ -18,11 +20,13 @@ const EmailVerifyPage = () => {
 
   useEffect(() => {
     if (token) {
+      console.log("holaaaaaaaaaaa");
       const check = async () => {
         const isVerified = await emailVerificationContinution(token);
         console.log(isVerified);
         if (isVerified === true) {
-          console.log(userData)
+          localStorage.clear();
+          console.log(userData);
           setVerified(true);
         }
       };
@@ -33,8 +37,13 @@ const EmailVerifyPage = () => {
     const data = await AutomaticLogin();
     dispatch(setUserData(data));
     console.log(data);
-    navigate(`/ConductUser/${data.id}/about`, {
-      state: { isVerified: true },
+    navigate(`/ConductUser/${data.id}/about`);
+    toast({
+      title: "Email Verified.",
+      description: "Your Email is now verified.",
+      status: "success",
+      duration: 6000,
+      isClosable: true,
     });
   };
   useMemo(() => {
@@ -49,7 +58,27 @@ const EmailVerifyPage = () => {
   }
 
   return (
-    <div>{token ? <h1>Email Verified</h1> : <h1>Wrong token</h1>}</div>
+    <div>
+      {token ? (
+        <Box
+          width="100%"
+          height="100vh"
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Spinner
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="blue.500"
+            size="xl"
+          />
+        </Box>
+      ) : (
+        <h1>Wrong token</h1>
+      )}
+    </div>
   );
 };
 
@@ -73,7 +102,7 @@ export default EmailVerifyPage;
 //             }
 //         }
 //         check();
-        
+
 //     }, []);
 
 //     function findGetParameter(parameterName) {

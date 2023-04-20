@@ -12,14 +12,14 @@ const persistConfig = {
   storage,
 }
 
-const persistedUserReducer = persistReducer(persistConfig, userReducer)
+// const persistedUserReducer = persistReducer(persistConfig, userReducer)
 const persistedFormReducer = persistReducer(persistConfig, formReducer)
 const persistQuestionsReducer = persistReducer(persistConfig, questionsReducer)
 const persistedSettingsReducer = persistReducer(persistConfig, settingsReducer);
 
 export const store = configureStore({
   reducer: {
-    user : persistedUserReducer,
+    user : userReducer,
     form : persistedFormReducer,
     questions : persistQuestionsReducer,
     settings : persistedSettingsReducer,

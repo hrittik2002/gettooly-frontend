@@ -149,6 +149,7 @@ export const emailVerification = async () => {
   
   const data = await response.json();
   console.log(data);
+  return data;
 }
 
 export const emailVerificationContinution = async (token) =>{
