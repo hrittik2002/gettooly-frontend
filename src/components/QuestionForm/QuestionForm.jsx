@@ -71,6 +71,7 @@ import FormOption from "../FormComponents/FormOption/FormOption";
 import QuestionTop from "../FormComponents/QuestionTop/QuestionTop";
 import QuestionFooter from "../FormComponents/QuestionFooter/QuestionFooter";
 import { set_allow_view_score, set_authenticated_responder, set_collect_email, set_confirmation_message, set_edit_after_submit, set_is_quiz } from "../../redux/settingsSlice";
+import AnswerKey from "../FormComponents/AnswerKey/AnswerKey";
 
 
 const theme = createTheme({
@@ -457,97 +458,98 @@ const QuestionForm = () => {
                              <QuestionFooter i ={i} questions={questions} getFormData2={getFormData2}/>
                             </AccordionDetails>
                           ) : (
+                            <AnswerKey ques={ques} i={i}/>
                             // If we want to put ans key
-                            <AccordionDetails className={styles.addQuestion}>
-                              <div className={styles.topHeader}>
-                                Choose Correct Answer
-                              </div>
-                              {ques.options.map((op, j) => (
-                                <div
-                                  className={styles.addQuestionBody}
-                                  key={j}
-                                  style={{
-                                    marginLeft: "8px",
-                                    marginBottom: "10px",
-                                    marginTop: "5px",
-                                  }}
-                                >
-                                  <div key={j}>
-                                    <div
-                                      style={{ display: "flex" }}
-                                      className=""
-                                    >
-                                      <div className={styles.formCheck}>
-                                        <label
-                                          style={{ fontSize: "13px" }}
-                                          onClick={() => {
-                                            setOptionAnswer(
-                                              ques.options[j].optionText,
-                                              i
-                                            );
-                                          }}
-                                        >
-                                          {ques.questionType !== "text" ? (
-                                            <input
-                                              type={ques.questionType}
-                                              name={ques.questionText}
-                                              value="option3"
-                                              className={styles.formCheckInput}
-                                              required={ques.required}
-                                              style={{
-                                                marginRight: "10px",
-                                                marginBottom: "10px",
-                                                marginTop: "5px",
-                                              }}
-                                            />
-                                          ) : (
-                                            <ShortTextRounded
-                                              style={{ marginRight: "10px" }}
-                                            />
-                                          )}
-                                          {ques.options[j].optionText}
-                                        </label>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              ))}
-                              <div className={styles.addQuestionBody}>
-                                <Button
-                                  size="small"
-                                  style={{
-                                    textTransform: "none",
-                                    color: "#4285f4",
-                                    fontSize: "13px",
-                                    fontWeight: "600",
-                                  }}
-                                >
-                                  <TextSnippet
-                                    style={{
-                                      fontSize: "20px",
-                                      marginRight: "8px",
-                                    }}
-                                  />
-                                  Add Answer Feedback
-                                </Button>
-                              </div>
-                              <div className={styles.addQuestionBottom}>
-                                <Button
-                                  variant="outlined"
-                                  color="primary"
-                                  style={{
-                                    textTransform: "none",
-                                    color: "#4285f4",
-                                    fontSize: "12px",
-                                    marginTop: "12px",
-                                    fontWeight: "bold",
-                                  }}
-                                  onClick={() => doneAnswer(i)}
-                                >
-                                  Done
-                                </Button>
-                              </div>
-                            </AccordionDetails>
+                            // <AccordionDetails className={styles.addQuestion}>
+                            //   <div className={styles.topHeader}>
+                            //     Choose Correct Answer
+                            //   </div>
+                            //   {ques.options.map((op, j) => (
+                            //     <div
+                            //       className={styles.addQuestionBody}
+                            //       key={j}
+                            //       style={{
+                            //         marginLeft: "8px",
+                            //         marginBottom: "10px",
+                            //         marginTop: "5px",
+                            //       }}
+                            //     >
+                            //       <div key={j}>
+                            //         <div
+                            //           style={{ display: "flex" }}
+                            //           className=""
+                            //         >
+                            //           <div className={styles.formCheck}>
+                            //             <label
+                            //               style={{ fontSize: "13px" }}
+                            //               onClick={() => {
+                            //                 setOptionAnswer(
+                            //                   ques.options[j].optionText,
+                            //                   i
+                            //                 );
+                            //               }}
+                            //             >
+                            //               {ques.questionType !== "text" ? (
+                            //                 <input
+                            //                   type={ques.questionType}
+                            //                   name={ques.questionText}
+                            //                   value="option3"
+                            //                   className={styles.formCheckInput}
+                            //                   required={ques.required}
+                            //                   style={{
+                            //                     marginRight: "10px",
+                            //                     marginBottom: "10px",
+                            //                     marginTop: "5px",
+                            //                   }}
+                            //                 />
+                            //               ) : (
+                            //                 <ShortTextRounded
+                            //                   style={{ marginRight: "10px" }}
+                            //                 />
+                            //               )}
+                            //               {ques.options[j].optionText}
+                            //             </label>
+                            //           </div>
+                            //         </div>
+                            //       </div>
+                            //     </div>
+                            //   ))}
+                            //   <div className={styles.addQuestionBody}>
+                            //     <Button
+                            //       size="small"
+                            //       style={{
+                            //         textTransform: "none",
+                            //         color: "#4285f4",
+                            //         fontSize: "13px",
+                            //         fontWeight: "600",
+                            //       }}
+                            //     >
+                            //       <TextSnippet
+                            //         style={{
+                            //           fontSize: "20px",
+                            //           marginRight: "8px",
+                            //         }}
+                            //       />
+                            //       Add Answer Feedback
+                            //     </Button>
+                            //   </div>
+                            //   <div className={styles.addQuestionBottom}>
+                            //     <Button
+                            //       variant="outlined"
+                            //       color="primary"
+                            //       style={{
+                            //         textTransform: "none",
+                            //         color: "#4285f4",
+                            //         fontSize: "12px",
+                            //         marginTop: "12px",
+                            //         fontWeight: "bold",
+                            //       }}
+                            //       onClick={() => doneAnswer(i)}
+                            //     >
+                            //       Done
+                            //     </Button>
+                            //   </div>
+                            // </AccordionDetails>
                           )}
                           {/* options at right side */}
                           {!ques.answer ? (
