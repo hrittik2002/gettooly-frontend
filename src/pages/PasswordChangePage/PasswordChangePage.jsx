@@ -65,11 +65,11 @@ const PasswordChangePage = () => {
   return (
     <div >
       <SideNavbar2 />
-    <Box display="flex" flexDirection="column" width="100%" alignItems="center">
-      <Box width="50%">
-        <Heading>Change Password</Heading>
+    <Box marginTop="5%" display="flex" flexDirection="column" width="100%" alignItems="center">
+      <Box display="flex" justifyContent="center" width="50%">
+        <Heading textTransform="uppercase">Change Password</Heading>
       </Box>
-      <VStack spacing="5px" width="50%">
+      <VStack textTransform="uppercase" marginTop="3%"  spacing="15px" width="50%">
         <FormControl id="oldPassword" isRequired>
           <FormLabel>Old Password</FormLabel>
           <Input
@@ -108,14 +108,12 @@ const PasswordChangePage = () => {
           {errors.confirmPassword && touched.confirmPassword ? (<p style={{color : "red"}}>{errors.confirmPassword}</p>) : null}
         </FormControl>
 
-        <Button
-          colorScheme="blue"
-          width="100%"
-          style={{ marginTop: 15 }}
+        <button
+          className={styles.button}
           onClick={handleSubmit}
         >
           Submit
-        </Button>
+        </button>
       </VStack>
     </Box>
     </div>

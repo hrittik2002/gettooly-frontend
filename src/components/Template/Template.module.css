@@ -39,18 +39,17 @@
 }
 .cardImage{
     box-sizing: border-box;
-    height: 120px;
-    width: 140px;
+    height: 180px;
+    width: 180px;
     cursor: pointer;
-    border-radius: 2px;
-    border: 0.2px solid #FFFDF7;
 }
 .cardImage:hover{
-    border: 1px solid #6E2594;
+    border: 1px solid #cf75ff;
 }
 .cardTitle{
-    font-size: 14px;
-    margin-top: 2px;
+    font-size: 17px;
+    margin-top: 4px;
     color: #202124;
-    font-weight: 500;
+    font-weight: 600;
+    letter-spacing: 1px;
 }
