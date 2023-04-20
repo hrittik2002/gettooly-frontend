@@ -2,13 +2,19 @@
     background-color: var(--primary-color);
     color: #fff;
     display: flex;
+    justify-content: space-between;
+    height: 9vh;
+    padding-left: 3vw;
+  padding-right: 3vw;
+}
+.left{
+    display: flex;
     gap: 2rem;
     align-items: center;
-    padding: 1rem;
 }
 .sidebar{
     position: absolute;
-    background-color: #222f3e;
+    background-color: #6b01c2;
     color: #fff;
     top: 0;
     left: 0;
@@ -16,6 +22,7 @@
     width: 280px;
     transform: translateX(-100%);
     transition: all 0.4s;
+    z-index: 100;
 }
 .sidebar li{
     list-style: none;
@@ -40,10 +47,32 @@
 }
 .backdropOpen{
     display: block;
+    z-index: 99;
 }
 .listItem{
     display: flex;
     letter-spacing: 1px;
     gap: 5%;
     cursor: pointer;
+}
+.right{
+    display: flex;
+
+    height: 100%;
+    width: 40%;
+    justify-content: flex-end;
+    align-items: center;
+    align-content: space-between;
+    gap: 15%;
+}
+.logoutBtn{
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    width: 125px;
+    height: 70px;
+ 
+    color: var(--primary-color);
+}
+.bargar{
+    background-color: #fff;
 }

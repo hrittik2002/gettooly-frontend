@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import {setUserData} from '../../redux/userSlice'
 import { Box } from '@chakra-ui/react';
 import Template from '../../components/Template/Template';
+import SideNavbar2 from '../../components/SideNavbar2/SideNavbar2';
 
 const AfterLoginHomePage = () => {
     const {userId} = useParams();
@@ -22,8 +23,8 @@ const AfterLoginHomePage = () => {
         });
       }, []);
   return (
-    <div style={{display : "flex"}}>
-        <SideNavbar />
+    <div >
+      <SideNavbar2 />
         <Box width='100%'>
           <Template/>
           <HomeBody />

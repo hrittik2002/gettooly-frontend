@@ -29,6 +29,7 @@ function App() {
       loginUserUsingCookie();
     }
   });
+  console.log(userData);
 
   return (
     <Router>
@@ -48,7 +49,7 @@ function App() {
           element={<PasswordChangePage/>}
         />
 
-        <Route path="/" exact element={<BeforeLoginHomePage />} />
+        <Route path="/" exact element={<BeforeLoginHomePage userData={userData}/>} />
 
         <Route
           path="/api/auth/user/email-veryfy"

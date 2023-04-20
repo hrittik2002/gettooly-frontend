@@ -6,6 +6,9 @@ const Test = () => {
   return (
     <>
     <SideNavbar2/>
+    <div>
+      hello
+    </div>
     </>
   )
 }

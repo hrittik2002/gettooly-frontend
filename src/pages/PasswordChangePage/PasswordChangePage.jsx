@@ -18,6 +18,7 @@ import { passwordChangeSchema } from "../../schemas";
 import { changePassword } from "../../config/apiCalls";
 import { useSelector } from "react-redux";
 import { useToast } from '@chakra-ui/react'
+import SideNavbar2 from "../../components/SideNavbar2/SideNavbar2";
 const initialValues = {
     oldPassword: "",
     newPassword: "",
@@ -62,8 +63,8 @@ const PasswordChangePage = () => {
         },
       });
   return (
-    <div style={{ display: "flex"}} className={styles.parentComponent}>
-      <SideNavbar />
+    <div >
+      <SideNavbar2 />
     <Box display="flex" flexDirection="column" width="100%" alignItems="center">
       <Box width="50%">
         <Heading>Change Password</Heading>

@@ -4,6 +4,7 @@ import SideNavbar from '../../components/SideNavbar/SideNavbar'
 import { Box, Button, Card, CardBody, CardFooter, CardHeader, Heading, SimpleGrid, Text } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import SideNavbar2 from '../../components/SideNavbar2/SideNavbar2';
 
 
 const tiers = [
@@ -53,8 +54,8 @@ const SubscriptionPage = () => {
         navigate(`/ConductUser/${userData.id}/payment`);
     }
   return (
-    <div style={{ display: "flex"}} className={styles.parentComponent}>
-      <SideNavbar />
+    <div >
+      <SideNavbar2 />
       <Box   display="flex" flexDirection="column"  alignItems="center" width="100%"  marginTop="2%">
         <Heading>Subscription Plans</Heading>
         <SimpleGrid width="50%" display="flex" justifyContent="center" alignItems="center"  spacing={4} templateColumns='repeat(auto-fill, minmax(200px, 1fr))'>

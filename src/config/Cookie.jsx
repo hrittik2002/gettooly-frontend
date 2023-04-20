@@ -43,4 +43,5 @@ export const removeCookie = (key) =>{
 export const logout = (key) =>{
     removeCookie("access_token");
     removeCookie("refresh_token");
+    localStorage.clear();
 }

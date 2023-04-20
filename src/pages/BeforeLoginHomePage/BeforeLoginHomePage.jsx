@@ -1,15 +1,16 @@
-import React from 'react'
-import Navbar from '../../components/Navbar/Navbar'
-import HomePageContents from '../../components/BeforeLoginHomePageComponents/HomePageContents/HomePageContents'
+import React from "react";
+import Navbar from "../../components/Navbar/Navbar";
+import HomePageContents from "../../components/BeforeLoginHomePageComponents/HomePageContents/HomePageContents";
+import SideNavbar2 from "../../components/SideNavbar2/SideNavbar2";
 
-const BeforeLoginHomePage = () => {
+const BeforeLoginHomePage = ({ userData }) => {
   return (
     <>
-    <Navbar/>
-    <HomePageContents/>
-    </>
-    
-  )
-}
+      {userData ? <SideNavbar2 /> : <Navbar />}
 
-export default BeforeLoginHomePage
+      <HomePageContents />
+    </>
+  );
+};
+
+export default BeforeLoginHomePage;

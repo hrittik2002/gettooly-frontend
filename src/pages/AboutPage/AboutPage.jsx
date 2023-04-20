@@ -10,6 +10,7 @@ import { logout } from "../../config/Cookie";
 import { useLocation, useNavigate } from "react-router-dom";
 import { emailVerification } from "../../config/apiCalls";
 import { useToast } from '@chakra-ui/react'
+import SideNavbar2 from "../../components/SideNavbar2/SideNavbar2";
 const AboutPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -46,8 +47,8 @@ const AboutPage = () => {
     console.log(res);
   }
   return (
-    <div style={{ display: "flex"}} className={styles.parentComponent}>
-      <SideNavbar />
+    <div >
+      <SideNavbar2 />
       
       {settings ? 
       <UpdateProfile closeSettings={closeSettings}/> 
