@@ -299,3 +299,21 @@ export const deleteQuestionAPICall = async(code , qsId) => {
     console.log(err)
   }
 }
+// delete question
+export const getAllFormsByUserId = async(userId) => {
+  try{
+    const res = axios.get(`http://localhost:8000/api/user/${userId}/forms/`, 
+    {
+      headers: {
+        Authorization: `Bearer ${getCookie("access_token")}`,
+    }
+    
+  },
+    )
+     console.log(res);
+    return res;
+  }
+  catch(err){
+    console.log(err)
+  }
+}

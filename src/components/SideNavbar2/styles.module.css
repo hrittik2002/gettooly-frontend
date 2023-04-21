@@ -9,8 +9,14 @@
 }
 .left{
     display: flex;
-    gap: 2rem;
     align-items: center;
+    text-align: center;
+    width: 20%;
+}
+.title{
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    font-size: 17px;
 }
 .sidebar{
     position: absolute;
@@ -73,6 +79,9 @@
  
     color: var(--primary-color);
 }
-.bargar{
-    background-color: #fff;
+.burger{
+    height: 40%;
+    width: 18%;
+}
+.burgerIcon{
 }

@@ -1,0 +1,15 @@
+.parentContainer {
+  height: 61vh;
+  padding-top: 20px;
+  padding-left: 3vh;
+  padding-right: 3vh;
+}
+.heading{
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+}
+.innerContainer {
+  height: 100%;
+}
