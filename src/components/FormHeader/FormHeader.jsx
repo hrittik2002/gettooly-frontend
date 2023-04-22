@@ -59,50 +59,31 @@ const FormHeader = () => {
       <div className={styles.formHeaderLeft}>
         <img
           src="https://e7.pngegg.com/pngimages/709/627/png-clipart-google-docs-form-google-purple-violet.png"
-          height="45px"
-          width="40px"
+          height="50px"
+          width="50px"
         />
         <input
           type="text"
           placeholder="Untitled form"
           className={styles.formName}
-          value={""}
         />
-        <FolderIcon
-          className={styles.formHeaderIcon}
-          style={{ marginRight: "10px" }}
-        />
-        <StarOutlineIcon
-          className={styles.formHeaderIcon}
-          style={{ marginRight: "10px" }}
-        />
-        <span style={{ fontSize: "12px", fontWeight: "600" }}>
-          All Changes are saved in Drive
-        </span>
+        
       </div>
       <div className={styles.formHeaderRight}>
-        {/* Color Picker  Starts here*/}
+        
         <ColorPicker/>
-{/* Color Picker  Ends here*/}
 
-        <IconButton>
-          <RemoveRedEyeIcon className={styles.formHeaderIcon} />
-        </IconButton>
-        {/* Settings Starts here*/}
+
+        
+          <RemoveRedEyeIcon color="#fff"  fontSize="large" className={styles.formHeaderIcon} />
+  
+        
         <Settings/>
         
         <Button colorScheme="blue" href="#contained-button">
           Send
         </Button>
-        <IconButton>
-          <MoreVertIcon className={styles.formHeaderIcon} />
-        </IconButton>
-        <IconButton>
-          <PersonIcon
-            className={styles.formHeaderIcon}
-            style={{ height: "30px", width: "30px" }}
-          />
-        </IconButton>
+       
       </div>
     </div>
   );

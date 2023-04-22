@@ -6,6 +6,7 @@ import {
   Input,
   Select,
   VStack,
+  useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
@@ -26,8 +27,9 @@ const initialValues = {
   password: "",
   confirmPassword: "",
 };
-const RegisterByOrganization = () => {
+const RegisterByOrganization = ({closeDialog}) => {
   const [pic, setPic] = useState([]);
+  const toast = useToast();
   const [phoneNumber , setPhoneNumber] = useState();
   const poastDetails = async (e) => {
     setPic([...pic, ...Array.from(e.target.files)]);
@@ -37,11 +39,21 @@ const RegisterByOrganization = () => {
     console.log(pic);
   }, [pic]);
 
+  const showToast = (title , description , status) => {
+    toast({
+      title: title,
+      description: description,
+      status: status,
+      duration: 3000,
+      isClosable: true,
+    });
+  }
+
   const { values, errors, handleBlur, handleChange, handleSubmit , touched } = useFormik({
     initialValues: initialValues,
     validationSchema: registerByOrganizationSchema,
     onSubmit: async (values) => {
-      console.log(values);
+      //console.log(values);
       const formData = new FormData();
       formData.append("type", 1);
       formData.append("email", values.email);
@@ -55,7 +67,15 @@ const RegisterByOrganization = () => {
       formData.append("country", values.country);
       formData.append("password", values.password);
       formData.append("password2", values.confirmPassword);
-      registerOrganization(formData);
+      const responseData = await registerOrganization(formData);
+      console.log(responseData)
+      if(responseData.success === true) {
+        showToast("Successfully registered" , responseData.data , "success")
+      }
+      else{
+        showToast("Registration Failed" , responseData.data , "error")
+      }
+      closeDialog();
     },
   });
   return (

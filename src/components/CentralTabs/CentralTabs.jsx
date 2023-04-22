@@ -9,14 +9,17 @@ import {
   Box,
 } from "@chakra-ui/react";
 import QuestionForm from "../QuestionForm/QuestionForm";
+import styles from './CentralTabs.module.css'
+import { useSelector } from "react-redux";
 
 const CentralTabs = () => {
+  const bgColor = useSelector((state) => state.questions.bgColor);
   return (
     <div>
-      <Tabs position="relative" variant="unstyled" align="center" width="100%">
-        <TabList>
-          <Tab>Questions</Tab>
-          <Tab>Responses</Tab>
+      <Tabs position="relative" variant="unstyled" align="center" width="100%" backgroundColor="#8700f5" height="88vh">
+        <TabList backgroundColor="#8700f5">
+          <Tab styles={styles.tab} color="#fff">Questions</Tab>
+          <Tab styles={styles.tab} color="#fff">Responses</Tab>
         </TabList>
         <TabIndicator
           mt="-1.5px"
@@ -28,11 +31,11 @@ const CentralTabs = () => {
           height="2px"
           width="100%"
           marginTop="6px"
-          marginBottom="3px"
+          marginBottom="0px"
           backgroundColor="gray"
         ></Box>
-        <TabPanels width="100%" backgroundColor="#F4F4F9">
-          <TabPanel width="100%">
+        <TabPanels width="100%" height="100%" backgroundColor={bgColor}>
+          <TabPanel width="100%" height="100%" overflowY="scroll">
             <QuestionForm />
           </TabPanel>
           <TabPanel>

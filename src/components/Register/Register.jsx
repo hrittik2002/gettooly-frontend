@@ -18,7 +18,7 @@ const Register = ({closeDialog}) => {
           <RegisterByUser/>
         </TabPanel>
         <TabPanel>
-          <RegisterByOrganization/>
+          <RegisterByOrganization closeDialog={closeDialog}/>
         </TabPanel>
       </TabPanels>
     </Tabs>

@@ -14,7 +14,10 @@ import {
 } from "@chakra-ui/react";
 import { Checkbox, CheckboxGroup } from "@chakra-ui/react";
 import { Button, IconButton, useDisclosure } from "@chakra-ui/react";
-import { getFormData, updateSettingsApiCall } from "../../../config/ApiCalls/formApiCalls";
+import {
+  getFormData,
+  updateSettingsApiCall,
+} from "../../../config/ApiCalls/formApiCalls";
 import { useDispatch } from "react-redux";
 import {
   set_allow_view_score,
@@ -26,7 +29,7 @@ import {
 } from "../../../redux/settingsSlice";
 import { useSelector } from "react-redux";
 import { useReducer } from "react";
-import { Textarea } from '@chakra-ui/react'
+import { Textarea } from "@chakra-ui/react";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -104,17 +107,20 @@ const Settings = () => {
   });
 
   const saveHandler = () => {
-    console.log(state)
-    const res = updateSettingsApiCall(formCode , state);
+    console.log(state);
+    const res = updateSettingsApiCall(formCode, state);
     onClose();
     getFormData2();
-  }
+  };
 
   return (
     <>
-      <IconButton>
-        <SettingsIcon className={styles.formHeaderIcon} onClick={onOpen} />
-      </IconButton>
+      <SettingsIcon
+        color="#fff"
+        w={7} h={7}
+        className={styles.formHeaderIcon}
+        onClick={onOpen}
+      />
 
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
@@ -126,43 +132,71 @@ const Settings = () => {
               <Checkbox
                 colorScheme="green"
                 defaultChecked={state.collect_email ? true : false}
-                onChange={(e)=>{dispatch({ type : "set_collect_email" , value: !state.collect_email})}}
+                onChange={(e) => {
+                  dispatch({
+                    type: "set_collect_email",
+                    value: !state.collect_email,
+                  });
+                }}
               >
                 Do you want to Collect Email?
               </Checkbox>
               <Checkbox
                 colorScheme="green"
                 defaultChecked={state.authenticated_responder ? true : false}
-                onChange={(e)=>{dispatch({ type : "set_authenticated_responder" , value: !state.authenticated_responder})}}
+                onChange={(e) => {
+                  dispatch({
+                    type: "set_authenticated_responder",
+                    value: !state.authenticated_responder,
+                  });
+                }}
               >
                 Authenticated Responder ?
               </Checkbox>
               <Checkbox
                 colorScheme="green"
                 defaultChecked={state.edit_after_submit ? true : false}
-                onChange={()=>{dispatch({ type : "set_edit_after_submit" , value: !state.edit_after_submit})}}
+                onChange={() => {
+                  dispatch({
+                    type: "set_edit_after_submit",
+                    value: !state.edit_after_submit,
+                  });
+                }}
               >
                 Edit after Submit?
               </Checkbox>
               <Checkbox
                 colorScheme="green"
                 defaultChecked={state.is_quiz ? true : false}
-                onChange={()=>{dispatch({ type : "set_is_quiz" , value: !state.is_quiz})}}
+                onChange={() => {
+                  dispatch({ type: "set_is_quiz", value: !state.is_quiz });
+                }}
               >
                 Is Quiz?
               </Checkbox>
               <Checkbox
                 colorScheme="green"
                 defaultChecked={state.allow_view_score ? true : false}
-                onChange={()=>{dispatch({ type : "set_allow_view_score" , value: !state.allow_view_score})}}
+                onChange={() => {
+                  dispatch({
+                    type: "set_allow_view_score",
+                    value: !state.allow_view_score,
+                  });
+                }}
               >
                 Allow View Score ?
               </Checkbox>
               <Box>
-              Confirmation Message
-              <Textarea placeholder={`${state.confirmation_message}`} 
-              onChange={(e)=>{dispatch({ type : "set_confirmation_message" , value: e.target.value})}}
-              />
+                Confirmation Message
+                <Textarea
+                  placeholder={`${state.confirmation_message}`}
+                  onChange={(e) => {
+                    dispatch({
+                      type: "set_confirmation_message",
+                      value: e.target.value,
+                    });
+                  }}
+                />
               </Box>
             </VStack>
           </ModalBody>

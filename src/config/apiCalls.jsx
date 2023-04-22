@@ -41,10 +41,13 @@ export const registerOrganization = async(formData) => {
           "http://127.0.0.1:8000/api/auth/ConductUser/register/", 
           formData,
         )
-          // console.log(data);
+           console.log(data);
+           return {data : data.status , success : true};
       }
       catch(err){
         console.log(err);
+        return {data : err.response.data.email[0] , success : false};
+
       }
 }
 

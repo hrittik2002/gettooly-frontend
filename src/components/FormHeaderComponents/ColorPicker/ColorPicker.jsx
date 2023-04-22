@@ -8,9 +8,10 @@ import {
   ModalBody,
   ModalCloseButton,
   VStack,
+  IconButton,
 } from "@chakra-ui/react";
 import styles from "./ColorPicker.module.css";
-import { Button, IconButton, useDisclosure } from "@chakra-ui/react";
+import { Button, useDisclosure } from "@chakra-ui/react";
 import ColorLensIcon from "@mui/icons-material/ColorLens";
 import { useState } from "react";
 import { useSelector } from "react-redux";
@@ -40,16 +41,15 @@ const ColorPicker = () => {
     const res = updateBgColorApiCall(formCode, color);
     onClose();
     getFormData2();
-  };
+  }; // #8700f5
   return (
     <>
-      <IconButton>
         <ColorLensIcon
-          size="small"
+         color="#fff"
+         fontSize="large"
           onClick={onOpen}
           className={styles.formHeaderIcon}
         />
-      </IconButton>
 
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
