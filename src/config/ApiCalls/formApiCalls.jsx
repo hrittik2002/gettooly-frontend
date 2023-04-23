@@ -150,26 +150,25 @@ export const addOptionApiCall = async(code , questionId) => {
   }
 }
 // delete option
-export const deleteOptionApiCall = async(code , optionId) => {
-  try{
-    const res = axios.delete(`http://127.0.0.1:8000/api/form/${code}/remove-choice/`, 
-    {
-      id : optionId
-    },
+export const deleteOptionApiCall = async (code, optionId) => {
+  try {
+    const res = await axios.delete(
+      `http://127.0.0.1:8000/api/form/${code}/remove-choice/`,
       {
-          headers: {
-              Authorization: `Bearer ${getCookie("access_token")}`,
-          },
-          withCredentials: true,
-      },
-    )
-    // console.log(res);
+        headers: {
+          Authorization: `Bearer ${getCookie('access_token')}`,
+        },
+        withCredentials: true,
+        data: {
+          id: optionId,
+        },
+      }
+    );
     return res;
-  }
-  catch(err){
-    console.log(err)
-  }
-}
+  } catch (err) {
+    console.log(err);
+  }
+};
 // update question 
 export const updateQuestionAPICall = async (code , id , questionText , questionType , required) => {
   let type = "multiple choice";

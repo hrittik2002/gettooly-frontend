@@ -1,5 +1,5 @@
 import { Delete, FilterNone, MoreVert, NorthEast } from "@mui/icons-material";
-import { Button, IconButton, Switch } from "@mui/material";
+import { IconButton, Switch } from "@mui/material";
 import React, { useState } from "react";
 import styles from "./QuestionFooter.module.css";
 import { useDispatch } from "react-redux";
@@ -11,13 +11,18 @@ import {
   requiredQuestionHandler,
 } from "../../../redux/questionsSlice";
 import { useSelector } from "react-redux";
-import {  deleteQuestionAPICall, updateQuestionAPICall, updateScoreAPICall } from "../../../config/ApiCalls/formApiCalls";
-import { Box, NumberInput, NumberInputField } from "@chakra-ui/react";
+import {
+  addOptionApiCall,
+  deleteQuestionAPICall,
+  updateQuestionAPICall,
+  updateScoreAPICall,
+} from "../../../config/ApiCalls/formApiCalls";
+import { Box, Button, NumberInput, NumberInputField } from "@chakra-ui/react";
 import { getCookie } from "../../../config/Cookie";
 
-const QuestionFooter = ({ i, questions, getFormData2 }) => {
-  const points = useSelector((state)=>state.questions.questions[i].points);
-  const [score , setScore] = useState(points);
+const QuestionFooter = ({ i, questions, getFormData2 ,ques }) => {
+  const points = useSelector((state) => state.questions.questions[i].points);
+  const [score, setScore] = useState(points);
   const formCode = useSelector((state) => state.questions.formCode);
   const is_quiz = useSelector((state) => state.settings.is_quiz);
   const { questionText, questionType, id, required } = questions[i];
@@ -31,12 +36,19 @@ const QuestionFooter = ({ i, questions, getFormData2 }) => {
     dispatch(copyQuestionHandler({ i }));
   };
   const deleteQuestion = async (i) => {
-   // console.log("hii");
+    // console.log("hii");
     //dispatch(deleteQuestionHandler({ i }));
-    const token = getCookie("access_token")
-    console.log(token)
-    const res = await deleteQuestionAPICall(formCode , id);
+    const token = getCookie("access_token");
+    console.log(token);
+    const res = await deleteQuestionAPICall(formCode, id);
     console.log(res);
+    getFormData2();
+  };
+  const addOption = async (i) => {
+    //dispatch(addOptionHandler({ i }));
+    console.log(formCode);
+    console.log(questions[i].id);
+    const res = await addOptionApiCall(formCode, questions[i].id);
     getFormData2();
   };
   const requiredQuestion = async (i) => {
@@ -57,70 +69,68 @@ const QuestionFooter = ({ i, questions, getFormData2 }) => {
     return reqQuestion[i].required;
   };
   const addScoreHandler = async () => {
-    const res = await updateScoreAPICall(formCode , id , score);
-   // console.log(res)
+    const res = await updateScoreAPICall(formCode, id, score);
+    // console.log(res)
     getFormData2();
-  }
-  console.log(points)
+  };
+  console.log(points);
   return (
     <div className={styles.addFooter}>
-      {/* Answer key button */}
-      <div className={styles.addQuestionBottomLeft}>
-        <Button
-          size="small"
-          style={{
-            textTransform: "none",
-            color: "#4285f4",
-            fontSize: "13px",
-            fontWeight: "600",
-          }}
-          onClick={() => {
-            addAnswer(i);
-          }}
-        >
-          <NorthEast
-            style={{
-              border: "2px solid #42854",
-              padding: "2px",
-              marginRight: "8px",
+      <div className={styles.container}>
+        {/* Answer key button */}
+      {ques.options.length < 5 ? (
+        // If no of options is less than 5
+       
+          <Button
+            className={styles.addOptionBtn}
+            onClick={() => {
+              addOption(i);
             }}
-          />
-          Answer key
-        </Button>
-      </div>
-
-      {
-        is_quiz && 
-        (
-          <Box 
-      width="100%"
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        gap="7px"
-      >
-        Score
-        <NumberInput size='md' defaultValue={points} width="20%" onChange={(value)=>{setScore(value)}}>
-          <NumberInputField />
-        </NumberInput>
-        <Button onClick={addScoreHandler}>Add Score</Button>
-      </Box>
-        )
-      }
+          >
+            Add Option
+          </Button>
       
+      ) : (
+        ""
+      )}
+
+      <Button
+        className={styles.addAnsBtn}
+        onClick={() => {
+          addAnswer(i);
+        }}
+      >
+        Add Answer
+      </Button>
+
+      </div>
+      
+
+      {is_quiz && (
+        <Box
+          width="100%"
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          gap="7px"
+        >
+          Score
+          <NumberInput
+            size="md"
+            defaultValue={points}
+            width="20%"
+            onChange={(value) => {
+              setScore(value);
+            }}
+          >
+            <NumberInputField />
+          </NumberInput>
+          <Button onClick={addScoreHandler}>Add Score</Button>
+        </Box>
+      )}
 
       {/* Icons at bottom right */}
       <div className={styles.addQuestionBottom}>
-        {/* Copy qs icon */}
-        <IconButton
-          aria-label="Copy"
-          onClick={() => {
-            copyQuestion(i);
-          }}
-        >
-          <FilterNone />
-        </IconButton>
-
         {/* delete qs icon */}
         <IconButton
           aria-label="delete"
@@ -149,11 +159,6 @@ const QuestionFooter = ({ i, questions, getFormData2 }) => {
           }}
           checked={getRequiredOrNot(i)}
         />
-
-        {/* more icon */}
-        <IconButton>
-          <MoreVert />
-        </IconButton>
       </div>
     </div>
   );

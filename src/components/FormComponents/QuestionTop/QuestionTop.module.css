@@ -71,9 +71,8 @@
   
   .question {
     box-sizing: border-box;
-    margin-top: 10px;
     font-family: "Google Sans", Roboto, Arial, sans-serif;
-    font-size: 15px;
+    font-size: 20px;
     font-weight: 400;
     flex: 1;
     line-height: 40px;
@@ -84,6 +83,7 @@
     height: 40px;
     margin-right: 10px;
     padding: 10px;
+    letter-spacing: 1px;
   }
   .question:focus {
     border-bottom: 1px solid rgb(103, 58, 183);
@@ -166,3 +166,12 @@
       width: 4px;
   
   }
+ .menuItems{
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  text-align: center;
+  
+ }
+ .menuItems:checked{
+ }

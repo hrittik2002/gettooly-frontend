@@ -166,3 +166,31 @@
       width: 4px;
   
   }
+  .addAnsBtn{
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 18px;
+    padding: 5px 10px;
+    margin-top: 3px;
+    height: 40px;
+  }
+  .addAnsBtn:hover{
+    background-color: #510094;
+  }
+  .addOptionBtn{
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 18px;
+    padding: 5px 10px;
+    margin-top: 3px;
+    height: 40px;
+  }
+  .addOptionBtn:hover{
+    background-color: #510094;
+  }
+  .container{
+    width: 20%;
+    display: flex;
+    justify-content: start;
+    gap: 10px;
+  }

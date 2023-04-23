@@ -1,0 +1,19 @@
+.addNewQuestionBtn{
+    position: fixed;
+    bottom: 5%;
+    right: 5%;
+    height: 50px;
+    width: 50px;
+    background-color: var(--primary-color);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .edit{
+    color: white;
+  }
+  .savedQuestions{
+    background-color : red ;
+     min-height:300px;
+  }

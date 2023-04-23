@@ -5,7 +5,7 @@
 }
 .section {
   margin: auto;
-  width: 50%;
+  width: 80%;
 }
 .parentContainer1{
   display: flex;
@@ -44,6 +44,9 @@
   border-bottom: 1px solid #f4f4f9;
   color: black;
   height: 20px;
+}
+.questionBoxContainer{
+  background-color: red;
 }
 .questionBoxes {
   display: flex;
@@ -165,4 +168,14 @@
     height: 3px;
     width: 4px;
 
+}
+.addOptionBtn{
+  background-color: var(--primary-color);
+  color: white;
+  font-size: 18px;
+  padding: 5px 10px;
+  margin-top: 3px;
+}
+.addOptionBtn:hover{
+  background-color: #510094;
 }

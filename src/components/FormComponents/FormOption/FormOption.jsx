@@ -3,6 +3,7 @@ import styles from "./FormOption.module.css";
 import {
   Close,
   CropOriginalOutlined,
+  Delete,
   ShortTextRounded,
 } from "@mui/icons-material";
 import { Button, IconButton } from "@chakra-ui/react";
@@ -123,15 +124,15 @@ const FormOption = ({ i, j, ques }) => {
         
       </div>
 
-      {/* Image icon */}
-      <CropOriginalOutlined style={{ color: "#516368" }} />
+      
 
       {/* Cross Icon */}
-      <IconButton aria-label="delete">
-        <Close
-          onClick={() => {
+      <IconButton aria-label="delete" onClick={() => {
             removeOption(i, j);
-          }}
+          }}>
+        <Delete
+          style={{ color: "red" }}
+          
         />
       </IconButton>
     </div>

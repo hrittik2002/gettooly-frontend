@@ -2,6 +2,7 @@ import React, { useReducer } from "react";
 import styles from "./QuestionTop.module.css";
 import { CheckBox, CropOriginal, Subject } from "@mui/icons-material";
 import { MenuItem, Radio, Select } from "@mui/material";
+import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import { useDispatch } from "react-redux";
 import {
   addQuestionTypeHandler,
@@ -18,6 +19,7 @@ import {
   updateQuestionAPICall,
 } from "../../../config/ApiCalls/formApiCalls";
 import { getQuestion } from "../../../Helper/getQuestion";
+import ShortTextIcon from '@mui/icons-material/ShortText';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -114,13 +116,14 @@ const QuestionTop = ({ i, ques , getFormData2 }) => {
         />
       )}
 
-      {/* Image */}
-      <CropOriginal style={{ color: "#5f6368" }} />
+    
 
       {/* Choose radio or box or paragraph field */}
       <Select
         className={styles.select}
-        style={{ color: "#5f6368", fontSize: "13px" }}
+        style={{ color: "#5f6368", fontSize: "13px" , display : "flex" , justifyContent : "center" , alignItems : "center" }}
+        defaultValue="Radio"
+
       >
         <MenuItem
           id="text"
@@ -128,21 +131,24 @@ const QuestionTop = ({ i, ques , getFormData2 }) => {
           onClick={() => {
             addQuestionType(i, "text");
           }}
+          className={styles.menuItems}
         >
-          <Subject style={{ marginRight: "10px" }} />
+          <Subject style={{ marginRight: "1px" }} />
           Paragraph
         </MenuItem>
         <MenuItem
           id="checkbox"
           value="Checkbox"
+          className={styles.menuItems}
           onClick={() => {
             addQuestionType(i, "checkbox");
           }}
         >
           <CheckBox
             style={{
-              marginRight: "10px",
+              marginRight: "1px",
               color: "#70757a",
+         
             }}
             checked
           />
@@ -151,18 +157,31 @@ const QuestionTop = ({ i, ques , getFormData2 }) => {
         <MenuItem
           id="radio"
           value="Radio"
+          className={styles.menuItems}
           onClick={() => {
             addQuestionType(i, "radio");
           }}
         >
-          <Radio
+          <RadioButtonCheckedIcon
+
             style={{
-              marginRight: "10px",
+              marginRight: "1px",
               color: "#78757a",
+            
             }}
-            checked
           />
           Multiple Choice
+        </MenuItem>
+        <MenuItem
+          id="shortQs"
+          value="ShortQuestion"
+          className={styles.menuItems}
+          onClick={() => {
+            addQuestionType(i, "shortquestion");
+          }}
+        >
+          <ShortTextIcon style={{ marginRight: "1px" }} />
+          Short Question
         </MenuItem>
       </Select>
     </div>

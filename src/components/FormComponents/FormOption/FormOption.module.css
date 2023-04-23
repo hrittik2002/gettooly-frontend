@@ -116,9 +116,9 @@
     height: 40px;
     width: 490px;
     font-family: Roboto, Arial, sans-serif;
-    font-size: 13px;
+    font-size: 18px;
     font-weight: 400;
-    letter-spacing: 0.2px;
+    letter-spacing: 1px;
     color: #202124;
   }
   .textInput:focus {

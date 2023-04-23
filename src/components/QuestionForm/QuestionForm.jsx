@@ -70,9 +70,16 @@ import { Button } from "@chakra-ui/react";
 import FormOption from "../FormComponents/FormOption/FormOption";
 import QuestionTop from "../FormComponents/QuestionTop/QuestionTop";
 import QuestionFooter from "../FormComponents/QuestionFooter/QuestionFooter";
-import { set_allow_view_score, set_authenticated_responder, set_collect_email, set_confirmation_message, set_edit_after_submit, set_is_quiz } from "../../redux/settingsSlice";
+import {
+  set_allow_view_score,
+  set_authenticated_responder,
+  set_collect_email,
+  set_confirmation_message,
+  set_edit_after_submit,
+  set_is_quiz,
+} from "../../redux/settingsSlice";
 import AnswerKey from "../FormComponents/AnswerKey/AnswerKey";
-
+import AddNewQuestion from "../FormComponents/AddNewQuestion/AddNewQuestion";
 
 const theme = createTheme({
   typography: {
@@ -104,16 +111,14 @@ const QuestionForm = () => {
       dummyQuestion[i].required = res2.data.questions[i].required;
       dummyQuestion[i].points = res2.data.questions[i].score;
       dummyQuestion[i].questionType = "radio";
-      if (res2.data.questions[i].question_type === "multiple choice"){
+      if (res2.data.questions[i].question_type === "multiple choice") {
         dummyQuestion[i].questionType = "radio";
-      }
-      else if(res2.data.questions[i].question_type === "paragraph"){
+      } else if (res2.data.questions[i].question_type === "paragraph") {
         dummyQuestion[i].questionType = "text";
-      }
-      else if(res2.data.questions[i].question_type === "checkbox"){
+      } else if (res2.data.questions[i].question_type === "checkbox") {
         dummyQuestion[i].questionType = "checkbox";
       }
-        
+
       dummyQuestion[i].options = [];
       for (let j in res2.data.questions[i].choices) {
         dummyQuestion[i].options.push({});
@@ -164,40 +169,12 @@ const QuestionForm = () => {
   const handleExpand = (i) => {
     dispatch(handleExpandHandler({ i }));
   };
-  const changeQuestion = (text, i) => {
-    dispatch(changeQuestionHandler({ text, i }));
-  };
-  const addQuestionType = (i, type) => {
-    dispatch(addQuestionTypeHandler({ i, type }));
-  };
-  const changeOptionValue = (text, i, j) => {
-    dispatch(changeOptionValueHandler({ text, i, j }));
-  };
-  const removeOption = (i, j) => {
-    dispatch(removeOptionHandler({ i, j }));
-  };
   const addOption = async (i) => {
     //dispatch(addOptionHandler({ i }));
-    console.log(formCode)
-    console.log(questions[i].id)
+    console.log(formCode);
+    console.log(questions[i].id);
     const res = await addOptionApiCall(formCode, questions[i].id);
     getFormData2();
-  };
-  const copyQuestion = (i) => {
-    dispatch(expandCloseAllHandler());
-    dispatch(copyQuestionHandler({ i }));
-  };
-  const deleteQuestion = (i) => {
-    console.log("hii");
-    dispatch(deleteQuestionHandler({ i }));
-  };
-  const requiredQuestion = (i) => {
-    console.log("hiii");
-    dispatch(requiredQuestionHandler({ i }));
-  };
-  const getRequiredOrNot = (i) => {
-    let reqQuestion = [...questions];
-    return reqQuestion[i].required;
   };
   const addMoreQuestionField = async () => {
     expandCloseAll();
@@ -222,21 +199,6 @@ const QuestionForm = () => {
       result.destination.index
     );
     dispatch(setQuestions(itemF));
-  };
-  const setOptionAnswer = (ans, qno) => {
-    dispatch(setOptionAnswerHandler({ ans, qno }));
-  };
-  const setOptionPoints = (points, qno) => {
-    let Question = [...questions];
-    Question[qno].points = points;
-    dispatch(setQuestions(Question));
-    console.log(qno + " " + points);
-  };
-  const doneAnswer = (i) => {
-    dispatch(doneAnswerHandler({ i }));
-  };
-  const addAnswer = (i) => {
-    dispatch(addAnswerHandler({ i }));
   };
   const titleChangeHandler = (e) => {
     const value = e.target.value;
@@ -302,21 +264,27 @@ const QuestionForm = () => {
                       onChange={() => {
                         handleExpand(i);
                       }}
-                      className={questions[i].open ? `${styles.addBorder}` : ""}
+                      styles={{ backgroundColor: "blue" , height : "400px" }}
+                      className={
+                        questions[i].open
+                          ? `${styles.addBorder} ${styles.questionBoxContainer}`
+                          : `${styles.questionBoxContainer}`
+                      }
                     >
                       <AccordionSummary
                         aria-controls="panelia-content"
                         id="panelia-header"
                         elevation={1}
-                        style={{ width: "100%" }}
+                        style={{ width: "100%"}}
+                       // style={{backgroundColor : "red" , height : "200px"}}
                       >
                         {/* If ith qs is not open*/}
                         {!questions[i].open ? (
-                          <div className={styles.savedQuestions}>
+                          <div  className={styles.savedQuestions}>
                             <Typography
                               variant="body1"
                               style={{
-                                frontSize: "15px",
+                                frontSize: "18px",
                                 fontWeight: "400",
                                 letterSpacing: ".1px",
                                 lineHeight: "24px",
@@ -333,13 +301,20 @@ const QuestionForm = () => {
                                     style={{
                                       marginLeft: "5px",
                                       marginBottom: "5px",
+                                      display: "flex",
+                                      justifyContent: "flex-start",
+                                      alignItems: "center",
+                                      textAlign: "center",
+
+                                      width: "100%",
                                     }}
                                     disabled
                                     control={
                                       <input
                                         type={ques.questionType}
                                         color="primary"
-                                        style={{ marginRight: "3px" }}
+                                        backgroundColor="#fff"
+                                        style={{ marginRight: "10px" }}
                                         required={ques.type}
                                       />
                                     }
@@ -348,7 +323,7 @@ const QuestionForm = () => {
                                         style={{
                                           fontFamily:
                                             "Roboto, Arial, sans-serif",
-                                          fontSize: "13px",
+                                          fontSize: "16px",
                                           fontWeight: "400",
                                           letterSpacing: "0.2px",
                                           lineHeight: "20px",
@@ -374,106 +349,30 @@ const QuestionForm = () => {
                           className={`${styles.questionBoxes}`}
                           style={{ display: "flex" }}
                         >
-                          {" "}
                           {!questions[i].answer ? (
                             // If we dont want to put answer key
                             <AccordionDetails className={styles.addQuestion}>
-                              <QuestionTop i={i} ques={ques} getFormData2={getFormData2}/>
+                              <QuestionTop
+                                i={i}
+                                ques={ques}
+                                getFormData2={getFormData2}
+                              />
 
                               {/** Edit Options for Questions Field */}
                               {ques.options.map((op, j) => (
-                                <FormOption i={i} j={j} ques={ques} />                   
+                                <FormOption i={i} j={j} ques={ques} />
                               ))}
 
-                              {/** If there are more than equal 5 option then dont show add more option button
-                               * else show add more option button.
-                               */}
-                              {ques.options.length < 5 ? (
-                                // If no of options is less than 5
-                                <div className={styles.addQuestionBody}>
-                                  <FormControlLabel
-                                    disabled
-                                    control={
-                                      ques.questionType != "text" ? (
-                                        // if not text then input field
-                                        <input
-                                          type={ques.questionType}
-                                          color="primary"
-                                          inputProps={{
-                                            "aria-label": "secondary checkbox",
-                                          }}
-                                          style={{
-                                            marginLeft: "10px",
-                                            marginRight: "10px",
-                                          }}
-                                          disabled
-                                        />
-                                      ) : (
-                                        // if text then short text icon
-                                        <ShortTextRounded
-                                          style={{
-                                            marginRight: 10,
-                                            marginLeft: "10px",
-                                          }}
-                                        />
-                                      )
-                                    }
-                                    label={
-                                      <div>
-                                        {/* add new option input */}
-                                        <input
-                                          type="text"
-                                          className={styles.textInput}
-                                          style={{
-                                            fontSize: "13px",
-                                            width: "60px",
-                                          }}
-                                          placeholder="Add other"
-                                        />
-                                        {/* Add new option button */}
-                                        <Button
-                                          size="small"
-                                          onClick={() => {
-                                            addOption(i);
-                                          }}
-                                          style={{
-                                            textTransform: "none",
-                                            color: "#4285f4",
-                                            fontSize: "13px",
-                                            fontWeight: 600,
-                                          }}
-                                        >
-                                          Add Option
-                                        </Button>
-                                      </div>
-                                    }
-                                  />
-                                </div>
-                              ) : (
-                                // if no of options > 5 dont show any options
-                                ""
-                              )}
-
                               {/* Footer */}
-                             <QuestionFooter i ={i} questions={questions} getFormData2={getFormData2}/>
+                              <QuestionFooter
+                                i={i}
+                                ques={ques}
+                                questions={questions}
+                                getFormData2={getFormData2}
+                              />
                             </AccordionDetails>
                           ) : (
-                            <AnswerKey ques={ques} i={i}/>
-                          
-                          )}
-                          {/* options at right side */}
-                          {!ques.answer ? (
-                            <div className={styles.questionEdit}>
-                              <AddCircleOutline
-                                onClick={addMoreQuestionField}
-                                className={styles.edit}
-                              />
-                              <OndemandVideo className={styles.edit} />
-                              <CropOriginal className={styles.edit} />
-                              <TextFields className={styles.edit} />
-                            </div>
-                          ) : (
-                            " "
+                            <AnswerKey ques={ques} i={i} />
                           )}
                         </div>
                       ) : (
@@ -490,11 +389,14 @@ const QuestionForm = () => {
       </ThemeProvider>
     ));
   }
-  console.log(bgColor)
+  console.log(bgColor);
 
   return (
     <div style={{ width: "100%" }}>
-      <div className={styles.questionForm} style={{backgroundColor : `${bgColor}`}}>
+      <div
+        className={styles.questionForm}
+        style={{ backgroundColor: `${bgColor}` }}
+      >
         <br></br>
         <div className={styles.section}>
           <div className={styles.questionTitleSection}>
@@ -556,6 +458,11 @@ const QuestionForm = () => {
             </Droppable>
           </DragDropContext>
         </div>
+        <AddNewQuestion
+          getFormData2={getFormData2}
+          formCode={formCode}
+          expandCloseAll={expandCloseAll}
+        />
       </div>
     </div>
   );
