@@ -127,6 +127,7 @@
   .addFooter {
     display: flex;
     justify-content: space-between;
+    align-items: flex-end;
   }
   .addQuestionBottom {
     margin-top: 12px;

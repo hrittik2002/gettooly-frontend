@@ -1,9 +1,6 @@
 import React from "react";
 import styles from "./QuestionForm.module.css";
 import { useState } from "react";
-import NorthEastIcon from "@mui/icons-material/NorthEast";
-import DeleteIcon from "@mui/icons-material/Delete";
-import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { DragIndicator, TextSnippet } from "@mui/icons-material";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
@@ -12,54 +9,20 @@ import {
   AccordionDetails,
   AccordionSummary,
   FormControlLabel,
-  IconButton,
-  MenuItem,
-  Radio,
-  Select,
-  Switch,
   Typography,
 } from "@mui/material";
-import {
-  AddCircleOutline,
-  CheckBox,
-  Close,
-  CropOriginal,
-  CropOriginalOutlined,
-  FilterNone,
-  MoreVert,
-  OndemandVideo,
-  ShortText,
-  ShortTextOutlined,
-  ShortTextRounded,
-  Subject,
-  TextFields,
-} from "@mui/icons-material";
+
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import {
   setQuestions,
-  changeQuestionHandler,
-  addQuestionTypeHandler,
-  changeOptionValueHandler,
-  removeOptionHandler,
-  addOptionHandler,
   expandCloseAllHandler,
   handleExpandHandler,
-  copyQuestionHandler,
-  deleteQuestionHandler,
-  requiredQuestionHandler,
-  addAnswerHandler,
-  doneAnswerHandler,
-  setOptionAnswerHandler,
   setFormTitle,
   setFormDescription,
   setBackgroundColor,
 } from "../../redux/questionsSlice";
-import { useMemo } from "react";
-import { useLocation } from "react-router-dom";
 import {
-  addOptionApiCall,
-  addQuestionAPICall,
   getFormData,
   updateFormDescriptionAPICall,
   updateFormTitleAPICall,
@@ -80,6 +43,7 @@ import {
 } from "../../redux/settingsSlice";
 import AnswerKey from "../FormComponents/AnswerKey/AnswerKey";
 import AddNewQuestion from "../FormComponents/AddNewQuestion/AddNewQuestion";
+import ClosedQuestion from "../FormComponents/ClosedQuestion/ClosedQuestion";
 
 const theme = createTheme({
   typography: {
@@ -131,15 +95,12 @@ const QuestionForm = () => {
     }
     console.log(dummyQuestion);
     dispatch(setQuestions(dummyQuestion));
-
     // Refresh Form Title
     dispatch(setFormTitle(res2.data.title));
     // Refresh Form Description
     dispatch(setFormDescription(res2.data.description));
-
     // refresh bg color
     dispatch(setBackgroundColor(res2.data.background_color));
-
     // refresh the settings
     dispatch(set_collect_email(res2.data.collect_email));
     dispatch(set_authenticated_responder(res2.data.authenticated_responder));
@@ -168,19 +129,6 @@ const QuestionForm = () => {
   };
   const handleExpand = (i) => {
     dispatch(handleExpandHandler({ i }));
-  };
-  const addOption = async (i) => {
-    //dispatch(addOptionHandler({ i }));
-    console.log(formCode);
-    console.log(questions[i].id);
-    const res = await addOptionApiCall(formCode, questions[i].id);
-    getFormData2();
-  };
-  const addMoreQuestionField = async () => {
-    expandCloseAll();
-    const res = await addQuestionAPICall(formCode);
-    console.log(res);
-    getFormData2();
   };
   const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
@@ -250,7 +198,6 @@ const QuestionForm = () => {
                     <DragIndicator
                       style={{
                         transform: "rotate(-90deg)",
-                        color: "#DAE0E2",
                         position: "relative",
                         left: "300px",
                       }}
@@ -264,7 +211,7 @@ const QuestionForm = () => {
                       onChange={() => {
                         handleExpand(i);
                       }}
-                      styles={{ backgroundColor: "blue" , height : "400px" }}
+                      styles={{ height: "400px" }}
                       className={
                         questions[i].open
                           ? `${styles.addBorder} ${styles.questionBoxContainer}`
@@ -275,111 +222,49 @@ const QuestionForm = () => {
                         aria-controls="panelia-content"
                         id="panelia-header"
                         elevation={1}
-                        style={{ width: "100%"}}
-                       // style={{backgroundColor : "red" , height : "200px"}}
+                        style={{ width: "100%", minHeight: "15.625rem" , backgroundColor : "#fff"}}
                       >
                         {/* If ith qs is not open*/}
                         {!questions[i].open ? (
-                          <div  className={styles.savedQuestions}>
-                            <Typography
-                              variant="body1"
-                              style={{
-                                frontSize: "18px",
-                                fontWeight: "400",
-                                letterSpacing: ".1px",
-                                lineHeight: "24px",
-                                paddingBottom: "8px",
-                              }}
-                            >
-                              {`${i + 1} . `}
-                              {questions[i].questionText}
-                            </Typography>
-                            {ques.options.map((op, j) => (
-                              <div key={j}>
-                                <div style={{ display: "flex" }}>
-                                  <FormControlLabel
-                                    style={{
-                                      marginLeft: "5px",
-                                      marginBottom: "5px",
-                                      display: "flex",
-                                      justifyContent: "flex-start",
-                                      alignItems: "center",
-                                      textAlign: "center",
-
-                                      width: "100%",
-                                    }}
-                                    disabled
-                                    control={
-                                      <input
-                                        type={ques.questionType}
-                                        color="primary"
-                                        backgroundColor="#fff"
-                                        style={{ marginRight: "10px" }}
-                                        required={ques.type}
-                                      />
-                                    }
-                                    label={
-                                      <Typography
-                                        style={{
-                                          fontFamily:
-                                            "Roboto, Arial, sans-serif",
-                                          fontSize: "16px",
-                                          fontWeight: "400",
-                                          letterSpacing: "0.2px",
-                                          lineHeight: "20px",
-                                          color: "#202124",
-                                        }}
-                                      >
-                                        {ques.options[j].optionText}
-                                      </Typography>
-                                    }
-                                  ></FormControlLabel>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
+                         <ClosedQuestion ques={ques} i={i} questions={questions}/>
                         ) : (
-                          <></>
+                          // If Qs is open
+                          <div
+                            className={`${styles.questionBoxes}`}
+                            style={{ display: "flex" }}
+                          >
+                            {!questions[i].answer ? (
+                              // If we dont want to put answer key
+                              <AccordionDetails className={styles.addQuestion}>
+                                
+                                <QuestionTop
+                                  i={i}
+                                  ques={ques}
+                                  getFormData2={getFormData2}
+                                />
+
+                                {/** Edit Options for Questions Field */}
+                                {ques.options.map((op, j) => (
+                                  <FormOption i={i} j={j} ques={ques} />
+                                ))}
+
+                                {/* Footer */}
+                                <QuestionFooter
+                                  i={i}
+                                  ques={ques}
+                                  questions={questions}
+                                  getFormData2={getFormData2}
+                                />
+
+
+                              </AccordionDetails>
+                            ) : (
+                              <AnswerKey ques={ques} i={i} />
+                            )}
+                          </div>
                         )}
                       </AccordionSummary>
-
-                      {/** If qs us opened */}
-                      {questions[i].open ? (
-                        <div
-                          className={`${styles.questionBoxes}`}
-                          style={{ display: "flex" }}
-                        >
-                          {!questions[i].answer ? (
-                            // If we dont want to put answer key
-                            <AccordionDetails className={styles.addQuestion}>
-                              <QuestionTop
-                                i={i}
-                                ques={ques}
-                                getFormData2={getFormData2}
-                              />
-
-                              {/** Edit Options for Questions Field */}
-                              {ques.options.map((op, j) => (
-                                <FormOption i={i} j={j} ques={ques} />
-                              ))}
-
-                              {/* Footer */}
-                              <QuestionFooter
-                                i={i}
-                                ques={ques}
-                                questions={questions}
-                                getFormData2={getFormData2}
-                              />
-                            </AccordionDetails>
-                          ) : (
-                            <AnswerKey ques={ques} i={i} />
-                          )}
-                        </div>
-                      ) : (
-                        " "
-                      )}
                     </Accordion>
-                    ;
                   </div>
                 </div>
               </div>

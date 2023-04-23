@@ -20,7 +20,7 @@ import {
 import { Box, Button, NumberInput, NumberInputField } from "@chakra-ui/react";
 import { getCookie } from "../../../config/Cookie";
 
-const QuestionFooter = ({ i, questions, getFormData2 ,ques }) => {
+const QuestionFooter = ({ i, questions, getFormData2, ques }) => {
   const points = useSelector((state) => state.questions.questions[i].points);
   const [score, setScore] = useState(points);
   const formCode = useSelector((state) => state.questions.formCode);
@@ -77,10 +77,10 @@ const QuestionFooter = ({ i, questions, getFormData2 ,ques }) => {
   return (
     <div className={styles.addFooter}>
       <div className={styles.container}>
-        {/* Answer key button */}
-      {ques.options.length < 5 ? (
-        // If no of options is less than 5
-       
+        {/* Answer Option Btn */}
+        {ques.options.length < 5 ? (
+          // If no of options is less than 5
+
           <Button
             className={styles.addOptionBtn}
             onClick={() => {
@@ -89,22 +89,20 @@ const QuestionFooter = ({ i, questions, getFormData2 ,ques }) => {
           >
             Add Option
           </Button>
-      
-      ) : (
-        ""
-      )}
+        ) : (
+          ""
+        )}
 
-      <Button
-        className={styles.addAnsBtn}
-        onClick={() => {
-          addAnswer(i);
-        }}
-      >
-        Add Answer
-      </Button>
-
+        {/* Add Answer Key btn */}
+        <Button
+          className={styles.addAnsBtn}
+          onClick={() => {
+            addAnswer(i);
+          }}
+        >
+          Add Answer
+        </Button>
       </div>
-      
 
       {is_quiz && (
         <Box
@@ -113,8 +111,12 @@ const QuestionFooter = ({ i, questions, getFormData2 ,ques }) => {
           justifyContent="center"
           alignItems="center"
           gap="7px"
+          
         >
+          <div className="">
           Score
+          </div>
+          
           <NumberInput
             size="md"
             defaultValue={points}
@@ -125,7 +127,7 @@ const QuestionFooter = ({ i, questions, getFormData2 ,ques }) => {
           >
             <NumberInputField />
           </NumberInput>
-          <Button onClick={addScoreHandler}>Add Score</Button>
+          <Button  className={styles.addOptionBtn} onClick={addScoreHandler}>Add Score</Button>
         </Box>
       )}
 
@@ -138,14 +140,14 @@ const QuestionFooter = ({ i, questions, getFormData2 ,ques }) => {
             deleteQuestion(i);
           }}
         >
-          <Delete />
+          <Delete fontSize="large" style={{ color: "red" }}/>
         </IconButton>
 
         {/* IS required or not switch */}
         <span
           style={{
             color: "#5f6368",
-            fontSize: "13px",
+            fontSize: "18px",
           }}
         >
           Required
