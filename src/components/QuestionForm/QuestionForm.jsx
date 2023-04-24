@@ -45,6 +45,7 @@ import AnswerKey from "../FormComponents/AnswerKey/AnswerKey";
 import AddNewQuestion from "../FormComponents/AddNewQuestion/AddNewQuestion";
 import ClosedQuestion from "../FormComponents/ClosedQuestion/ClosedQuestion";
 
+
 const theme = createTheme({
   typography: {
     fontFamily: "Roboto, sans-serif",
@@ -69,6 +70,13 @@ const QuestionForm = () => {
     const dummyQuestion = [];
     for (let i in res2.data.questions) {
       dummyQuestion.push({});
+      //const html = res2.data.questions[i].question;
+      // dummyQuestion[i].questionText = htmlToText(html,  {
+      //   wordwrap : 130
+      // });
+      // const converter = new ReactHTMLConverter();
+      // const reactElements = converter.convert(html);
+    
       dummyQuestion[i].questionText = res2.data.questions[i].question;
       dummyQuestion[i].answerKey = res2.data.questions[i].answer_key;
       dummyQuestion[i].id = res2.data.questions[i].id;

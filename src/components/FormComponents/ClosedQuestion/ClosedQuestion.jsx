@@ -7,7 +7,7 @@ const ClosedQuestion = ({ ques, i, questions }) => {
     <div className={styles.savedQuestions}>
       <Typography variant="body1" className={styles.question}>
         {`${i + 1} . `}
-        {questions[i].questionText}
+        <div dangerouslySetInnerHTML={{ __html: questions[i].questionText }} />
       </Typography>
 
       {ques.options.map((op, j) => (
@@ -18,9 +18,7 @@ const ClosedQuestion = ({ ques, i, questions }) => {
               backgroundColor="#fff"
               required={ques.type}
             />
-            <Text
-              className={styles.optionText}
-            >
+            <Text className={styles.optionText}>
               {ques.options[j].optionText}
             </Text>
             {/* <FormControlLabel
