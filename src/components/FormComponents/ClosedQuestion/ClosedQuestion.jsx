@@ -18,7 +18,7 @@ const ClosedQuestion = ({ ques, i, questions }) => {
               backgroundColor="#fff"
               required={ques.type}
             />
-            <Text className={styles.optionText}>
+            <Text className={styles.optionText} style={{ overflowWrap: 'break-word', maxWidth: '400px' }}>
               {ques.options[j].optionText}
             </Text>
             {/* <FormControlLabel

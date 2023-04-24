@@ -38,7 +38,7 @@
     "react-scripts": "5.0.1",
     "redux-persist": "^6.0.0",
     "stripe": "^11.17.0",
-    "styled-components": "^5.3.9",
+    "styled-components": "^5.3.10",
     "typography": "^0.16.21",
     "web-vitals": "^2.1.4",
     "yup": "^1.0.2"
