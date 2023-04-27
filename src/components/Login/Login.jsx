@@ -17,8 +17,9 @@ import { useSelector, useDispatch } from 'react-redux'
 import { login } from "../../config/apiCalls";
 import { color } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { getUserId } from "../../config/Cookie";
+import { getUserId, getUserType } from "../../config/Cookie";
 import ForgotPassword from "../ForgotPassword/ForgotPassword";
+import { setUserType } from "../../redux/usertypeSlice";
 const initialValues = {
   email: "",
   password: "",
@@ -37,7 +38,14 @@ const Login = ({ closeDialogForLogin }) => {
         formData.append("email", values.email);
         formData.append("password", values.password);
         const userId = await login(dispatch , formData);
-        navigate(`ConductUser/${userId}`);
+        const userType = await getUserType();
+        if(userType === 1){
+          navigate(`ConductUser/${userId}`);
+        }
+        else{
+          navigate(`/User/${userId}/dashboard`)
+        }
+        
     },
   });
   return (

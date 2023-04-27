@@ -15,13 +15,16 @@ import SubscriptionPage from "./pages/SubscriptionPage/SubscriptionPage";
 import PaymentPage from "./pages/PaymentPage/PaymentPage";
 import FormEditPage from "./pages/FormEditPage/FormEditPage";
 import Test from "./Testing/Test";
+import FormViewPage from "./pages/FormViewPage/FormViewPage";
+import Dashboard from "./pages/Dashboard/Dashboard";
 
 function App() {
   const userData = useSelector((state) => state.user.currentUser);
-
+  console.log(userData);
   const dispatch = useDispatch();
   const loginUserUsingCookie = async () => {
     const data = await AutomaticLogin();
+    console.log(data);
     dispatch(setUserData(data));
   };
   useMemo(() => {
@@ -74,6 +77,14 @@ function App() {
         path="/form/:formCode/edit"
         element={<FormEditPage/>}
        />
+       <Route 
+        path="/form/:formCode/view"
+        element={<FormViewPage/>}
+      />
+      <Route
+      path="/User/:userId/dashboard"
+      element={<Dashboard/>}
+      />
 
       { /* Testing */}      
       <Route 

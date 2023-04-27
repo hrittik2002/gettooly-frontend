@@ -32,6 +32,7 @@ import {
 } from "../../redux/questionsSlice";
 import ColorPicker from "../FormHeaderComponents/ColorPicker/ColorPicker";
 import Settings from "../FormHeaderComponents/Settings/Settings";
+import SendForm from "../FormComponents/SendForm/SendForm";
 
 const FormHeader = () => {
   const [color, setColor] = useState("#fff");
@@ -80,9 +81,7 @@ const FormHeader = () => {
         
         <Settings/>
         
-        <Button colorScheme="blue" href="#contained-button">
-          Send
-        </Button>
+        <SendForm/>
        
       </div>
     </div>

@@ -3,6 +3,7 @@ import userReducer from './userSlice'
 import formReducer from './formSlice'
 import questionsReducer from './questionsSlice'
 import settingsReducer from './settingsSlice'
+import usertypeReducer from './usertypeSlice'
 import storage from 'redux-persist/lib/storage';
 import { persistReducer, persistStore } from 'redux-persist';
 import thunk from 'redux-thunk';
@@ -12,7 +13,7 @@ const persistConfig = {
   storage,
 }
 
-// const persistedUserReducer = persistReducer(persistConfig, userReducer)
+ const persistedUsertypeReducer = persistReducer(persistConfig, usertypeReducer)
 const persistedFormReducer = persistReducer(persistConfig, formReducer)
 const persistQuestionsReducer = persistReducer(persistConfig, questionsReducer)
 const persistedSettingsReducer = persistReducer(persistConfig, settingsReducer);
@@ -23,6 +24,7 @@ export const store = configureStore({
     form : persistedFormReducer,
     questions : persistQuestionsReducer,
     settings : persistedSettingsReducer,
+    usertype : persistedUsertypeReducer,
   },
 })
 

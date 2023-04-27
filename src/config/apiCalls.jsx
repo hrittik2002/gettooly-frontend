@@ -10,6 +10,7 @@ export const login = async(dispatch , formData) =>{
             "http://localhost:8000/api/auth/login/token/", 
             formData,
           )
+          console.log(data);
           authenticate(data); // to set the data in the cookie storage
           const ConductUserId = getUserId(); // get the user id from the access token in cookie
           //console.log(ConductUserId);
@@ -19,20 +20,6 @@ export const login = async(dispatch , formData) =>{
     catch(err){
         dispatch(loginFailure()); // if login failed
     }
-}
-
-export const registerUser = async(formData) =>{
-    try{
-      console.log("hi")
-        const { data } = await axios.post(
-          "http://localhost:8000/api/auth/User/register/", 
-          formData,
-        )
-          // console.log(data);
-      }
-      catch(err){
-        console.log(err);
-      }
 }
 
 export const registerOrganization = async(formData) => {

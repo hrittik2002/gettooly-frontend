@@ -26,6 +26,16 @@ export const getUserId = () => {
     }
 }
 
+// to get the user type fetching the access token
+export const getUserType = () => {
+    const access = getCookie("access_token");
+    //console.log(access)
+    if(access){
+        const decoded = jwtDecode(access);
+        return decoded.type;
+    }
+}
+
 export const authenticate = (response) => {
     setCookie("access_token" , response.access);
     setCookie("refresh_token" , response.refresh);

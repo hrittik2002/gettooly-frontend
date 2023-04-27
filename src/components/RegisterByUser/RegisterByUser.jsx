@@ -11,9 +11,9 @@ import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { registerByUserSchema } from "../../schemas";
 import moment from "moment";
-import { registerUser } from "../../config/apiCalls";
 import PhoneInput from 'react-phone-number-input'
 import 'react-phone-number-input/style.css'
+import { registerUser } from "../../config/ApiCalls/userApiCalls";
 
 const initialValues = {
   email: "",
@@ -70,7 +70,8 @@ const RegisterByUser = () => {
         );
         formData.append("DOB", toDateFormat);
         console.log(phoneNumber)
-        await registerUser(formData);
+        const res = await registerUser(formData);
+        console.log(res);
       },
     });
   // const poastDetails = async(e)=>{

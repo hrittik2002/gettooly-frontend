@@ -6,7 +6,7 @@ import {
   Delete,
   ShortTextRounded,
 } from "@mui/icons-material";
-import { Button, IconButton } from "@chakra-ui/react";
+import { Button, IconButton, Textarea } from "@chakra-ui/react";
 import { useDispatch } from "react-redux";
 import {
   changeOptionValueHandler,
@@ -93,16 +93,17 @@ const FormOption = ({ i, j, ques }) => {
       {/**If question type is text then there will be short rounded icon from mui
        * else there will be input (for radio of box)
        */}
-      {ques.questionType != "text" ? (
+      {ques.questionType === "text" ? (
         //  If Qs type is not text
-        <input type={ques.questionType} style={{ marginRight: "10px" }} />
+        <>
+        <Textarea style={{width:"100%" , height:"100%" , border:"purple"}} placeholder='Here is a sample placeholder' />
+        </>
       ) : (
         /*********  If Qs type is text *************/
-        <ShortTextRounded style={{ marginRight: "10px" }} />
-      )}
+        <>
+        <input type={ques.questionType} style={{ marginRight: "10px" }} />
 
-      {/** Input text value */}
-      <div>
+        <div>
         <input
           type="text"
           className={styles.textInput}
@@ -123,6 +124,11 @@ const FormOption = ({ i, j, ques }) => {
         }
         
       </div>
+      </>
+      )}
+
+      {/** Input text value */}
+      
 
       
 
