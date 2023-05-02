@@ -20,46 +20,47 @@ import Countdown from "react-countdown";
 import { useNavigate, useParams } from "react-router-dom";
 
 const FormViewPage = () => {
+  const params = useParams();
   const [resultList, setResultList] = useState([]);
   const navigate = useNavigate();
   const [resulst, setResults] = useState([...resultList]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [formId, setFormId] = useState();
   const userData = useSelector((state) => state.user.currentUser);
-  const formCode = useSelector((state) => state.questions.formCode);
+  const formCode = params.formCode
   const dispatch = useDispatch();
-  const params = useParams();
-  const checkUser = () =>{
-    //console.log(params)
-    console.log(userData)
-    if(!userData){
-      // navigate to login page
-      console.log("bbbbbbbbbbbbbbbbbbbbb")
-      navigate("/" , { state : {
-        from : "formViewPage", 
-        formCode : params.formCode
-       }})
-    }
-    else{
-      if(!userData.type || userData.type === 1){
-        console.log("ccccccccccccccccccccccccc")
-        // navigate to login page
-        navigate("/" , { state : {
-           from : "formViewPage", 
-           formCode : params.formCode 
-          }})
-      }
+  //const params = useParams();
+  // const checkUser = () =>{
+  //   //console.log(params)
+  //   console.log(userData)
+  //   if(!userData){
+  //     // navigate to login page
+  //     console.log("bbbbbbbbbbbbbbbbbbbbb")
+  //     navigate("/" , { state : {
+  //       from : "formViewPage", 
+  //       formCode : params.formCode
+  //      }})
+  //   }
+  //   else{
+  //     if(!userData.type || userData.type === 1){
+  //       console.log("ccccccccccccccccccccccccc")
+  //       // navigate to login page
+  //       navigate("/" , { state : {
+  //          from : "formViewPage", 
+  //          formCode : params.formCode 
+  //         }})
+  //     }
       
-    }
-  }
-  useEffect(()=>{
+  //   }
+  // }
+  // useEffect(()=>{
     
 
-      checkUser()
+  //     checkUser()
 
     
     
-  },[userData])
+  // },[userData])
   const getFormData2 = async () => {
     const res2 = await getFormData(formCode);
     console.log(res2);
@@ -156,9 +157,13 @@ const FormViewPage = () => {
     e.preventDefault();
     let resultArray = [];
     for (let i = 0; i < resultList.length; i++) {
+      let ansArr = []
+      for(let j = 0; j < resultList[i].answer.length; j++) {
+        ansArr.push(resultList[i].answer[j].optionText);
+      }
       resultArray.push({
         question: resultList[i].questionId,
-        answer: resultList[i].answer.optionText,
+        answer: ansArr
       });
     }
     const IP = await getIPAddress();
@@ -217,7 +222,11 @@ const FormViewPage = () => {
           <Countdown date={Date.now() + 10000} />
         </div>
         <div className={styles.SubmitBtnContainer}>
-          <Button>Submit</Button>
+          <Button
+          onClick={(e) => {
+            submitFormHandler(e);
+          }}
+          >Submit</Button>
         </div>
       </div>
       <div className={styles.midContainer}>

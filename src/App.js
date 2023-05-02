@@ -108,7 +108,7 @@ console.log(userData);
         
         <Route 
         path="/form/:formCode/view"
-        element={userData ?<FormViewPage/> : <BeforeLoginHomePage userData={userData}/>}
+        element={<FormViewPage/> }
       />
        
        
