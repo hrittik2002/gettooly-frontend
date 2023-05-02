@@ -41,25 +41,25 @@ const Login = ({ closeDialogForLogin , location }) => {
         const userType = await getUserType();
         // navigate to from View Page
         console.log(location)
-        // if(userType === 2 && location && location.state && location.state.from && location.state.from === "formViewPage" && location.state.formCode){
-        //   console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" , location.state.formCode)
-        //   navigate(`/form/${location.state.formCode}/view`);
-        //   return;
-        // }
-        // else{
-        //   if(userType === 1){
-        //     navigate(`ConductUser/${userId}`);
-        //   }
-        //   else{
-        //     navigate(`/User/${userId}/dashboard`)
-        //   }
-        // }
-        if(userType === 1){
-          navigate(`ConductUser/${userId}`);
+        if(userType === 2 && location && location.state && location.state.from && location.state.from === "formViewPage" && location.state.formCode){
+          console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" , location.state.formCode)
+          navigate(`/form/${location.state.formCode}/view`);
+          return;
         }
         else{
-          navigate(`/User/${userId}/dashboard`)
+          if(userType === 1){
+            navigate(`ConductUser/${userId}`);
+          }
+          else{
+            navigate(`/User/${userId}/dashboard`)
+          }
         }
+        // if(userType === 1){
+        //   navigate(`ConductUser/${userId}`);
+        // }
+        // else{
+        //   navigate(`/User/${userId}/dashboard`)
+        // }
         
         
     },

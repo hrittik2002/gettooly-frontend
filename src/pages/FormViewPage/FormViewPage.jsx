@@ -30,37 +30,37 @@ const FormViewPage = () => {
   const formCode = params.formCode
   const dispatch = useDispatch();
   //const params = useParams();
-  // const checkUser = () =>{
-  //   //console.log(params)
-  //   console.log(userData)
-  //   if(!userData){
-  //     // navigate to login page
-  //     console.log("bbbbbbbbbbbbbbbbbbbbb")
-  //     navigate("/" , { state : {
-  //       from : "formViewPage", 
-  //       formCode : params.formCode
-  //      }})
-  //   }
-  //   else{
-  //     if(!userData.type || userData.type === 1){
-  //       console.log("ccccccccccccccccccccccccc")
-  //       // navigate to login page
-  //       navigate("/" , { state : {
-  //          from : "formViewPage", 
-  //          formCode : params.formCode 
-  //         }})
-  //     }
+  const checkUser = () =>{
+    //console.log(params)
+    console.log(userData)
+    if(!userData){
+      // navigate to login page
+      console.log("bbbbbbbbbbbbbbbbbbbbb")
+      navigate("/" , { state : {
+        from : "formViewPage", 
+        formCode : params.formCode
+       }})
+    }
+    else{
+      if(!userData.type || userData.type === 1){
+        console.log("ccccccccccccccccccccccccc")
+        // navigate to login page
+        navigate("/" , { state : {
+           from : "formViewPage", 
+           formCode : params.formCode 
+          }})
+      }
       
-  //   }
-  // }
-  // useEffect(()=>{
+    }
+  }
+  useMemo(()=>{
     
 
-  //     checkUser()
+      checkUser()
 
     
     
-  // },[userData])
+  },[userData])
   const getFormData2 = async () => {
     const res2 = await getFormData(formCode);
     console.log(res2);
