@@ -5,7 +5,7 @@ import BeforeLoginHomePage from "./pages/BeforeLoginHomePage/BeforeLoginHomePage
 import AboutPage from "./pages/AboutPage/AboutPage";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserData } from "./redux/userSlice";
-import { useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { AutomaticLogin } from "./config/automaticLogin";
 import LoadingScreen from "./pages/LoadingScreen/LoadingScreen";
 import EmailVerifyPage from "./pages/EmailVerifyPage/EmailVerifyPage";
@@ -20,19 +20,46 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 
 function App() {
   const userData = useSelector((state) => state.user.currentUser);
-  console.log(userData);
-  const dispatch = useDispatch();
-  const loginUserUsingCookie = async () => {
-    const data = await AutomaticLogin();
-    console.log(data);
-    dispatch(setUserData(data));
-  };
-  useMemo(() => {
-    if (!userData) {
-      loginUserUsingCookie();
-    }
-  });
-  console.log(userData);
+console.log(userData);
+const dispatch = useDispatch();
+const loginUserUsingCookie = useCallback(async () => {
+  const data = await AutomaticLogin();
+  console.log(data);
+  dispatch(setUserData(data));
+}, [dispatch]);
+
+useEffect(() => {
+  if (!userData) {
+    loginUserUsingCookie();
+  }
+}, [userData, loginUserUsingCookie]);
+
+console.log(userData);
+  // const userData = useSelector((state) => state.user.currentUser);
+  // console.log(userData);
+  // const dispatch = useDispatch();
+  // // const loginUserUsingCookie = async () => {
+  // //   const data = await AutomaticLogin();
+  // //   console.log(data);
+  // //   dispatch(setUserData(data));
+  // // };
+  // // useMemo(() => {
+  // //   if (!userData) {
+  // //     loginUserUsingCookie();
+  // //   }
+  // // });
+  // useEffect(() => {
+  //   const loginUserUsingCookie = async () => {
+  //     const data = await AutomaticLogin();
+  //     console.log(data);
+  //     dispatch(setUserData(data));
+  //   };
+
+  //   if (!userData) {
+  //     loginUserUsingCookie();
+  //   }
+  // }, [dispatch, userData]);
+  // console.log(userData);
 
   return (
     <Router>
@@ -77,10 +104,15 @@ function App() {
         path="/form/:formCode/edit"
         element={<FormEditPage/>}
        />
-       <Route 
+       
+        
+        <Route 
         path="/form/:formCode/view"
-        element={<FormViewPage/>}
+        element={userData ?<FormViewPage/> : <BeforeLoginHomePage userData={userData}/>}
       />
+       
+       
+
       <Route
       path="/User/:userId/dashboard"
       element={<Dashboard/>}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import styles from "./FormViewPage.module.css";
 import { getFormData } from "../../config/ApiCalls/formApiCalls";
 import { useSelector } from "react-redux";
@@ -10,14 +10,56 @@ import {
   setQuestions,
 } from "../../redux/questionsSlice";
 import { useEffect } from "react";
-import { Textarea } from "@chakra-ui/react";
-import { getIPAddress, submitForm } from "../../config/ApiCalls/formSubmitApiCalls";
+import { Button, EditableTextarea, Textarea } from "@chakra-ui/react";
+import {
+  getIPAddress,
+  submitForm,
+} from "../../config/ApiCalls/formSubmitApiCalls";
+//import ReactDOM from "react-dom";
+import Countdown from "react-countdown";
+import { useNavigate, useParams } from "react-router-dom";
 
 const FormViewPage = () => {
   const [resultList, setResultList] = useState([]);
-  const [formId , setFormId] = useState();
+  const navigate = useNavigate();
+  const [resulst, setResults] = useState([...resultList]);
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [formId, setFormId] = useState();
+  const userData = useSelector((state) => state.user.currentUser);
   const formCode = useSelector((state) => state.questions.formCode);
   const dispatch = useDispatch();
+  const params = useParams();
+  const checkUser = () =>{
+    //console.log(params)
+    console.log(userData)
+    if(!userData){
+      // navigate to login page
+      console.log("bbbbbbbbbbbbbbbbbbbbb")
+      navigate("/" , { state : {
+        from : "formViewPage", 
+        formCode : params.formCode
+       }})
+    }
+    else{
+      if(!userData.type || userData.type === 1){
+        console.log("ccccccccccccccccccccccccc")
+        // navigate to login page
+        navigate("/" , { state : {
+           from : "formViewPage", 
+           formCode : params.formCode 
+          }})
+      }
+      
+    }
+  }
+  useEffect(()=>{
+    
+
+      checkUser()
+
+    
+    
+  },[userData])
   const getFormData2 = async () => {
     const res2 = await getFormData(formCode);
     console.log(res2);
@@ -64,59 +106,233 @@ const FormViewPage = () => {
     getFormData2();
   }, []);
 
+  
   const questions = useSelector((state) => state.questions.questions);
   const formTitle = useSelector((state) => state.questions.formTitle);
   const bgColor = useSelector((state) => state.questions.bgColor);
   console.log(questions);
 
-  const updateResult = (questionId, correctResult , questionType) => {
-    console.log(questionId , correctResult , questionType)
-    let resultArray = resultList;
-    let foundQuestionId = false;
-    for(let i = 0; i < resultArray.length; i++) {
-      if(resultArray[i].questionId === questionId){
-        // if checkbox
-        if(resultArray[i].questionType === "checkbox"){
-          foundQuestionId = true;
-          resultArray[i].answer.push(correctResult);
+  const updateResult = (questionId, optionText, questionType, optionId) => {
+    let found = false;
+    for (let i = 0; i < resultList.length; i++) {
+      if (resultList[i].questionId === questionId) {
+        found = true;
+        if (questionType === "checkbox") {
+          let answerIndex = -1;
+          for (let j = 0; j < resultList[i].answer.length; j++) {
+            if (resultList[i].answer[j].optionId === optionId) {
+              answerIndex = j;
+              break;
+            }
+          }
+          if (answerIndex > -1) {
+            resultList[i].answer.splice(answerIndex, 1);
+          } else {
+            resultList[i].answer.push({ optionId, optionText });
+          }
+        } else if (questionType === "radio") {
+          resultList[i].answer = { optionId, optionText };
         }
-        else {
-          foundQuestionId = true;
-          resultArray[i].answer = correctResult;
-        }
-        
+        break;
       }
     }
-
-    if (foundQuestionId !== true) {
-      if(questionType === "checkbox"){
-        const resArr = [correctResult];
-        resultArray.push({ questionId: questionId, answer: resArr , questionType : questionType });
+    if (!found) {
+      if (questionType === "checkbox") {
+        resultList.push({
+          questionId,
+          questionType,
+          answer: [{ optionId, optionText }],
+        });
+      } else if (questionType === "radio") {
+        resultList.push({
+          questionId,
+          questionType,
+          answer: { optionId, optionText },
+        });
       }
-      else {
-        resultArray.push({ questionId: questionId, answer: correctResult , questionType : questionType });
-      }
-      
     }
-    setResultList(resultArray);
-    console.log(resultArray);
   };
-  const submitFormHandler = async (e) =>{
-    e.preventDefault()
+  const submitFormHandler = async (e) => {
+    e.preventDefault();
     let resultArray = [];
-    for(let i = 0; i < resultList.length; i++){
-      resultArray.push({question : resultList[i].questionId , answer : resultList[i].answer})
+    for (let i = 0; i < resultList.length; i++) {
+      resultArray.push({
+        question: resultList[i].questionId,
+        answer: resultList[i].answer.optionText,
+      });
     }
     const IP = await getIPAddress();
-    console.log(IP , formId , resultArray);
-    const res = await submitForm(IP , resultArray , formId);
-    console.log(res)
-  }
+    console.log(IP, formId, resultArray);
+    const res = await submitForm(IP, resultArray, formId);
+    console.log(res);
+  };
+  const showIthQuestion = (i) => {
+    setCurrentQuestion(i);
+    console.log(i);
+  };
+  const perviousQuestion = () => {
+    if (currentQuestion > 0) {
+      setCurrentQuestion(currentQuestion - 1);
+    }
+  };
+  const nextQuestion = () => {
+    if (currentQuestion < questions.length - 1) {
+      setCurrentQuestion(currentQuestion + 1);
+    }
+  };
+
+  const defaultValueHandler = (questionId, optionId) => {
+    const question = questions.find((q) => q.id === questionId);
+    if (question.questionType === "checkbox") {
+      const questionObject = resultList.find(
+        (q) => q.questionId === questionId
+      );
+      if (!questionObject) {
+        return false;
+      }
+      const answerObject = questionObject.answer.find(
+        (a) => a.optionId === optionId
+      );
+      return answerObject ? true : false;
+    } else {
+      const questionObject = resultList.find(
+        (q) => q.questionId === questionId
+      );
+      if (!questionObject) {
+        return false;
+      }
+      return questionObject.answer.optionId === optionId;
+    }
+  };
   return (
-    <>
-      <header>
+    <div className={styles.parentContainer}>
+      <div className={styles.Navbar}>
+        <div className={styles.logoContainer}>
+          <img
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRScMKIKJdXoPYQqNQdH0B_-lnCRv5dplBOKw&usqp=CAU"
+            alt=""
+          />
+        </div>
+        <div className={styles.TimerContainer}>
+          <Countdown date={Date.now() + 10000} />
+        </div>
+        <div className={styles.SubmitBtnContainer}>
+          <Button>Submit</Button>
+        </div>
+      </div>
+      <div className={styles.midContainer}>
+        <div className={styles.sideNav}>
+          {questions.map((question, i) => (
+            <div
+              key={i}
+              className={styles.sideNavItems}
+              onClick={() => {
+                showIthQuestion(i);
+              }}
+            >
+              {i + 1}
+            </div>
+          ))}
+        </div>
+        <main className={styles.contentContainer}>
+          <div className={styles.questionTop}>
+            <div className={styles.questionNo}>
+              {`Question ${currentQuestion + 1}`}
+            </div>
+            <div className={styles.marks}>Marks : 5</div>
+          </div>
+
+          <div className={styles.questionMid}>
+            <div className={styles.questionText}>
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: questions[currentQuestion].questionText,
+                }}
+              />
+            </div>
+            <div className={styles.optionContainer}>
+              {questions[currentQuestion].options.map((option, i) =>
+                questions[currentQuestion].questionType === "text" ? (
+                  <>
+                    <Textarea
+                      style={{ width: "100%", height: "100%", border: "gray" }}
+                      placeholder="Write Your Answer Here"
+                      onChange={(e) => {
+                        updateResult(
+                          questions[currentQuestion].id,
+                          e.target.value,
+                          questions[currentQuestion].questionType,
+                          option.id
+                        );
+                      }}
+                    />
+                  </>
+                ) : (
+                  <div key={i} className={styles.optionItem}>
+                    <input
+                      type={questions[currentQuestion].questionType}
+                      backgroundColor="#fff"
+                      required={questions[currentQuestion].type}
+                      defaultChecked={defaultValueHandler(
+                        questions[currentQuestion].id,
+                        option.id
+                      )}
+                      onChange={() => {
+                        updateResult(
+                          questions[currentQuestion].id,
+                          option.optionText,
+                          questions[currentQuestion].questionType,
+                          option.id
+                        );
+                      }}
+                      key={option.id} // make sure each option has a unique key
+                    />
+
+                   
+
+                    <div className={styles.optionText}>{option.optionText}</div>
+                  </div>
+                )
+              )}
+            </div>
+          </div>
+
+          <div className={styles.questionBottom}>
+            <div
+              className={styles.questionBottomBtn}
+              onClick={() => {
+                perviousQuestion();
+              }}
+            >
+              {currentQuestion === 0 ? "" : `< Previous Question`}
+            </div>
+            <div
+              className={styles.questionBottomBtn}
+              onClick={() => {
+                nextQuestion();
+              }}
+            >
+              {" "}
+              {currentQuestion === questions.length - 1
+                ? ""
+                : `Next Question >`}
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  );
+};
+
+export default FormViewPage;
+
+/*
+<header>
         <h1>Online Exam Panel</h1>
       </header>
+      <div>
+        sideNav
+      </div>
       <main>
         <div className={styles.container}>
           <h2>Page 1 of 5 (20 questions)</h2>
@@ -134,8 +350,12 @@ const FormViewPage = () => {
                     <Textarea
                       style={{ width: "100%", height: "100%", border: "gray" }}
                       placeholder="Here is a sample placeholder"
-                      onChange={(e)=>{
-                        updateResult(question.id , e.target.value , question.questionType)
+                      onChange={(e) => {
+                        updateResult(
+                          question.id,
+                          e.target.value,
+                          question.questionType
+                        );
                       }}
                     />
                   </>
@@ -147,7 +367,13 @@ const FormViewPage = () => {
                           <input
                             type={question.questionType}
                             name={question.questionType}
-                            onChange={()=>{updateResult(question.id , option.optionText , question.questionType)}}
+                            onChange={() => {
+                              updateResult(
+                                question.id,
+                                option.optionText,
+                                question.questionType
+                              );
+                            }}
                           />
                           {option.optionText}
                         </label>
@@ -155,19 +381,21 @@ const FormViewPage = () => {
                     ))}
                   </>
                 )}
-               
               </div>
             ))}
 
-            <button onClick={(e)=>{submitFormHandler(e)}} type="submit">Submit</button>
+            <button
+              onClick={(e) => {
+                submitFormHandler(e);
+              }}
+              type="submit"
+            >
+              Submit
+            </button>
           </form>
         </div>
       </main>
       <footer>
         <p>&copy; 2023 Online Exam Panel</p>
       </footer>
-    </>
-  );
-};
-
-export default FormViewPage;
+*/

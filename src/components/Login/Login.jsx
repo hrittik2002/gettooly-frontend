@@ -25,7 +25,7 @@ const initialValues = {
   password: "",
 };
 
-const Login = ({ closeDialogForLogin }) => {
+const Login = ({ closeDialogForLogin , location }) => {
   const [forgotPassword , setForgotPassword] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch()
@@ -39,12 +39,22 @@ const Login = ({ closeDialogForLogin }) => {
         formData.append("password", values.password);
         const userId = await login(dispatch , formData);
         const userType = await getUserType();
-        if(userType === 1){
-          navigate(`ConductUser/${userId}`);
+        // navigate to from View Page
+        console.log(location)
+        if(userType === 2 && location && location.state && location.state.from && location.state.from === "formViewPage" && location.state.formCode){
+          console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" , location.state.formCode)
+          navigate(`/form/${location.state.formCode}/view`);
+          return;
         }
         else{
-          navigate(`/User/${userId}/dashboard`)
+          if(userType === 1){
+            navigate(`ConductUser/${userId}`);
+          }
+          else{
+            navigate(`/User/${userId}/dashboard`)
+          }
         }
+        
         
     },
   });

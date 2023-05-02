@@ -14,9 +14,9 @@ const questionsSlice = createSlice({
         questionType: "radio",
         id : "",
         options: [
-          { optionText: "Option 1" , id : "" , isAnswer : "false" },
-          { optionText: "Option 2" , id : "" , isAnswer : "false" },
-          { optionText: "Option 3" , id : "" , isAnswer : "false" },
+          { optionText: "Option 1" , id : "" , isAnswer : false },
+          { optionText: "Option 2" , id : "" , isAnswer : false },
+          { optionText: "Option 3" , id : "" , isAnswer : false },
         ],
         answer: false,
         answerKey: "",

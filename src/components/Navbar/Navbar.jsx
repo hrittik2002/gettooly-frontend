@@ -6,7 +6,7 @@ import { Button } from "@chakra-ui/react";
 import Login from "../Login/Login";
 import { Link } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = ({location}) => {
   const [showDialogForRegister, setShowDialogForRegister] = useState(false);
   const [showDialogForLogin, setShowDialogForLogin] = useState(false);
   const closeDialog = () => {
@@ -33,7 +33,7 @@ const Navbar = () => {
       </div>
       {showDialogForRegister && <Register closeDialog={closeDialog} />}
       {showDialogForLogin && (
-        <Login closeDialogForLogin={closeDialogForLogin} />
+        <Login closeDialogForLogin={closeDialogForLogin} location={location}/>
       )}
     </>
   );
