@@ -38,3 +38,21 @@ export const submitForm = async (ip, formResponse, formId) => {
     console.log(err);
   }
 };
+
+export const viewResponseAPICall = async(formCode , responseCode) =>{
+  try {
+    const res = await axios.get(
+      `http://127.0.0.1:8000/api/form/${formCode}/response/${responseCode}/`,
+      {
+        headers: {
+          Authorization: `Bearer ${getCookie("access_token")}`,
+        },
+        credentials: "include",
+      }
+    );
+    console.log(res);
+    return res;
+  } catch (err) {
+    console.log(err);
+  }
+}

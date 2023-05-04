@@ -17,6 +17,7 @@ import FormEditPage from "./pages/FormEditPage/FormEditPage";
 import Test from "./Testing/Test";
 import FormViewPage from "./pages/FormViewPage/FormViewPage";
 import Dashboard from "./pages/Dashboard/Dashboard";
+import ViewResponsePage from "./pages/ViewResponsePage/ViewResponsePage";
 
 function App() {
   const userData = useSelector((state) => state.user.currentUser);
@@ -109,6 +110,11 @@ console.log(userData);
         <Route 
         path="/form/:formCode/view"
         element={<FormViewPage/> }
+      />
+
+      <Route
+        path="/form/:formCode/:responseCode/review"
+        element={<ViewResponsePage/> }
       />
        
        

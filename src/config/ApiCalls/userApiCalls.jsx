@@ -37,3 +37,23 @@ export const getUserData = async(id) => {
       return err;
     }
   }
+
+  // get response 
+  export const getResponse = async(formCode) =>{
+    try{
+      const res = await axios.get(
+        `http://127.0.0.1:8000/api/responses/${formCode}/`,
+        {
+          headers: {
+            Authorization: `Bearer ${getCookie("access_token")}`,
+        },
+        credentials : "include"
+        }
+      )
+    console.log(res);
+    return res;
+    }
+    catch(err){
+      return err;
+    }
+  }

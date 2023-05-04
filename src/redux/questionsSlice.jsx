@@ -39,15 +39,15 @@ const questionsSlice = createSlice({
     setBackgroundColor : (state , action) => {
       
       state.bgColor = action.payload;
-      console.log("holaaaaaaaaaaaaaaaaaaaaaa")
-      console.log(state.bgColor)
-      console.log(action.payload);
+      //console.log("holaaaaaaaaaaaaaaaaaaaaaa")
+      //console.log(state.bgColor)
+      //console.log(action.payload);
     },
     setFormCreator: (state, action) => {
       state.formCreator = action.payload;
     },
     setQuestions: (state, action) => {
-      console.log("hii");
+      //console.log("hii");
       state.questions = action.payload;
     },
     expandCloseAllHandler: (state) => {

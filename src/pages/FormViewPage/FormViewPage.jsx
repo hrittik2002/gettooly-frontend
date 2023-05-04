@@ -10,7 +10,7 @@ import {
   setQuestions,
 } from "../../redux/questionsSlice";
 import { useEffect } from "react";
-import { Button, EditableTextarea, Textarea } from "@chakra-ui/react";
+import { Button, EditableTextarea, Textarea, useToast } from "@chakra-ui/react";
 import {
   getIPAddress,
   submitForm,
@@ -18,13 +18,17 @@ import {
 //import ReactDOM from "react-dom";
 import Countdown from "react-countdown";
 import { useNavigate, useParams } from "react-router-dom";
+import AfterSubmission from "../../components/AfterSubmission/AfterSubmission";
 
 const FormViewPage = () => {
   const params = useParams();
+  const toast = useToast();
   const [resultList, setResultList] = useState([]);
   const navigate = useNavigate();
   const [resulst, setResults] = useState([...resultList]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [responseCode , setResponseCode] = useState('');
+  const [formSubmited , setFormSubmited] = useState(false);
   const [formId, setFormId] = useState();
   const userData = useSelector((state) => state.user.currentUser);
   const formCode = params.formCode
@@ -157,19 +161,39 @@ const FormViewPage = () => {
     e.preventDefault();
     let resultArray = [];
     for (let i = 0; i < resultList.length; i++) {
-      let ansArr = []
-      for(let j = 0; j < resultList[i].answer.length; j++) {
-        ansArr.push(resultList[i].answer[j].optionText);
+      if(resultList[i].questionType === 'checkbox'){
+        let ansArr = []
+        for(let j = 0; j < resultList[i].answer.length; j++) {
+          ansArr.push(resultList[i].answer[j].optionText);
+        }
+        resultArray.push({
+          question: resultList[i].questionId,
+          answer: ansArr
+        });
       }
-      resultArray.push({
-        question: resultList[i].questionId,
-        answer: ansArr
-      });
+      else{
+        resultArray.push({
+          question: resultList[i].questionId,
+          answer: resultList[i].answer.optionText
+        });
+      }
     }
     const IP = await getIPAddress();
-    console.log(IP, formId, resultArray);
+    console.log(IP, formId, resultArray , resultList);
     const res = await submitForm(IP, resultArray, formId);
     console.log(res);
+    if(res && res.status && res.status === 200){
+      setFormSubmited(true);
+      setResponseCode(res.data.data.response_code);
+      console.log(res.data)
+      toast({
+        title: 'Successfully Submited',
+        description: "Your Response has been successfully submitted",
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      })
+    }
   };
   const showIthQuestion = (i) => {
     setCurrentQuestion(i);
@@ -210,6 +234,14 @@ const FormViewPage = () => {
     }
   };
   return (
+    <>
+    {
+      formSubmited === true ?
+
+      <AfterSubmission formCode={formCode} responseCode={responseCode}/>
+
+      :
+    
     <div className={styles.parentContainer}>
       <div className={styles.Navbar}>
         <div className={styles.logoContainer}>
@@ -229,6 +261,7 @@ const FormViewPage = () => {
           >Submit</Button>
         </div>
       </div>
+      
       <div className={styles.midContainer}>
         <div className={styles.sideNav}>
           {questions.map((question, i) => (
@@ -330,81 +363,11 @@ const FormViewPage = () => {
         </main>
       </div>
     </div>
+    }
+    
+    </>
   );
 };
 
 export default FormViewPage;
 
-/*
-<header>
-        <h1>Online Exam Panel</h1>
-      </header>
-      <div>
-        sideNav
-      </div>
-      <main>
-        <div className={styles.container}>
-          <h2>Page 1 of 5 (20 questions)</h2>
-          <form>
-            {questions.map((question, i) => (
-              <div className={styles.question}>
-                <p>
-                  Question {i + 1}:{" "}
-                  <span
-                    dangerouslySetInnerHTML={{ __html: question.questionText }}
-                  />{" "}
-                </p>
-                {question.questionType === "text" ? (
-                  <>
-                    <Textarea
-                      style={{ width: "100%", height: "100%", border: "gray" }}
-                      placeholder="Here is a sample placeholder"
-                      onChange={(e) => {
-                        updateResult(
-                          question.id,
-                          e.target.value,
-                          question.questionType
-                        );
-                      }}
-                    />
-                  </>
-                ) : (
-                  <>
-                    {question.options.map((option, j) => (
-                      <>
-                        <label>
-                          <input
-                            type={question.questionType}
-                            name={question.questionType}
-                            onChange={() => {
-                              updateResult(
-                                question.id,
-                                option.optionText,
-                                question.questionType
-                              );
-                            }}
-                          />
-                          {option.optionText}
-                        </label>
-                      </>
-                    ))}
-                  </>
-                )}
-              </div>
-            ))}
-
-            <button
-              onClick={(e) => {
-                submitFormHandler(e);
-              }}
-              type="submit"
-            >
-              Submit
-            </button>
-          </form>
-        </div>
-      </main>
-      <footer>
-        <p>&copy; 2023 Online Exam Panel</p>
-      </footer>
-*/
