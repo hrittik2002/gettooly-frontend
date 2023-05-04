@@ -193,27 +193,27 @@ const QuestionForm = () => {
     console.log(questions);
     return questions.map((ques, i) => (
       <ThemeProvider theme={theme}>
-        <Draggable key={1} draggableId={i + "id"} index={i}>
+        {/* <Draggable key={1} draggableId={i + "id"} index={i}>
           {(provided, snapshot) => (
             <div
               ref={provided.innerRef}
               {...provided.draggableProps}
               {...provided.dragHandleProps}
-            >
+            > */}
               <div>
                 <div style={{ marginBottom: "0px" }}>
-                  <div style={{ width: "100%", marginBottom: "0px" }}>
-                    <DragIndicator
+                  <div style={{ width: "100%", marginBottom: "20px" }}>
+                    {/* <DragIndicator
                       style={{
                         transform: "rotate(-90deg)",
                         position: "relative",
                         left: "300px",
                       }}
                       fontSize="small"
-                    />
+                    /> */}
                   </div>
                   {/* Code Starts from here */}
-                  <div>
+                  <div >
                     <Accordion
                       expanded={questions[i].open}
                       onChange={() => {
@@ -233,10 +233,8 @@ const QuestionForm = () => {
                         style={{ width: "100%", minHeight: "15.625rem" , backgroundColor : "#fff"}}
                       >
                         {/* If ith qs is not open*/}
-                        {!questions[i].open ? (
-                         <ClosedQuestion ques={ques} i={i} questions={questions}/>
-                        ) : (
-                          // If Qs is open
+                        
+                          {/* // If Qs is open */}
                           <div
                             className={`${styles.questionBoxes}`}
                             style={{ display: "flex" }}
@@ -270,15 +268,15 @@ const QuestionForm = () => {
                               <AnswerKey ques={ques} i={i} />
                             )}
                           </div>
-                        )}
+                    
                       </AccordionSummary>
                     </Accordion>
                   </div>
                 </div>
               </div>
-            </div>
+            {/* </div>
           )}
-        </Draggable>
+        </Draggable> */}
       </ThemeProvider>
     ));
   }
@@ -339,8 +337,8 @@ const QuestionForm = () => {
               </div>
             </div>
           </div>
-
-          <DragDropContext onDragEnd={onDragEnd}>
+          {questionUI()}
+          {/* <DragDropContext onDragEnd={onDragEnd}>
             <Droppable droppableId="droppable">
               {(provided, snapshot) => (
                 <div {...provided.droppableProps} ref={provided.innerRef}>
@@ -349,7 +347,7 @@ const QuestionForm = () => {
                 </div>
               )}
             </Droppable>
-          </DragDropContext>
+          </DragDropContext> */}
         </div>
         <AddNewQuestion
           getFormData2={getFormData2}
