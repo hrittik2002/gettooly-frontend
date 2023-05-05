@@ -209,7 +209,7 @@ const FormViewPage = () => {
       setCurrentQuestion(currentQuestion + 1);
     }
   };
-
+  
   const defaultValueHandler = (questionId, optionId) => {
     const question = questions.find((q) => q.id === questionId);
     if (question.questionType === "checkbox") {
@@ -251,6 +251,7 @@ const FormViewPage = () => {
           />
         </div>
         <div className={styles.TimerContainer}>
+          {/* <Countdown date={Date.now() + 10000} /> */}
           <Countdown date={Date.now() + 10000} />
         </div>
         <div className={styles.SubmitBtnContainer}>

@@ -34,6 +34,24 @@ const HomeBody = () => {
     getAllFormsOfCurrentUser();
   }, [userData.id]);
 
+  const formateTime = (timestamp) => {
+    const date = new Date(timestamp);
+const options = {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  hour: 'numeric',
+  minute: 'numeric',
+  second: 'numeric',
+  hour12: false,
+  timeZone: 'UTC'
+};
+const formattedDate = date.toLocaleString('en-US', options);
+console.log(formattedDate)
+return formattedDate;
+  }
+  
+
 
   const openFormHandler = async(code) => {
     const res2 = await getFormData(code);
@@ -83,10 +101,10 @@ const HomeBody = () => {
               {formList.length !== 0 ? (
                 formList.map((formItem) => {
                   return (
-                    <Tr onClick={()=>{openFormHandler(formItem.code)}}>
+                    <Tr style={{cursor : "pointer"}} onClick={()=>{openFormHandler(formItem.code)}}>
                       <Td>{formItem.title}</Td>
-                      <Td>{formItem.createdAt}</Td>
-                      <Td>{formItem.updatedAt}</Td>
+                      <Td>{formateTime(formItem.createdAt)}</Td>
+                      <Td>{formateTime(formItem.updatedAt)}</Td>
                     </Tr>
                   );
                 })
