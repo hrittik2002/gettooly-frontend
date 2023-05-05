@@ -55,7 +55,7 @@ const Response = () => {
     <div className={styles.parentContainer}>
       {response.map((res, i) => (
         <div className={styles.qsContainer} key={i}>
-          <div className={styles.qs}>{res.question}</div>
+          <div dangerouslySetInnerHTML={{ __html: res.question }} className={styles.qs}/>
           
             <Chart
               chartType="PieChart"
