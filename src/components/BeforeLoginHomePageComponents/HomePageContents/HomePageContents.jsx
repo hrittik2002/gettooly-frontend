@@ -5,25 +5,39 @@ import features from '../../../assets/images/features.svg'
 import { Link } from 'react-router-dom'
 import Animation1 from '../../../assets/animations/ani1.json'
 import Animation2 from '../../../assets/animations/quizAni.json'
+import WhyUsAnimation from '../../../assets/animations/whyUs.json'
 import Lottie from "lottie-react";
 
 const HomePageContents = () => {
   return (
-    <div className={`${styles.container} ${styles.main}`}>
-        <div className={styles.section}>
-            {/* <img src={banner} alt="banner" /> */}
-            <Lottie animationData={Animation2} style={{
+    <div className={styles.container}>
+            <div className={styles.contentLeft}>
+                <div className={styles.heading}>
+                <h1>Create, Share <span>forms</span> easily</h1>
+                </div>
+                <div className={styles.font}>
+                <p>99Types is an online platform that allows users to create and share forms with ease. The website offers a simple and user-friendly interface that allows users to create various types of forms, including MCQ exams and job recruitment forms. With a free account, users can create and customize their forms, and easily share the link with others to gather responses.</p>
+                </div>
+                <div>
+                <Link to="" className={styles.btn}>get started</Link>
+                </div>
+                
+            </div>
+            <div className={styles.contentRight}>
+            <Lottie animationData={WhyUsAnimation} style={{
                 height : "100%",
-                width : "50%",
+                width : "100%",
                 zIndex : 1,
             }}/>
-            <div className={styles.content}>
-                <h1>Create, Share <span>forms</span> easily</h1>
-                <p>Formale lets you create forms super simply. All you need to do is create a free account and you'll be all set. You can share the link of your form with others and see thier submissions. It's suitable for online MCQ exam and for job recruitments</p>
-                <Link to="" className={styles.btn}>get started</Link>
             </div>
-        </div>
-        <div className={styles.section}>
+    </div>
+  )
+}
+
+export default HomePageContents
+
+/*
+ <div className={styles.section}>
             <div className={styles.content}>
                 <h1>Why choose us</h1>
                 <p>
@@ -34,14 +48,11 @@ const HomePageContents = () => {
                     <span className={styles.li}>Supports media file</span>
                 </p>
             </div>
-            {/* <img src={features} alt="features" /> */}
-            <Lottie animationData={Animation1} style={{
+            
+            <Lottie animationData={WhyUsAnimation} style={{
                 height : "100%",
                 width : "50%",
             }}/>
         </div>
-    </div>
-  )
-}
 
-export default HomePageContents
+*/

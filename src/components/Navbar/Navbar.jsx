@@ -19,15 +19,15 @@ const Navbar = ({location}) => {
   return (
     <>
       <div className={styles.parentContainer}>
-        <div className={styles.logo}>ABCD</div>
+        <div className={styles.logo}>99Types</div>
         <div className={styles.btnContainer}>
           <div className={styles.loginBtnContainer}>
-            <Button borderRadius="50px" height="47px" className={styles.loginBtn} onClick={() => setShowDialogForLogin(true)}>Login</Button>
+            <button  className={styles.loginBtn} onClick={() => setShowDialogForLogin(true)}>Login</button>
           </div>
           <div className={styles.registerBtnContainer}>
-            <Button borderRadius="50px" height="47px" className={styles.registerBtn} onClick={() => setShowDialogForRegister(true)}>
+            <button className={styles.registerBtn} onClick={() => setShowDialogForRegister(true)}>
               Register
-            </Button>
+            </button>
           </div>
         </div>
       </div>
