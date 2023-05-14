@@ -10,11 +10,6 @@
   padding-left: 10vw;
   padding-right: 2vw;
 }
-.logo {
-  font-weight: bold;
-  color: white;
-  
-}
 .btnContainer{
     display: flex;
     height: 100%;
@@ -49,7 +44,39 @@
 
 }
 .logo{
+  font-weight: bold;
+  color: white;
   font-size: 3rem;
   font-family: 'Signika', sans-serif;
   filter: brightness(120%);
+}
+.dropdownContainer{
+  display: none;
+}
+@media only screen and (max-width: 767px) {
+  .parentContainer {
+    display: flex;
+    width: 100vw;
+    height: 9vh;
+    background-color: var(--primary-color);
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 10vw;
+    padding-right: 2vw;
+  }
+  .btnContainer{
+      display: none;
+      
+  }
+  .dropdownContainer{
+    display: contents;
+  }
+  
+  .logo{
+    font-weight: bold;
+    color: white;
+    font-size: 3rem;
+    font-family: 'Signika', sans-serif;
+    filter: brightness(120%);
+  }
 }

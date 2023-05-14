@@ -22,6 +22,7 @@
   .btn:hover{
     box-shadow: 0 1px 2px #cfcfcf;
   }
+
   .container{
     display: flex;
     flex-direction: row;
@@ -57,4 +58,43 @@
     font-weight: 500;
     letter-spacing: 0.8;
     color: gray;
+  }
+
+  @media only screen and (max-width: 767px) {
+    .container {
+        display: flex;
+        flex-direction: column-reverse;
+        padding: 0;
+        height: auto;
+        gap: 1rem;
+    }
+    .contentLeft{
+      display: flex;
+      flex-direction: column;
+      height: auto;
+      width: auto;
+      padding: 3%;
+      gap: 1rem;
+    }
+    .heading{
+      font-size: 2.1rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+    .heading h1 span{
+      color: var(--primary-color);
+    }
+  
+    .contentRight{
+      height: auto;
+      padding: 5%;
+    }
+    
+    .font{
+      text-align: justify;
+      font-size: 1.1rem;
+      font-weight: 500;
+      letter-spacing: 0.8;
+      color: gray;
+    }
   }
