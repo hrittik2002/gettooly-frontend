@@ -1,8 +1,9 @@
+import React from 'react'
 import { Box, Spinner } from "@chakra-ui/react";
-import React from "react";
+import errIcn from "../../assets/animations/404error.json"
 import Lottie from "lottie-react";
-import loadingAni from "../../assets/animations/loadingAni.json"
-const LoadingScreen = () => {
+
+const Error404Page = () => {
   return (
     <Box
       width="100%"
@@ -11,13 +12,13 @@ const LoadingScreen = () => {
       justifyContent="center"
       alignItems="center"
     >
-      <Lottie animationData={loadingAni} style={{
+      <Lottie animationData={errIcn} style={{
                 height : "35%",
                 width : "35%",
                 zIndex : 1,
             }}/>
     </Box>
-  );
-};
+  )
+}
 
-export default LoadingScreen;
+export default Error404Page

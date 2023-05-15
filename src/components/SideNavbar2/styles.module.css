@@ -20,7 +20,7 @@
 }
 .sidebar{
     position: absolute;
-    background-color: #6b01c2;
+    background-color: var(--primary-color);
     color: #fff;
     top: 0;
     left: 0;
