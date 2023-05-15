@@ -61,6 +61,7 @@ const AboutPage = () => {
             }
             alt="Profile Picture"
           />
+          <div className={styles.editBtnContainer}>
           <button
             className={styles.editButton}
             onClick={() => {
@@ -69,6 +70,7 @@ const AboutPage = () => {
           >
             Edit About
           </button>
+          </div>
           <div className={`${styles.section} ${styles.location}`}>
             <h2 className={styles.sectionHeading}>Location Details</h2>
             <p>City: {userData.city}</p>

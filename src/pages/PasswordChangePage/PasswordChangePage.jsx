@@ -65,11 +65,11 @@ const PasswordChangePage = () => {
   return (
     <div >
       <SideNavbar2 />
-    <Box marginTop="5%" display="flex" flexDirection="column" width="100%" alignItems="center">
-      <Box display="flex" justifyContent="center" width="50%">
+    <Box  className={styles.parentContainer}>
+      <Box className={styles.headingContainer}>
         <Heading textTransform="uppercase">Change Password</Heading>
       </Box>
-      <VStack textTransform="uppercase" marginTop="3%"  spacing="15px" width="50%">
+      <VStack className={styles.body}>
         <FormControl id="oldPassword" isRequired>
           <FormLabel>Old Password</FormLabel>
           <Input

@@ -16,17 +16,22 @@ body {
     height: 200px;
     object-fit: cover;
   }
-  .editButton {
-    display: block;
-    margin: 10px auto;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 20px;
-    background-color: var(--primary-color);
-    color: #fff;
-    font-size: 18px;
-    cursor: pointer;
+  .editBtnContainer{
+    display: flex;
+    justify-content: center;
   }
+  .editButton {
+    text-transform: uppercase;
+   letter-spacing: 1px;
+   font-weight: 600;
+   width: 125px;
+   height: 70px;
+   color: var(--primary-color);
+   background-color: white;
+   border: 2px solid var(--primary-color);
+   height: 47px;
+  }
+
   .section {
     margin-top: 40px;
     border: 1px solid #ccc;
