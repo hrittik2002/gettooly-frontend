@@ -54,7 +54,7 @@ const ForgotPassword = ({closeDialogForLogin}) => {
           </FormControl>
           <Button
             onClick={handleSubmit}
-            backgroundColor="#8700f5"
+            backgroundColor="rgb(6, 185, 6)"
             color="white"
             width="100%"
             style={{ marginTop: 15 }}

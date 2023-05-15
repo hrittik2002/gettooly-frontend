@@ -6,6 +6,7 @@ import {
   Input,
   Select,
   VStack,
+  useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
@@ -14,6 +15,7 @@ import moment from "moment";
 import PhoneInput from 'react-phone-number-input'
 import 'react-phone-number-input/style.css'
 import { registerUser } from "../../config/ApiCalls/userApiCalls";
+import { Spinner } from '@chakra-ui/react'
 
 const initialValues = {
   email: "",
@@ -31,13 +33,23 @@ const initialValues = {
 };
 
 const RegisterByUser = () => {
+  const toast = useToast();
   const [pic, setPic] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading , setLoading] = useState(false);
   const [phoneNumber , setPhoneNumber] = useState();
-
+  const [phoneNumberError , setPhoneNumberError] = useState('');
   const poastDetails = async (e) => {
     setPic([...pic, ...Array.from(e.target.files)]);
   };
+  const showToast = (title , description , status) => {
+    toast({
+      title: title,
+      description: description,
+      status: status,
+      duration: 3000,
+      isClosable: true,
+    });
+  }
 
   useEffect(() => {
     console.log(pic);
@@ -48,6 +60,7 @@ const RegisterByUser = () => {
       initialValues: initialValues,
       validationSchema: registerByUserSchema,
       onSubmit: async (values) => {
+        setLoading(true);
         console.log("hiii from r");
         const formData = new FormData();
         formData.append("type", 2);
@@ -69,9 +82,21 @@ const RegisterByUser = () => {
           dateFormat
         );
         formData.append("DOB", toDateFormat);
-        console.log(phoneNumber)
-        const res = await registerUser(formData);
-        console.log(res);
+        
+        if(!phoneNumber || phoneNumber.length === 0){
+          setPhoneNumberError("Phone Number field cannot be empty")
+          return;
+        }
+        const responseData = await registerUser(formData);
+        if(responseData.success === true) {
+          showToast("Successfully registered" , responseData.data , "success")
+        }
+        else{
+          showToast("Registration Failed" , responseData.data , "error")
+          setLoading(false);
+        }
+        console.log(responseData);
+        setLoading(false);
       },
     });
   // const poastDetails = async(e)=>{
@@ -97,7 +122,7 @@ const RegisterByUser = () => {
         ) : null}
       </FormControl>
 
-      <HStack width="100%">
+  
         <FormControl id="first-name" isRequired>
           <FormLabel>First Name</FormLabel>
           <Input
@@ -126,23 +151,24 @@ const RegisterByUser = () => {
             <p style={{ color: "red" }}>{errors.lastName}</p>
           ) : null}
         </FormControl>
-      </HStack>
+  
 
       <FormControl id="phone-number" isRequired>
         <FormLabel>Phone Number</FormLabel>
         <PhoneInput
-          style={{width : "30%" , border : "1px solid skyblue" , borderRadius : "2px" , padding : "0.5%"}}
+          style={{width : "100%" , border : "1px solid skyblue" , borderRadius : "2px" , padding : "0.5%"}}
           international
           placeholder="Enter your Phone Number"
           value={phoneNumber}
           onChange={setPhoneNumber}
           defaultCountry="US"
         />
+        {(!phoneNumber || phoneNumber.length === 0) && <p style={{color : "red"}}>{phoneNumberError}</p>}
         {/* {errors.phoneNumber && touched.phoneNumber ? (
           <p style={{ color: "red" }}>{errors.phoneNumber}</p>
         ) : null} */}
       </FormControl>
-      <HStack width="100%">
+
         <FormControl id="state" isRequired>
           <FormLabel>State</FormLabel>
           <Input
@@ -171,8 +197,8 @@ const RegisterByUser = () => {
             <p style={{ color: "red" }}>{errors.city}</p>
           ) : null}
         </FormControl>
-      </HStack>
-      <HStack width="100%">
+  
+
         <FormControl id="pin" isRequired>
           <FormLabel>Pin</FormLabel>
           <Input
@@ -203,9 +229,8 @@ const RegisterByUser = () => {
             <p style={{ color: "red" }}>{errors.gender}</p>
           ) : null}
         </FormControl>
-      </HStack>
 
-      <HStack width="100%">
+
         <FormControl id="DOB" isRequired>
           <FormLabel>Date Of Birth</FormLabel>
           <Input
@@ -234,7 +259,7 @@ const RegisterByUser = () => {
             <p style={{ color: "red" }}>{errors.country}</p>
           ) : null}
         </FormControl>
-      </HStack>
+     
 
       <FormControl id="password" isRequired>
         <FormLabel>Password</FormLabel>
@@ -280,13 +305,16 @@ const RegisterByUser = () => {
         />
       </FormControl>
       <Button
-        backgroundColor="#8700f5"
+        backgroundColor="rgb(6, 185, 6)"
         color="white"
         width="100%"
         style={{ marginTop: 15 }}
         onClick={handleSubmit}
       >
-        Register
+        {!loading?
+        "Register"
+        :
+        <Spinner />}
       </Button>
     </VStack>
   );

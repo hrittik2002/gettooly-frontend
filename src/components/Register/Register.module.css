@@ -10,7 +10,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -25,7 +25,22 @@
     padding: 2rem 3rem;
     border-radius: 0.5rem;
     background-color: white;
+    border: 1px solid green;
     overflow: auto;
     z-index: 9;
     
+}
+@media only screen and (max-width: 767px) {
+    .dialogContainer{
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 95%;
+        padding: 0;
+        padding: 1rem 0rem;
+        background-color: white;
+        border: 1px solid green;
+        z-index: 9;
+    }
 }

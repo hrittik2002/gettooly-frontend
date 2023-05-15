@@ -8,6 +8,7 @@ import {
   VStack,
   useToast,
 } from "@chakra-ui/react";
+import { Spinner } from '@chakra-ui/react'
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { registerByOrganizationSchema } from "../../schemas";
@@ -29,8 +30,10 @@ const initialValues = {
 };
 const RegisterByOrganization = ({closeDialog}) => {
   const [pic, setPic] = useState([]);
+  const [loading , setLoading] = useState(false);
   const toast = useToast();
   const [phoneNumber , setPhoneNumber] = useState();
+  const [phoneNumberError , setPhoneNumberError] = useState('');
   const poastDetails = async (e) => {
     setPic([...pic, ...Array.from(e.target.files)]);
   };
@@ -54,6 +57,7 @@ const RegisterByOrganization = ({closeDialog}) => {
     validationSchema: registerByOrganizationSchema,
     onSubmit: async (values) => {
       //console.log(values);
+      setLoading(true);
       const formData = new FormData();
       formData.append("type", 1);
       formData.append("email", values.email);
@@ -67,15 +71,24 @@ const RegisterByOrganization = ({closeDialog}) => {
       formData.append("country", values.country);
       formData.append("password", values.password);
       formData.append("password2", values.confirmPassword);
+      if(!phoneNumber || phoneNumber.length === 0){
+        setPhoneNumberError("Phone Number field cannot be empty")
+        return;
+      }
       const responseData = await registerOrganization(formData);
+      console.log(phoneNumber)
+      
+     
       console.log(responseData)
       if(responseData.success === true) {
         showToast("Successfully registered" , responseData.data , "success")
       }
       else{
         showToast("Registration Failed" , responseData.data , "error")
+        setLoading(false);
       }
       closeDialog();
+      setLoading(false);
     },
   });
   return (
@@ -109,16 +122,17 @@ const RegisterByOrganization = ({closeDialog}) => {
       <FormControl id="phone-number" isRequired>
         <FormLabel>Phone Number</FormLabel>
         <PhoneInput
-        style={{width : "30%" , border : "1px solid skyblue" , borderRadius : "2px" , padding : "0.5%"}}
+        style={{width : "100%" , border : "1px solid skyblue" , borderRadius : "2px" , padding : "0.5%"}}
           placeholder="Enter your Phone Number"
           value={phoneNumber}
           onChange={setPhoneNumber}
           international
           defaultCountry="US"
         />
+        {(!phoneNumber || phoneNumber.length === 0) && <p style={{color : "red"}}>{phoneNumberError}</p>}
         {/* {errors.phoneNumber && touched.phoneNumber ? (<p style={{color : "red"}}>{errors.phoneNumber}</p>) : null} */}
       </FormControl>
-      <HStack width="100%">
+
         <FormControl id="state" isRequired>
           <FormLabel>State</FormLabel>
           <Input
@@ -143,8 +157,8 @@ const RegisterByOrganization = ({closeDialog}) => {
           />
           {errors.city && touched.city ? (<p style={{color : "red"}}>{errors.city}</p>) : null}
         </FormControl>
-      </HStack>
-      <HStack width="100%">
+
+ 
         <FormControl id="pin" isRequired>
           <FormLabel>Pin</FormLabel>
           <Input
@@ -171,7 +185,7 @@ const RegisterByOrganization = ({closeDialog}) => {
           </Select>
           {errors.gender && touched.gender ? (<p style={{color : "red"}}>{errors.gender}</p>) : null}
         </FormControl>
-      </HStack>
+
 
       <FormControl id="country" isRequired>
         <FormLabel>Country</FormLabel>
@@ -220,18 +234,21 @@ const RegisterByOrganization = ({closeDialog}) => {
           //value={values.pic}
           onChange={poastDetails}
           //onBlur={handleBlur}
-
           // onChange={(e) => postDetails(e.target.files[0])}
         />
       </FormControl>
       <Button
-        backgroundColor="#8700f5"
+        backgroundColor="rgb(6, 185, 6)"
         color="white"
         width="100%"
         onClick={handleSubmit}
         style={{ marginTop: 15 }}
       >
-        Register
+        {!loading?
+        "Register"
+        :
+        <Spinner />
+        }
       </Button>
     </VStack>
   );
