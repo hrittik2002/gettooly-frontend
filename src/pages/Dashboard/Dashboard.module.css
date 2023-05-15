@@ -1,0 +1,29 @@
+.borderedTable {
+    border: 2px solid #ccc; /* add a 2-pixel solid border with a light gray color */
+    border-collapse: collapse; /* collapse the borders into a single line */
+    width: 80%; /* set the table width to 80% of the container */
+    margin: 0 auto; /* center the table horizontally */
+    font-family: Arial, sans-serif; /* change the font family */
+    background-color: #f2f2f2; /* set a light gray background color */
+  }
+  
+  .borderedTable th, .borderedTable td {
+    border: 1px solid #ddd; /* add a 1-pixel border to the cells with a light gray color */
+    padding: 8px; /* add some padding to the cells */
+    text-align: left; /* align the cell content to the left */
+  }
+  
+  .borderedTable th {
+    background-color: var(--primary-color); /* set a green background color for the table header cells */
+    color: white; /* set the text color to white */
+  }
+  .heading{
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    margin-top: 20px;
+  }

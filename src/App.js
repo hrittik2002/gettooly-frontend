@@ -36,31 +36,6 @@ useEffect(() => {
 }, [userData, loginUserUsingCookie]);
 
 console.log(userData);
-  // const userData = useSelector((state) => state.user.currentUser);
-  // console.log(userData);
-  // const dispatch = useDispatch();
-  // // const loginUserUsingCookie = async () => {
-  // //   const data = await AutomaticLogin();
-  // //   console.log(data);
-  // //   dispatch(setUserData(data));
-  // // };
-  // // useMemo(() => {
-  // //   if (!userData) {
-  // //     loginUserUsingCookie();
-  // //   }
-  // // });
-  // useEffect(() => {
-  //   const loginUserUsingCookie = async () => {
-  //     const data = await AutomaticLogin();
-  //     console.log(data);
-  //     dispatch(setUserData(data));
-  //   };
-
-  //   if (!userData) {
-  //     loginUserUsingCookie();
-  //   }
-  // }, [dispatch, userData]);
-  // console.log(userData);
 
   return (
     <Router>
