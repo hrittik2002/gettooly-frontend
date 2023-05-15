@@ -17,11 +17,11 @@ const ToolBar = ({openSidebar}) => {
       <div className={styles.burger} onClick={openSidebar}>
             <MenuIcon fontSize="large" className={styles.burgerIcon}/>
         </div>
-        <div className={styles.title}>The Brave Coder</div>
+        <div className={styles.title}>99Types</div>
 
       </div>
       <div className={styles.right}>
-        <Button borderRadius="50px" height="47px" className={styles.logoutBtn} onClick={logoutHandler}>Logout</Button>
+        <button className={styles.logoutBtn} onClick={logoutHandler}>Logout</button>
       </div>
     </div>
   )

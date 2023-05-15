@@ -73,15 +73,25 @@
 }
 .logoutBtn{
     text-transform: uppercase;
-    letter-spacing: 1px;
-    width: 125px;
-    height: 70px;
- 
-    color: var(--primary-color);
+   letter-spacing: 1px;
+   font-weight: 600;
+   width: 125px;
+   height: 70px;
+   color: white;
+   background-color: var(--primary-color);
+   border: 2px solid white;
+   height: 47px;
 }
 .burger{
     height: 40%;
     width: 18%;
 }
 .burgerIcon{
+}
+
+@media only screen and (max-width: 1000px) {
+    .title{
+        display: none;
+    }
+
 }

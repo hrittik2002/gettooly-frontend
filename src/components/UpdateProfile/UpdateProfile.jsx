@@ -26,7 +26,7 @@ const UpdateProfile = ({ closeSettings }) => {
   const p = userData.phone_number.toString();
   //console.log(userData.profile_photo);
 
-  // console.log(pic);
+   console.log(userData);
   const initialValues = {
     name: userData.name,
     phoneNumber: p,
@@ -83,7 +83,7 @@ const UpdateProfile = ({ closeSettings }) => {
         <FormControl id="name" isRequired>
           <FormLabel>Name</FormLabel>
           <Input
-            placeholder="Enter your email"
+            placeholder="Enter your Name"
             type="text"
             name="name"
             value={values.name}
@@ -156,7 +156,8 @@ const UpdateProfile = ({ closeSettings }) => {
         </FormControl>
         <HStack width="100%">
           <Button
-            colorScheme="green"
+            backgroundColor="rgb(6, 185, 6)"
+            color="white"
             width="100%"
             style={{ marginTop: 15 }}
             onClick={handleSubmit}
