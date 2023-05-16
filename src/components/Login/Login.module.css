@@ -23,7 +23,7 @@
     border: 1px solid green;
     z-index: 9;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 1000px) {
     .dialogContainer{
         position: fixed;
         top: 50%;

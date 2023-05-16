@@ -1,0 +1,36 @@
+.parentContainer{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    gap: 10px;
+    padding-top: 10px;
+}
+.headingContainer{
+    width: 50%;
+    display: flex;
+    justify-content: center;
+}
+.contentContainer{
+    width: 50%;
+    text-transform: uppercase;
+}
+@media only screen and (max-width: 1000px) {
+    .parentContainer{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+        gap: 10px;
+        padding-top: 10px;
+    }
+    .headingContainer{
+        width: 80%;
+        display: flex;
+        justify-content: center;
+    }
+    .contentContainer{
+        width: 90%;
+        text-transform: uppercase;
+    }
+}

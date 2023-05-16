@@ -19,6 +19,7 @@ body {
   .editBtnContainer{
     display: flex;
     justify-content: center;
+    margin-top: 20px;
   }
   .editButton {
     text-transform: uppercase;

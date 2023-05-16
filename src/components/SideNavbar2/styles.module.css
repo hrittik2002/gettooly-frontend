@@ -29,6 +29,7 @@
     transform: translateX(-100%);
     transition: all 0.4s;
     z-index: 100;
+    position: fixed;
 }
 .sidebar li{
     list-style: none;

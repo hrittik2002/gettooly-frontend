@@ -17,6 +17,7 @@ import PhoneInput from "react-phone-number-input";
 import { useDispatch, useSelector } from "react-redux";
 import { updateConductUserData } from "../../config/apiCalls";
 import { setUserData } from "../../redux/userSlice";
+import styles from './UpdateProfile.module.css'
 
 const UpdateProfile = ({ closeSettings }) => {
   const toast = useToast();
@@ -94,17 +95,12 @@ const UpdateProfile = ({ closeSettings }) => {
 
   return (
     <Box
-      display="flex"
-      flexDirection="column"
-      width="100%"
-      alignItems="center"
-      gap="10px"
-      paddingTop="10px"
+      className={styles.parentContainer}
     >
-      <Box width="50%" display="flex" justifyContent="center">
+      <Box className={styles.headingContainer}>
         <Heading textTransform="uppercase">Update Profile</Heading>
       </Box>
-      <VStack spacing="15px" width="50%" textTransform="uppercase">
+      <VStack spacing="15px" className={styles.contentContainer}>
         <FormControl id="name" isRequired>
           <FormLabel>Name</FormLabel>
           <Input
@@ -122,7 +118,7 @@ const UpdateProfile = ({ closeSettings }) => {
             placeholder="Enter your Phone Number"
             value={values.phoneNumber}
             style={{
-              width: "30%",
+              width: "100%",
               border: "1px solid skyblue",
               borderRadius: "2px",
               padding: "0.5%",
