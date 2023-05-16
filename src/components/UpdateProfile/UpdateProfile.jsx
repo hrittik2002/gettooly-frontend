@@ -19,14 +19,32 @@ import { updateConductUserData } from "../../config/apiCalls";
 import { setUserData } from "../../redux/userSlice";
 
 const UpdateProfile = ({ closeSettings }) => {
-  const toast = useToast()
+  const toast = useToast();
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.user.currentUser);
   const [pic, setPic] = useState([]);
   const p = userData.phone_number.toString();
-  //console.log(userData.profile_photo);
+  
+  useEffect(() => {
+    const fetchImage = async () => {
+      console.log(userData.profile_photo);
+      const blob = await userData.profile_photo.blob();
 
-   console.log(userData);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPic(reader.result);
+      };
+      reader.readAsDataURL(blob);
+    };
+
+    fetchImage();
+  }, [userData]);
+
+  console.log(userData.profile_photo);
+  console.log(pic);
+
+
+  console.log(userData);
   const initialValues = {
     name: userData.name,
     phoneNumber: p,
@@ -75,8 +93,15 @@ const UpdateProfile = ({ closeSettings }) => {
     });
 
   return (
-    <Box display="flex" flexDirection="column" width="100%" alignItems="center" gap="10px" paddingTop="10px">
-      <Box  width="50%" display="flex" justifyContent="center" >
+    <Box
+      display="flex"
+      flexDirection="column"
+      width="100%"
+      alignItems="center"
+      gap="10px"
+      paddingTop="10px"
+    >
+      <Box width="50%" display="flex" justifyContent="center">
         <Heading textTransform="uppercase">Update Profile</Heading>
       </Box>
       <VStack spacing="15px" width="50%" textTransform="uppercase">
