@@ -25,7 +25,43 @@ const CARD_OPTIONS = {
   },
 };
 
-export default function PaymentForm() {
+const plans = [
+  {
+    id : 1,
+    plan : "Plan 1",
+    indianPricing : "price_1N8e0kSJstE3ZNVNLmyt8xpP",
+    usPricing : "price_1N8e0kSJstE3ZNVNzjjm5OFl",
+    usdPrice : 100,
+    inrPrice : 100,
+  },
+  {
+    id : 2,
+    plan : "Plan 2",
+    indianPricing : "price_1N8e1bSJstE3ZNVNwgCZ4sKL",
+    usPricing : "price_1N8e1bSJstE3ZNVNW6LQCFiH",
+    usdPrice : 200,
+    inrPrice : 200,
+  },
+  {
+    id : 3,
+    plan : "Plan 3",
+    indianPricing : "price_1N8e2BSJstE3ZNVN3ceChJtq",
+    usPricing : "price_1N8e2BSJstE3ZNVNcl64vI9B",
+    usdPrice : 300,
+    inrPrice : 300,
+  },
+  {
+    id : 4,
+    plan : "Plan 4",
+    indianPricing : "price_1N8e2eSJstE3ZNVNMmf7pNuR",
+    usPricing : "price_1N8e2eSJstE3ZNVNB2Z0UcHZ",
+    usdPrice : 400,
+    inrPrice : 400,
+  },
+]
+
+
+export default function PaymentForm({plan , currency}) {
   const [success, setSuccess] = useState(false);
   const stripe = useStripe();
   const elements = useElements();
@@ -50,10 +86,28 @@ export default function PaymentForm() {
         if (!error) {
           try {
             console.log(values)
+            console.log(currency)
             const { id } = paymentMethod;
+            let paymentPlan = '';
+            let price = 100;
+            
+            if(currency === 'inr'){
+              paymentPlan = plans[plan - 1].indianPricing;
+              price = plans[plan - 1].inrPrice;
+            }
+            else{
+              console.log(plans , plan)
+              console.log(plans[plan - 1])
+              paymentPlan = plans[plan - 1].usPricing;
+              price = plans[plan - 1].usdPrice;
+            }
+
+            console.log(price , paymentPlan , currency)
+
+            
             const data = await paymentAPICall(
-              10.0,
-              "price_1MtB77SJstE3ZNVNybe6QZiM",
+              price,
+              paymentPlan,
               1,
               id,
               "card",
@@ -62,10 +116,11 @@ export default function PaymentForm() {
               values.city,
               values.postal_code,
               values.state,
-              values.country
+              values.country,
+              currency
             );
             console.log(data);
-            console.log("aaaaaaaaaaaaaaaaaaaaaaaaa");
+            console.log( elements.getElement(CardElement))
             const result = await stripe.confirmCardPayment(data.client_secret, {
               payment_method: {
                 card: elements.getElement(CardElement),

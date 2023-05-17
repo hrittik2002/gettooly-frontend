@@ -230,7 +230,7 @@ export const changePassword = async (formData , id) => {
 }
 // Payment Gateway 
 export const paymentAPICall = async (amount , plan , duration , payment_method_id , payment_method_type , name , line1 , city ,
-  postal_code , state, country) => {
+  postal_code , state, country , currency) => {
   try{
     const formData = new FormData();
     formData.append("amount", amount);
@@ -244,6 +244,7 @@ export const paymentAPICall = async (amount , plan , duration , payment_method_i
     formData.append("postal_code" , postal_code);
     formData.append("state" , state);
     formData.append("country" , country);
+    formData.append("currency" , currency);
     console.log(formData)
     const res = await axios.post(`http://127.0.0.1:8000/api/payment/payment-intent/`,
       formData,

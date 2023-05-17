@@ -244,10 +244,9 @@ const RegisterByOrganization = ({closeDialog}) => {
         onClick={handleSubmit}
         style={{ marginTop: 15 }}
       >
-        {!loading?
+   {
         "Register"
-        :
-        <Spinner />
+        
         }
       </Button>
     </VStack>
