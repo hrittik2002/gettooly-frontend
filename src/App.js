@@ -18,24 +18,25 @@ import Test from "./Testing/Test";
 import FormViewPage from "./pages/FormViewPage/FormViewPage";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import ViewResponsePage from "./pages/ViewResponsePage/ViewResponsePage";
+import SubscriptionListPage from "./pages/SubscriptionListPage/SubscriptionListPage";
 
 function App() {
   const userData = useSelector((state) => state.user.currentUser);
-console.log(userData);
-const dispatch = useDispatch();
-const loginUserUsingCookie = useCallback(async () => {
-  const data = await AutomaticLogin();
-  console.log(data);
-  dispatch(setUserData(data));
-}, [dispatch]);
+  console.log(userData);
+  const dispatch = useDispatch();
+  const loginUserUsingCookie = useCallback(async () => {
+    const data = await AutomaticLogin();
+    console.log(data);
+    dispatch(setUserData(data));
+  }, [dispatch]);
 
-useEffect(() => {
-  if (!userData) {
-    loginUserUsingCookie();
-  }
-}, [userData, loginUserUsingCookie]);
+  useEffect(() => {
+    if (!userData) {
+      loginUserUsingCookie();
+    }
+  }, [userData, loginUserUsingCookie]);
 
-console.log(userData);
+  console.log(userData);
 
   return (
     <Router>
@@ -52,10 +53,14 @@ console.log(userData);
         />
         <Route
           path="/ConductUser/:userId/changePassword"
-          element={<PasswordChangePage/>}
+          element={<PasswordChangePage />}
         />
 
-        <Route path="/" exact element={<BeforeLoginHomePage userData={userData}/>} />
+        <Route
+          path="/"
+          exact
+          element={<BeforeLoginHomePage userData={userData} />}
+        />
 
         <Route
           path="/api/auth/user/email-veryfy"
@@ -64,47 +69,33 @@ console.log(userData);
 
         <Route
           path="/api/auth/user/email/password-reset/:uibd/:token"
-          element={<PasswordResetPage/>}
+          element={<PasswordResetPage />}
         />
-         <Route
-        path="/ConductUser/:userId/subscription"
-        element={<SubscriptionPage/>}
-       />
+        <Route
+          path="/ConductUser/:userId/subscription"
+          element={<SubscriptionPage />}
+        />
+        <Route
+          path="/ConductUser/:userId/subscription/list"
+          element={<SubscriptionListPage />}
+        />
 
-       <Route
-       path="/ConductUser/:userId/payment"
-       element={<PaymentPage/>}
-       />
 
-       <Route
-        path="/form/:formCode/edit"
-        element={<FormEditPage/>}
-       />
-       
-        
-        <Route 
-        path="/form/:formCode/view"
-        element={<FormViewPage/> }
-      />
+        <Route path="/ConductUser/:userId/payment" element={<PaymentPage />} />
 
-      <Route
-        path="/form/:formCode/:responseCode/review"
-        element={<ViewResponsePage/> }
-      />
-       
-       
+        <Route path="/form/:formCode/edit" element={<FormEditPage />} />
 
-      <Route
-      path="/User/:userId/dashboard"
-      element={<Dashboard/>}
-      />
+        <Route path="/form/:formCode/view" element={<FormViewPage />} />
 
-      { /* Testing */}      
-      <Route 
-        path="/testing"
-        element={<Test/>}
-      />
-        
+        <Route
+          path="/form/:formCode/:responseCode/review"
+          element={<ViewResponsePage />}
+        />
+
+        <Route path="/User/:userId/dashboard" element={<Dashboard />} />
+
+        {/* Testing */}
+        <Route path="/testing" element={<Test />} />
       </Routes>
     </Router>
   );

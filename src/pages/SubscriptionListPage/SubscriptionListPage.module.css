@@ -1,0 +1,46 @@
+.parentContainer{
+    width: 100%;
+}
+.table{
+    width: 100%;
+    
+}
+.viewButton {
+    text-transform: uppercase;
+   letter-spacing: 1px;
+   font-weight: 600;
+   width: 190px;
+   height: 70px;
+   color: var(--primary-color);
+   background-color: white;
+   border: 2px solid var(--primary-color);
+   height: 47px;
+  }
+  .cancelBtn{
+    text-transform: uppercase;
+   letter-spacing: 1px;
+   font-weight: 600;
+   width: 195px;
+   height: 70px;
+   color: red;
+   background-color: white;
+   border: 2px solid red;
+   height: 47px;
+  }
+  .Tbody{
+    width: 100%;
+    
+  }
+  .row{
+
+    
+  }
+  .container{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin: 4rem;
+  }

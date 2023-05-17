@@ -10,13 +10,12 @@ const SubscriptionPage = () => {
   const userData = useSelector((state) => state.user.currentUser);
   const [currency , setCurrency] = useState('usd');
 
-  const basicPayHandler = () => {
-    console.log(userData);
-    navigate(`/ConductUser/${userData.id}/payment`);
-  };
   const paymentHandler = (plan) => {
     console.log(userData);
     navigate(`/ConductUser/${userData.id}/payment` , { state : { plan : plan , currency : currency }});
+  }
+  const subscriptionlistHandler = () => {
+    navigate(`/ConductUser/${userData.id}/subscription/list`)
   }
 
   return (
@@ -81,6 +80,9 @@ const SubscriptionPage = () => {
             </button>
           </div>
         </div>
+      </div>
+      <div className={styles.viewbtnContainer}>
+        <button className={styles.viewButton} onClick={()=>{subscriptionlistHandler()}}>View Subscriptions</button>
       </div>
     </div>
   );
