@@ -1,14 +1,14 @@
 import React from "react";
 import { Box } from "@chakra-ui/react";
 import Lottie from "lottie-react";
-import paymentSuccess from '../assets/animations/paymentSuccess.json'
+import paymentSuccess from '../../assets/animations/paymentSuccess.json'
 
-const Test = () => {
+const PaymentSuccess = () => {
  
   return (
     <Box
       width="100%"
-      height="100vh"
+      height="90vh"
       display="flex"
       justifyContent="center"
       alignItems="center"
@@ -22,4 +22,4 @@ const Test = () => {
   )
 };
 
-export default Test;
+export default PaymentSuccess;
