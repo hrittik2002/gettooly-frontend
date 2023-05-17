@@ -159,18 +159,18 @@ export default function PaymentForm({ plan, currency }) {
                 setSuccess(true);
               } catch (err) {
                 console.log(err);
-                showToast("Payment Failed", "Something went wrong", error);
+                showToast("Payment Failed", "Something went wrong", "error");
                 setLoading(false);
               }
             }
           } catch (error) {
             console.log("Error", error);
-            showToast("Payment Failed", "Something went wrong", error);
+            showToast("Payment Failed", "Something went wrong", "error");
             setLoading(false);
           }
         } else {
           console.log(error.message);
-          showToast("Payment Failed", "Something went wrong", error);
+         showToast("Payment Failed", "Something went wrong", "error");
           setLoading(false);
         }
       },
