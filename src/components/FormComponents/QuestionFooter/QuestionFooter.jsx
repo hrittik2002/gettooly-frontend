@@ -80,7 +80,6 @@ const QuestionFooter = ({ i, questions, getFormData2, ques }) => {
         {/* Answer Option Btn */}
         {ques.options.length < 5 ? (
           // If no of options is less than 5
-
           <Button
             className={styles.addOptionBtn}
             onClick={() => {
@@ -103,7 +102,7 @@ const QuestionFooter = ({ i, questions, getFormData2, ques }) => {
           Add Answer
         </Button>
       </div>
-
+      {/* Score */}
       {is_quiz && (
         <Box
           width="100%"
@@ -111,12 +110,10 @@ const QuestionFooter = ({ i, questions, getFormData2, ques }) => {
           justifyContent="center"
           alignItems="center"
           gap="7px"
-          
         >
           <div className="">
           Score
           </div>
-          
           <NumberInput
             size="md"
             defaultValue={points}

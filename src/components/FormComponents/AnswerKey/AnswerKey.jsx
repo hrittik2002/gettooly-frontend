@@ -1,18 +1,22 @@
 import { AccordionDetails } from "@mui/material";
 import React from "react";
-import styles from './AnswerKey.module.css'
+import styles from "./AnswerKey.module.css";
 import { useDispatch } from "react-redux";
-import { doneAnswerHandler, setOptionAnswerHandler } from "../../../redux/questionsSlice";
+import {
+  doneAnswerHandler,
+  setOptionAnswerHandler,
+} from "../../../redux/questionsSlice";
 import { ShortTextRounded, TextSnippet } from "@mui/icons-material";
 import { Button } from "@chakra-ui/react";
-const AnswerKey = ({ ques , i }) => {
-    const dispatch = useDispatch();
-    const setOptionAnswer = (ans, qno) => {
-        dispatch(setOptionAnswerHandler({ ans, qno }));
-      };
-      const doneAnswer = (i) => {
-        dispatch(doneAnswerHandler({ i }));
-      };
+
+const AnswerKey = ({ ques, i }) => {
+  const dispatch = useDispatch();
+  const setOptionAnswer = (ans, qno) => {
+    dispatch(setOptionAnswerHandler({ ans, qno }));
+  };
+  const doneAnswer = (i) => {
+    dispatch(doneAnswerHandler({ i }));
+  };
   return (
     <AccordionDetails className={styles.addQuestion}>
       <div className={styles.topHeader}>Choose Correct Answer</div>
