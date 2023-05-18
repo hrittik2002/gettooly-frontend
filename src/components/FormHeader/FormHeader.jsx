@@ -58,16 +58,9 @@ const FormHeader = () => {
   return (
     <div className={styles.formHeader}>
       <div className={styles.formHeaderLeft}>
-        <img
-          src="https://e7.pngegg.com/pngimages/709/627/png-clipart-google-docs-form-google-purple-violet.png"
-          height="50px"
-          width="50px"
-        />
-        <input
-          type="text"
-          placeholder="Untitled form"
-          className={styles.formName}
-        />
+        <div className={styles.logo}>
+          99Types
+        </div>
       </div>
       <div className={styles.formHeaderRight}>
         <ColorPicker />

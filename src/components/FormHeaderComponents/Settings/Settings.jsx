@@ -134,8 +134,8 @@ const Settings = () => {
   const deleteForm = async(e) => {
     e.preventDefault()
     const res = await deleteFormApiCall(formId);
-    console.log(res);
-    console.log(userData);
+   // console.log(res);
+    //console.log(userData);
     if(res && res.status && res.status === 204){
       showToast("Successfully deleted" , "" , "success");
     }

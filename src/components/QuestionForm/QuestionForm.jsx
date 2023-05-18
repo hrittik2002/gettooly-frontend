@@ -66,7 +66,7 @@ const QuestionForm = () => {
 
   const getFormData2 = async () => {
     const res2 = await getFormData(formCode);
-    console.log(res2);
+   // console.log(res2);
     // Refresh Form
     const dummyQuestion = [];
     for (let i in res2.data.questions) {
@@ -102,7 +102,7 @@ const QuestionForm = () => {
           res2.data.questions[i].choices[j].is_answer;
       }
     }
-    console.log(dummyQuestion);
+   // console.log(dummyQuestion);
     dispatch(setQuestions(dummyQuestion));
     // Refresh Form Title
     dispatch(setFormTitle(res2.data.title));
@@ -132,7 +132,7 @@ const QuestionForm = () => {
     (state) => state.questions.formDescription
   );
   const formCode = useSelector((state) => state.questions.formCode);
-  console.log(formCode);
+  //console.log(formCode);
   const dispatch = useDispatch();
 
   const expandCloseAll = () => {
