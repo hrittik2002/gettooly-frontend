@@ -65,7 +65,7 @@
   .addQuestionTop {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
   }
   
@@ -174,4 +174,14 @@
   
  }
  .menuItems:checked{
+ }
+ .addQuestionBtn{
+  color: white;
+  background-color: var(--primary-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.6rem;
+  letter-spacing: 0.5px;
+  gap: 1px;
  }

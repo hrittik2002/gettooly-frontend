@@ -84,6 +84,7 @@ const reducer = (state, action) => {
 
 const QuestionTop = ({ i, ques, getFormData2 }) => {
   const formCode = useSelector((state) => state.questions.formCode);
+  const [showAddQuestionBtn , setShowAddQuestionBtn] = useState(false);
   const editor = useRef(null);
   const [content, setContent] = useState(
     ques.questionText !== null ? ques.questionText : ""
@@ -99,7 +100,6 @@ const QuestionTop = ({ i, ques, getFormData2 }) => {
   });
   const [value , setValue] = useState(questionType === "radio" ? "radio" : questionType === "checkbox" ? "checkbox" : 
   "text")
-  const dispatchRedux = useDispatch();
 
   const changeQuestion = (value, i) => {
     //dispatchRedux(changeQuestionHandler({ text, i }));
@@ -113,7 +113,7 @@ const QuestionTop = ({ i, ques, getFormData2 }) => {
   };
   const questionSubmitHandler = async (getFormData2) => {
     const newQuestion = content;
-    console.log(content);
+    //console.log(content);
     // const newQuestion = state.questionValue;
     const res = await updateQuestionAPICall(
       formCode,
@@ -125,6 +125,7 @@ const QuestionTop = ({ i, ques, getFormData2 }) => {
     await getFormData2();
     // dispatch({ type: "setQuestionValue", value: "" });
     // dispatch({ type: "setIsQuestion", value: false });
+    setShowAddQuestionBtn(false)
   };
   const addQuestionType = async (i, type) => {
     //dispatchRedux(addQuestionTypeHandler({ i, type }));
@@ -147,32 +148,28 @@ const QuestionTop = ({ i, ques, getFormData2 }) => {
   return (
     <div className={styles.addQuestionTop}>
       {/* Change Question Field */}
-
-      {/* <input
-        type="text"
-        className={styles.question}
-        placeholder={ques.questionText}
-        onChange={(e) => {
-          changeQuestion(e.target.value, i);
-        }}
-      /> */}
       <JoditEditor
         ref={editor}
         value={content}
         placeholder={ques.questionText}
         tabIndex={1} // tabIndex of textarea
-        onChange={(newContent) => setContent(newContent)}
+        onChange={(newContent) => {
+          setContent(newContent)
+          setShowAddQuestionBtn(true)
+        }}
       />
 
-      {content && (
-        <Button
-          leftIcon={<CheckIcon />}
-          colorScheme="teal"
-          variant="solid"
-          onClick={() => {
-            questionSubmitHandler(getFormData2);
-          }}
-        />
+      {showAddQuestionBtn && (
+      
+        <button className={styles.addQuestionBtn}
+        onClick={() => {
+              questionSubmitHandler(getFormData2);
+            }}
+        >
+          <div>
+            Update
+          </div>
+        </button>
       )}
 
       {/* Choose radio or box or paragraph field */}

@@ -12,7 +12,7 @@
 }
 .questionFormTop {
   background-color: white;
-  border-top: 8px solid rgb(103, 58, 183);
+  border-top: 8px solid var(--secondary-color);
   border-radius: 8px;
   padding: 30px 25px;
   text-transform: capitalize;
@@ -20,7 +20,7 @@
 .questionFormTopName {
   box-sizing: border-box;
   font-family: "Google Sans", Roboto, Arial, sans-serif;
-  font-size: 32px;
+  font-size: 36px;
   font-weight: 400;
   line-height: 40px;
   line-height: 135%;
@@ -35,7 +35,7 @@
   box-sizing: border-box;
   margin-top: 10px;
   font-family: "Google Sans", Roboto, Arial, sans-serif;
-  font-size: 13px;
+  font-size: 18px;
   font-weight: 400;
   line-height: 40px;
   width: 100%;

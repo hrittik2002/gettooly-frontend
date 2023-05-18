@@ -46,7 +46,6 @@ import AnswerKey from "../FormComponents/AnswerKey/AnswerKey";
 import AddNewQuestion from "../FormComponents/AddNewQuestion/AddNewQuestion";
 import ClosedQuestion from "../FormComponents/ClosedQuestion/ClosedQuestion";
 
-
 const theme = createTheme({
   typography: {
     fontFamily: "Roboto, sans-serif",
@@ -66,7 +65,7 @@ const QuestionForm = () => {
 
   const getFormData2 = async () => {
     const res2 = await getFormData(formCode);
-   // console.log(res2);
+    // console.log(res2);
     // Refresh Form
     const dummyQuestion = [];
     for (let i in res2.data.questions) {
@@ -77,7 +76,7 @@ const QuestionForm = () => {
       // });
       // const converter = new ReactHTMLConverter();
       // const reactElements = converter.convert(html);
-    
+
       dummyQuestion[i].questionText = res2.data.questions[i].question;
       dummyQuestion[i].answerKey = res2.data.questions[i].answer_key;
       dummyQuestion[i].id = res2.data.questions[i].id;
@@ -102,7 +101,7 @@ const QuestionForm = () => {
           res2.data.questions[i].choices[j].is_answer;
       }
     }
-   // console.log(dummyQuestion);
+    // console.log(dummyQuestion);
     dispatch(setQuestions(dummyQuestion));
     // Refresh Form Title
     dispatch(setFormTitle(res2.data.title));
@@ -196,88 +195,69 @@ const QuestionForm = () => {
     console.log(questions);
     return questions.map((ques, i) => (
       <ThemeProvider theme={theme}>
-        {/* <Draggable key={1} draggableId={i + "id"} index={i}>
-          {(provided, snapshot) => (
-            <div
-              ref={provided.innerRef}
-              {...provided.draggableProps}
-              {...provided.dragHandleProps}
-            > */}
-              <div>
-                <div style={{ marginBottom: "0px" }}>
-                  <div style={{ width: "100%", marginBottom: "20px" }}>
-                    {/* <DragIndicator
-                      style={{
-                        transform: "rotate(-90deg)",
-                        position: "relative",
-                        left: "300px",
-                      }}
-                      fontSize="small"
-                    /> */}
+        <div>
+          <div style={{ marginBottom: "0px" }}>
+            <div style={{ width: "100%", marginBottom: "20px" }}></div>
+            {/* Code Starts from here */}
+            <div>
+              <Accordion
+                expanded={questions[i].open}
+                onChange={() => {
+                  handleExpand(i);
+                }}
+                styles={{ height: "400px" }}
+                className={
+                  questions[i].open
+                    ? `${styles.addBorder} ${styles.questionBoxContainer}`
+                    : `${styles.questionBoxContainer}`
+                }
+              >
+                <AccordionSummary
+                  aria-controls="panelia-content"
+                  id="panelia-header"
+                  elevation={1}
+                  style={{
+                    width: "100%",
+                    minHeight: "15.625rem",
+                    backgroundColor: "#fff",
+                  }}
+                >
+                  <div
+                    className={`${styles.questionBoxes}`}
+                    style={{ display: "flex" }}
+                  >
+                    {!questions[i].answer ? (
+                      // If we dont want to put answer key
+                      <AccordionDetails className={styles.addQuestion}>
+                        <QuestionTop
+                          i={i}
+                          ques={ques}
+                          getFormData2={getFormData2}
+                        />
+
+                        {/** Edit Options for Questions Field */}
+                        {ques.options.map((op, j) => (
+                          <FormOption i={i} j={j} ques={ques} />
+                        ))}
+
+                        {/* Footer */}
+                        <QuestionFooter
+                          i={i}
+                          ques={ques}
+                          questions={questions}
+                          getFormData2={getFormData2}
+                        />
+                      </AccordionDetails>
+                    ) : (
+                      <AnswerKey ques={ques} i={i} />
+                    )}
                   </div>
-                  {/* Code Starts from here */}
-                  <div >
-                    <Accordion
-                      expanded={questions[i].open}
-                      onChange={() => {
-                        handleExpand(i);
-                      }}
-                      styles={{ height: "400px" }}
-                      className={
-                        questions[i].open
-                          ? `${styles.addBorder} ${styles.questionBoxContainer}`
-                          : `${styles.questionBoxContainer}`
-                      }
-                    >
-                      <AccordionSummary
-                        aria-controls="panelia-content"
-                        id="panelia-header"
-                        elevation={1}
-                        style={{ width: "100%", minHeight: "15.625rem" , backgroundColor : "#fff"}}
-                      >
-                        {/* If ith qs is not open*/}
-                        
-                          {/* // If Qs is open */}
-                          <div
-                            className={`${styles.questionBoxes}`}
-                            style={{ display: "flex" }}
-                          >
-                            {!questions[i].answer ? (
-                              // If we dont want to put answer key
-                              <AccordionDetails className={styles.addQuestion}>
-                                
-                                <QuestionTop
-                                  i={i}
-                                  ques={ques}
-                                  getFormData2={getFormData2}
-                                />
-
-                                {/** Edit Options for Questions Field */}
-                                {ques.options.map((op, j) => (
-                                  <FormOption i={i} j={j} ques={ques} />
-                                ))}
-
-                                {/* Footer */}
-                                <QuestionFooter
-                                  i={i}
-                                  ques={ques}
-                                  questions={questions}
-                                  getFormData2={getFormData2}
-                                />
-
-
-                              </AccordionDetails>
-                            ) : (
-                              <AnswerKey ques={ques} i={i} />
-                            )}
-                          </div>
-                    
-                      </AccordionSummary>
-                    </Accordion>
-                  </div>
-                </div>
-              </div>
-            {/* </div>
+                </AccordionSummary>
+              </Accordion>
+            </div>
+          </div>
+        </div>
+        {/* </div>
           )}
         </Draggable> */}
       </ThemeProvider>
@@ -293,8 +273,10 @@ const QuestionForm = () => {
       >
         <br></br>
         <div className={styles.section}>
+          {/* form top section */}
           <div className={styles.questionTitleSection}>
             <div className={styles.questionFormTop}>
+              {/* form title */}
               <div className={styles.parentContainer1}>
                 <input
                   type="text"
@@ -317,12 +299,13 @@ const QuestionForm = () => {
                   </Button>
                 )}
               </div>
+              {/* form description */}
               <div className={styles.parentContainer1}>
                 <input
                   type="text"
                   className={styles.questionFormTopDesc}
                   style={{ color: "black" }}
-                  placeholder={`${formDescription}`}
+                  placeholder={`${formDescription === "" ? "Untitled Description" : formDescription}`}
                   onChange={(e) => {
                     descChangeHandler(e);
                   }}
@@ -333,24 +316,17 @@ const QuestionForm = () => {
                     colorScheme="teal"
                     variant="solid"
                     onClick={(e) => formDescSubmitHandler(e)}
-                  >
+                  > 
                     Add
                   </Button>
                 )}
               </div>
             </div>
           </div>
+
+          {/* form content section */}
           {questionUI()}
-          {/* <DragDropContext onDragEnd={onDragEnd}>
-            <Droppable droppableId="droppable">
-              {(provided, snapshot) => (
-                <div {...provided.droppableProps} ref={provided.innerRef}>
-                  {questionUI()}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          </DragDropContext> */}
+
         </div>
         <AddNewQuestion
           getFormData2={getFormData2}
