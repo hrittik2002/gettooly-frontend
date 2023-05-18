@@ -206,6 +206,7 @@ export const updateQuestionAPICall = async (code , id , questionText , questionT
   }
   catch(err){
     console.log(err)
+    return err;
   }
 };
 

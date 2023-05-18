@@ -30,7 +30,7 @@ import {
 } from "../../config/ApiCalls/formApiCalls";
 import { useEffect } from "react";
 import { CheckIcon } from "@chakra-ui/icons";
-import { Button } from "@chakra-ui/react";
+import { Button, Textarea } from "@chakra-ui/react";
 import FormOption from "../FormComponents/FormOption/FormOption";
 import QuestionTop from "../FormComponents/QuestionTop/QuestionTop";
 import QuestionFooter from "../FormComponents/QuestionFooter/QuestionFooter";
@@ -236,9 +236,19 @@ const QuestionForm = () => {
                         />
 
                         {/** Edit Options for Questions Field */}
-                        {ques.options.map((op, j) => (
-                          <FormOption i={i} j={j} ques={ques} />
-                        ))}
+                        {
+                          ques.questionType === "text" ? 
+                          <div className={styles.textArea}>
+                            <Textarea style={{width:"100%" , height:"100%" , border:"gray"}} placeholder='text area' disabled/>
+                          </div>
+                          :
+                          <>
+                          {ques.options.map((op, j) => (
+                            <FormOption i={i} j={j} ques={ques} />
+                          ))}
+                          </>
+                        }
+                        
 
                         {/* Footer */}
                         <QuestionFooter

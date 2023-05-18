@@ -84,7 +84,7 @@ const reducer = (state, action) => {
 
 const QuestionTop = ({ i, ques, getFormData2 }) => {
   const formCode = useSelector((state) => state.questions.formCode);
-  const [showAddQuestionBtn , setShowAddQuestionBtn] = useState(false);
+  const [showAddQuestionBtn, setShowAddQuestionBtn] = useState(false);
   const editor = useRef(null);
   const [content, setContent] = useState(
     ques.questionText !== null ? ques.questionText : ""
@@ -98,8 +98,13 @@ const QuestionTop = ({ i, ques, getFormData2 }) => {
     isQuestion: false,
     questionValue: questionText,
   });
-  const [value , setValue] = useState(questionType === "radio" ? "radio" : questionType === "checkbox" ? "checkbox" : 
-  "text")
+  const [value, setValue] = useState(
+    questionType === "radio"
+      ? "radio"
+      : questionType === "checkbox"
+      ? "checkbox"
+      : "text"
+  );
 
   const changeQuestion = (value, i) => {
     //dispatchRedux(changeQuestionHandler({ text, i }));
@@ -113,8 +118,7 @@ const QuestionTop = ({ i, ques, getFormData2 }) => {
   };
   const questionSubmitHandler = async (getFormData2) => {
     const newQuestion = content;
-    //console.log(content);
-    // const newQuestion = state.questionValue;
+  
     const res = await updateQuestionAPICall(
       formCode,
       id,
@@ -123,13 +127,12 @@ const QuestionTop = ({ i, ques, getFormData2 }) => {
       required
     );
     await getFormData2();
-    // dispatch({ type: "setQuestionValue", value: "" });
-    // dispatch({ type: "setIsQuestion", value: false });
-    setShowAddQuestionBtn(false)
+    setShowAddQuestionBtn(false);
   };
   const addQuestionType = async (i, type) => {
     //dispatchRedux(addQuestionTypeHandler({ i, type }));
-    const newQuestion = state.questionValue;
+    const newQuestion = content;
+    console.log(newQuestion)
     const res = await updateQuestionAPICall(
       formCode,
       id,
@@ -139,8 +142,18 @@ const QuestionTop = ({ i, ques, getFormData2 }) => {
     );
     console.log(res);
     getFormData2();
-    setValue(type === "radio" ? "radio" : type === "checkbox" ? "checkbox" : 
-    "text")
+    if(type === 'radio'){
+      setValue('radio');
+    }
+    else if(type === 'checkbox'){
+      setValue('checkbox');
+    }
+    else if(type === 'text'){
+      setValue('text');
+    }
+    // setValue(
+    //   type === "radio" ? "radio" : type === "checkbox" ? "checkbox" : "text"
+    // );
     dispatch({ type: "setQuestionValue", value: "" });
     dispatch({ type: "setIsQuestion", value: false });
   };
@@ -154,29 +167,27 @@ const QuestionTop = ({ i, ques, getFormData2 }) => {
         placeholder={ques.questionText}
         tabIndex={1} // tabIndex of textarea
         onChange={(newContent) => {
-          setContent(newContent)
-          setShowAddQuestionBtn(true)
+          setContent(newContent);
+          setShowAddQuestionBtn(true);
         }}
       />
 
       {showAddQuestionBtn && (
-      
-        <button className={styles.addQuestionBtn}
-        onClick={() => {
-              questionSubmitHandler(getFormData2);
-            }}
+        <button
+          className={styles.addQuestionBtn}
+          onClick={() => {
+            questionSubmitHandler(getFormData2);
+          }}
         >
-          <div>
-            Update
-          </div>
+          <div>Update</div>
         </button>
       )}
 
       {/* Choose radio or box or paragraph field */}
       <CustomSelect
-       value={value}
-       style={{paddingLeft : "2px" , paddingBottom : "4px"}}
-      // onChange={handleChange}
+        value={value}
+        style={{ paddingLeft: "2px", paddingBottom: "4px" }}
+        // onChange={handleChange}
       >
         <MenuItem
           id="text"
@@ -185,11 +196,11 @@ const QuestionTop = ({ i, ques, getFormData2 }) => {
             addQuestionType(i, "text");
           }}
         >
-          <div style={{display : "flex" , alignItems : "center" , gap : "4px"}}>
-          <div>
-          <Subject style={{ marginRight: "1px" }} />
-          </div>
-          <div>Paragraph</div>
+          <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+            <div>
+              <Subject style={{ marginRight: "1px" }} />
+            </div>
+            <div>Paragraph</div>
           </div>
         </MenuItem>
         <MenuItem
@@ -199,21 +210,19 @@ const QuestionTop = ({ i, ques, getFormData2 }) => {
             addQuestionType(i, "checkbox");
           }}
         >
-          <div style={{display : "flex" , alignItems : "center" , gap : "4px"}}>
-          <div>
-          <CheckBox
-            style={{
-              marginRight: "1px",
-              color: "#70757a",
-            }}
-            checked
-          />
+          <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+            <div>
+              <CheckBox
+                style={{
+                  marginRight: "1px",
+                  color: "#70757a",
+                }}
+                checked
+              />
+            </div>
+
+            <div>Checkbox</div>
           </div>
-          
-          
-          <div>Checkbox</div>
-          </div>
-          
         </MenuItem>
         <MenuItem
           id="radio"
@@ -223,91 +232,21 @@ const QuestionTop = ({ i, ques, getFormData2 }) => {
             addQuestionType(i, "radio");
           }}
         >
-          <div style={{display : "flex" , alignItems : "center" , gap : "4px"}}>
-          <div>
-          <RadioButtonCheckedIcon
-            style={{
-              marginRight: "1px",
-              color: "#78757a",
-            }}
-          />
-          </div>
-          
-          <div>Multiple Choice</div>
+          <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+            <div>
+              <RadioButtonCheckedIcon
+                style={{
+                  marginRight: "1px",
+                  color: "#78757a",
+                }}
+              />
+            </div>
+
+            <div>Multiple Choice</div>
           </div>
         </MenuItem>
       </CustomSelect>
 
-      {/* <Select
-        className={styles.select}
-        style={{ color: "#5f6368", fontSize: "13px" , display : "flex" , justifyContent : "center" , alignItems : "center" }}
-        defaultValue="Radio"
-        labelId="question-type-label"
-        id="question-type"
-        displayEmpty
-        inputProps={{ 'aria-label': 'Question Type' }}
-        variant="outlined"
-
-      >
-        <MenuItem
-          id="text"
-          value="Text"
-          onClick={() => {
-            addQuestionType(i, "text");
-          }}
-          className={styles.menuItems}
-        >
-          <Subject style={{ marginRight: "1px" }} />
-          Paragraph
-        </MenuItem>
-        <MenuItem
-          id="checkbox"
-          value="Checkbox"
-          className={styles.menuItems}
-          onClick={() => {
-            addQuestionType(i, "checkbox");
-          }}
-        >
-          <CheckBox
-            style={{
-              marginRight: "1px",
-              color: "#70757a",
-         
-            }}
-            checked
-          />
-          Checkbox
-        </MenuItem>
-        <MenuItem
-          id="radio"
-          value="Radio"
-          className={styles.menuItems}
-          onClick={() => {
-            addQuestionType(i, "radio");
-          }}
-        >
-          <RadioButtonCheckedIcon
-
-            style={{
-              marginRight: "1px",
-              color: "#78757a",
-            
-            }}
-          />
-          Multiple Choice
-        </MenuItem>
-        <MenuItem
-          id="shortQs"
-          value="ShortQuestion"
-          className={styles.menuItems}
-          onClick={() => {
-            addQuestionType(i, "shortquestion");
-          }}
-        >
-          <ShortTextIcon style={{ marginRight: "1px" }} />
-          Short Question
-        </MenuItem>
-      </Select> */}
     </div>
   );
 };
