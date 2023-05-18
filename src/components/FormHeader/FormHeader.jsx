@@ -68,21 +68,13 @@ const FormHeader = () => {
           placeholder="Untitled form"
           className={styles.formName}
         />
-        
       </div>
       <div className={styles.formHeaderRight}>
-        
-        <ColorPicker/>
+        <ColorPicker />
 
+        <Settings />
 
-        
-          <RemoveRedEyeIcon color="#fff"  fontSize="large" className={styles.formHeaderIcon} />
-  
-        
-        <Settings/>
-        
-        <SendForm/>
-       
+        <SendForm />
       </div>
     </div>
   );

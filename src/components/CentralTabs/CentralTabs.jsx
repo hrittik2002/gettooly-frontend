@@ -17,16 +17,15 @@ const CentralTabs = () => {
   const bgColor = useSelector((state) => state.questions.bgColor);
   return (
     <div>
-      <Tabs position="relative" variant="unstyled" align="center" width="100%" backgroundColor="#8700f5" height="88vh">
-        <TabList backgroundColor="#8700f5">
+      <Tabs position="relative" variant="unstyled" align="center" width="100%" height="88vh"
+      className={styles.tabs}
+      >
+        <TabList className={styles.tabList}>
           <Tab styles={styles.tab} color="#fff">Questions</Tab>
           <Tab styles={styles.tab} color="#fff">Responses</Tab>
         </TabList>
         <TabIndicator
-          mt="-1.5px"
-          height="2px"
-          bg="blue.500"
-          borderRadius="1px"
+          className={styles.tabIndicator}
         />
         <Box
           height="2px"

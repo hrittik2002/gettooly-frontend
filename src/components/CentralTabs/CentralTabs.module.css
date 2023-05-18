@@ -4,3 +4,15 @@
     text-transform: uppercase;
     font-weight: 600;
 }
+.tabList{
+    background-color: var(--primary-color);
+}
+.tabIndicator{
+    margin-top: 1.5px;
+    height: 2px;
+    background: #fff;
+    border-radius: 1px;
+}
+.tabs{
+    background-color: var(--primary-color);
+}

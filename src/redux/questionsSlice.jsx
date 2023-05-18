@@ -5,6 +5,7 @@ const questionsSlice = createSlice({
   initialState: {
     formTitle: "",
     formCode : "",
+    formId : "",
     formCreator : "",
     bgColor : "",
     formDescription: "Untiled Description",
@@ -29,6 +30,9 @@ const questionsSlice = createSlice({
   reducers: {
     setFormTitle: (state, action) => {
       state.formTitle = action.payload;
+    },
+    setFormId : (state, action) => {
+      state.formId = action.payload;
     },
     setFormDescription: (state, action) => {
       state.formDescription = action.payload;
@@ -164,6 +168,7 @@ export const {
   setFormCode,
   setFormCreator,
   setFormTitle,
+  setFormId,
   setBackgroundColor,
   setFormDescription,
   setQuestions,

@@ -11,10 +11,12 @@ import {
   ModalCloseButton,
   VStack,
   Box,
+  useToast,
 } from "@chakra-ui/react";
 import { Checkbox, CheckboxGroup } from "@chakra-ui/react";
 import { Button, IconButton, useDisclosure } from "@chakra-ui/react";
 import {
+  deleteFormApiCall,
   getFormData,
   updateSettingsApiCall,
 } from "../../../config/ApiCalls/formApiCalls";
@@ -30,6 +32,7 @@ import {
 import { useSelector } from "react-redux";
 import { useReducer } from "react";
 import { Textarea } from "@chakra-ui/react";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -77,11 +80,15 @@ const reducer = (state, action) => {
 const Settings = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const formCode = useSelector((state) => state.questions.formCode);
+  const formId = useSelector((state) => state.questions.formId);
   const dispatchRedux = useDispatch();
+  const navigate = useNavigate();
+  const userData = useSelector((state)=>state.user.currentUser)
+  const toast = useToast();
 
   const getFormData2 = async () => {
     const res2 = await getFormData(formCode);
-    console.log(res2);
+    //console.log(res2);
     // refresh the settings
     dispatchRedux(set_collect_email(res2.data.collect_email));
     dispatchRedux(
@@ -91,6 +98,16 @@ const Settings = () => {
     dispatchRedux(set_confirmation_message(res2.data.confirmation_message));
     dispatchRedux(set_is_quiz(res2.data.is_quiz));
     dispatchRedux(set_allow_view_score(res2.data.allow_view_score));
+  };
+  const showToast = (title, description, status) => {
+    toast({
+      title: title,
+      description: description,
+      status: status,
+      duration: 3000,
+      position: "top",
+      isClosable: true,
+    });
   };
 
   const [state, dispatch] = useReducer(reducer, {
@@ -107,17 +124,33 @@ const Settings = () => {
   });
 
   const saveHandler = () => {
-    console.log(state);
+    //console.log(state);
     const res = updateSettingsApiCall(formCode, state);
     onClose();
     getFormData2();
   };
+  
+
+  const deleteForm = async(e) => {
+    e.preventDefault()
+    const res = await deleteFormApiCall(formId);
+    console.log(res);
+    console.log(userData);
+    if(res && res.status && res.status === 204){
+      showToast("Successfully deleted" , "" , "success");
+    }
+    else{
+      showToast("Failed to Delete Form" , "" , "error");
+    }
+    navigate(`/ConductUser/${userData.id}`);
+  }
 
   return (
     <>
       <SettingsIcon
         color="#fff"
-        w={7} h={7}
+        w={7}
+        h={7}
         className={styles.formHeaderIcon}
         onClick={onOpen}
       />
@@ -127,9 +160,159 @@ const Settings = () => {
         <ModalContent>
           <ModalHeader>Settings</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
-            <VStack spacing={1.5}>
-              <Checkbox
+          <ModalBody >
+            <form id="setting-form">
+              <div className={styles.modalDivision}>
+                <h3 className={styles.modalSubtitle}>General</h3>
+                <div className={styles.formGroup}>
+                  <input
+                    type="checkbox"
+                    id="collect_email"
+                    defaultChecked={state.collect_email ? true : false}
+                    onChange={(e) => {
+                      dispatch({
+                        type: "set_collect_email",
+                        value: !state.collect_email,
+                      });
+                    }}
+                  />
+                  <label
+                    htmlFor="collect_email"
+                    className={styles.settingFormLabel}
+                  >
+                    Collect email address
+                  </label>
+                </div>
+                <div className={styles.formGroup}>
+                  <input
+                    type="checkbox"
+                    id="is_quiz"
+                    defaultChecked={state.is_quiz ? true : false}
+                    onChange={() => {
+                      dispatch({ type: "set_is_quiz", value: !state.is_quiz });
+                    }}
+                  />
+                  <label htmlFor="is_quiz" className={styles.settingFormLabel}>
+                    Make this as a quiz
+                  </label>
+                </div>
+                <div className={styles.formGroup}>
+                  <input
+                    type="checkbox"
+                    id="authenticated_responder"
+                    defaultChecked={
+                      state.authenticated_responder ? true : false
+                    }
+                    onChange={(e) => {
+                      dispatch({
+                        type: "set_authenticated_responder",
+                        value: !state.authenticated_responder,
+                      });
+                    }}
+                  />
+                  <label
+                    htmlFor="authenticated_responder"
+                    className={styles.settingFormLabel}
+                  >
+                    Respondent account must be authenticated. (Signed in
+                    required)
+                  </label>
+                </div>
+              </div>
+              <div className={styles.modalDivision}>
+                <div className={styles.formGroup2}>
+                  <h3 className={styles.modalSubtitle}>
+                    Confirmation message:
+                  </h3>
+                  <textarea
+                    rows="1"
+                    className={`${styles.confirmationMsgInput} ${styles.editOnClick} ${styles.textareaAdjust}`}
+                    id="comfirmation_message"
+                    placeholder={`${state.confirmation_message}`}
+                    onChange={(e) => {
+                      dispatch({
+                        type: "set_confirmation_message",
+                        value: e.target.value,
+                      });
+                    }}
+                  ></textarea>
+                </div>
+              </div>
+              <div className={styles.modalDivision}>
+                <h3 className={styles.modalSubtitle}>Respondents can:</h3>
+                <div className={styles.formGroup}>
+                  <input
+                    type="checkbox"
+                    id="edit_after_submit"
+                    defaultChecked={state.edit_after_submit ? true : false}
+                    onChange={() => {
+                      dispatch({
+                        type: "set_edit_after_submit",
+                        value: !state.edit_after_submit,
+                      });
+                    }}
+                  />
+                  <label
+                    htmlFor="edit_after_submit"
+                    className={styles.settingFormLabel}
+                  >
+                    Edit after submit
+                  </label>
+                </div>
+                <div className={styles.formGroup}>
+                  <input type="checkbox" id="allow_view_score" 
+                   defaultChecked={state.allow_view_score ? true : false}
+                   onChange={() => {
+                     dispatch({
+                       type: "set_allow_view_score",
+                       value: !state.allow_view_score,
+                     });
+                   }}/>
+                  <label
+                    htmlFor="allow_view_score"
+                    className={styles.settingFormLabel}
+  
+                  >
+                    View score
+                  </label>
+                </div>
+              </div>
+              <button onClick={saveHandler} className={styles.saveBtn}>
+              Save
+            </button>
+            </form>
+
+            <form id="delete-form" className={styles.modalDivision}>
+              <fieldset className={styles.formGroup4}>
+        
+                <h3 className={styles.modalSubtitle}>Delete this form</h3>
+                <p className={styles.deleteFormDescription}>
+                  Once you delete a form, there is no going back. Please be
+                  certain.
+                </p>
+                <button
+                  className={styles.deleteFormBtn}
+                  onClick={(e)=>{deleteForm(e)}}
+                >Delete</button>
+              </fieldset>
+            </form>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              Cancel
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
+  );
+};
+
+export default Settings;
+
+/*
+<Checkbox
                 colorScheme="green"
                 defaultChecked={state.collect_email ? true : false}
                 onChange={(e) => {
@@ -176,13 +359,7 @@ const Settings = () => {
               </Checkbox>
               <Checkbox
                 colorScheme="green"
-                defaultChecked={state.allow_view_score ? true : false}
-                onChange={() => {
-                  dispatch({
-                    type: "set_allow_view_score",
-                    value: !state.allow_view_score,
-                  });
-                }}
+                c
               >
                 Allow View Score ?
               </Checkbox>
@@ -198,21 +375,4 @@ const Settings = () => {
                   }}
                 />
               </Box>
-            </VStack>
-          </ModalBody>
-
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
-              Cancel
-            </Button>
-            <Button onClick={saveHandler} colorScheme="green">
-              Save
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </>
-  );
-};
-
-export default Settings;
+*/

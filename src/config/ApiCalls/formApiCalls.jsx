@@ -316,3 +316,22 @@ export const getAllFormsByUserId = async(userId) => {
     console.log(err)
   }
 }
+
+// delete form
+export const deleteFormApiCall = async(formId) => {
+  try{
+    const res = axios.delete(`http://localhost:8000/api/form/${formId}/delete/`, 
+    {
+      headers: {
+        Authorization: `Bearer ${getCookie("access_token")}`,
+    }
+    
+  },
+    )
+     console.log(res);
+    return res;
+  }
+  catch(err){
+    console.log(err)
+  }
+}

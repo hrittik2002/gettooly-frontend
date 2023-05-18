@@ -21,6 +21,7 @@ import {
   setFormTitle,
   setFormDescription,
   setBackgroundColor,
+  setFormId,
 } from "../../redux/questionsSlice";
 import {
   getFormData,
@@ -105,6 +106,8 @@ const QuestionForm = () => {
     dispatch(setQuestions(dummyQuestion));
     // Refresh Form Title
     dispatch(setFormTitle(res2.data.title));
+    // refresg form id
+    dispatch(setFormId(res2.data.id));
     // Refresh Form Description
     dispatch(setFormDescription(res2.data.description));
     // refresh bg color
