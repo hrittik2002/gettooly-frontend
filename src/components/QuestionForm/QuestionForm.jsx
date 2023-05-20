@@ -90,7 +90,7 @@ const QuestionForm = () => {
       } else if (res2.data.questions[i].question_type === "checkbox") {
         dummyQuestion[i].questionType = "checkbox";
       }
-
+      
       dummyQuestion[i].options = [];
       for (let j in res2.data.questions[i].choices) {
         dummyQuestion[i].options.push({});

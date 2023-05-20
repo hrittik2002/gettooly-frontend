@@ -336,3 +336,26 @@ export const deleteFormApiCall = async(formId) => {
     console.log(err)
   }
 }
+
+// save answer key
+export const saveAnswerKeyApiCall = async(formCode , questionId , answerKey) => {
+  try{
+    const res = axios.post(`http://localhost:8000/api/forms/${formCode}/answer-key/`, 
+    {
+      questionId : questionId,
+      answerKey : answerKey
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${getCookie("access_token")}`,
+    }
+    
+  },
+    )
+     console.log(res);
+    return res;
+  }
+  catch(err){
+    console.log(err)
+  }
+}

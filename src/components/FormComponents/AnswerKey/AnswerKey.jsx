@@ -7,82 +7,89 @@ import {
   setOptionAnswerHandler,
 } from "../../../redux/questionsSlice";
 import { ShortTextRounded, TextSnippet } from "@mui/icons-material";
-import { Button } from "@chakra-ui/react";
+import { Button, Textarea } from "@chakra-ui/react";
+import { useState } from "react";
 
 const AnswerKey = ({ ques, i }) => {
   const dispatch = useDispatch();
+  const [ansKey , setAnsKey] = useState([])
   const setOptionAnswer = (ans, qno) => {
     dispatch(setOptionAnswerHandler({ ans, qno }));
   };
   const doneAnswer = (i) => {
+    if(ques.questionType === "checkbox"){
+      
+    }
+    else if(ques.questionType === "radio"){
+
+    }
+    else{
+
+    }
     dispatch(doneAnswerHandler({ i }));
   };
+  const saveAnswer = (optionId) => {
+    let tempAns = [...ansKey];
+    tempAns.push(optionId);
+    setAnsKey(tempAns);
+  }
   return (
     <AccordionDetails className={styles.addQuestion}>
       <div className={styles.topHeader}>Choose Correct Answer</div>
-      {ques.options.map((op, j) => (
-        <div
-          className={styles.addQuestionBody}
-          key={j}
-          style={{
-            marginLeft: "8px",
-            marginBottom: "10px",
-            marginTop: "5px",
-          }}
-        >
-          <div key={j}>
-            <div style={{ display: "flex" }} className="">
-              <div className={styles.formCheck}>
-                <label
-                  style={{ fontSize: "13px" }}
-                  onClick={() => {
-                    setOptionAnswer(ques.options[j].optionText, i);
-                  }}
-                >
-                  {ques.questionType !== "text" ? (
-                    <input
-                      type={ques.questionType}
-                      name={ques.questionText}
-                      value="option3"
-                      className={styles.formCheckInput}
-                      required={ques.required}
-                      style={{
-                        marginRight: "10px",
-                        marginBottom: "10px",
-                        marginTop: "5px",
-                      }}
-                    />
-                  ) : (
-                    <ShortTextRounded style={{ marginRight: "10px" }} />
-                  )}
-                  {ques.options[j].optionText}
-                </label>
-              </div>
-            </div>
-          </div>
-        </div>
-      ))}
-      <div className={styles.addQuestionBody}>
-        <Button
-          size="small"
-          style={{
-            textTransform: "none",
-            color: "#4285f4",
-            fontSize: "13px",
-            fontWeight: "600",
-          }}
-        >
-          <TextSnippet
-            style={{
-              fontSize: "20px",
-              marginRight: "8px",
-            }}
+      {ques.questionType === "text" ? (
+        <div className={styles.textArea}>
+          <Textarea
+            style={{ width: "100%", height: "100%", border: "gray" }}
+            placeholder="text area"
           />
-          Add Answer Feedback
-        </Button>
-      </div>
+        </div>
+      ) : (
+        <>
+          {ques.options.map((op, j) => (
+            <div
+              className={styles.addQuestionBody}
+              key={j}
+            >
+                <div style={{ display: "flex" }}>
+                  <div className={styles.formCheck}>
+                    <label
+                      style={{ fontSize: "18px" }}
+                      onClick={() => {
+                        setOptionAnswer(ques.options[j].optionText, i);
+                      }}
+                    >
+                      <input
+                        type={ques.questionType}
+                        name={ques.questionText}
+                        value="option3"
+                        className={styles.formCheckInput}
+                        required={ques.required}
+                        style={{
+                          marginRight: "10px",
+                          marginBottom: "10px",
+                          marginTop: "5px",
+                        }}
+                        
+                      />
+
+                      {ques.options[j].optionText}
+                    </label>
+                  </div>
+                </div>
+
+            </div>
+          ))}
+        </>
+      )}
+
       <div className={styles.addQuestionBottom}>
-        <Button
+        <button
+        className={styles.doneBtn}
+        onClick={() => doneAnswer(i)}
+        >
+          Done
+        </button>
+        {/* <Button
           variant="outlined"
           color="primary"
           style={{
@@ -95,7 +102,7 @@ const AnswerKey = ({ ques, i }) => {
           onClick={() => doneAnswer(i)}
         >
           Done
-        </Button>
+        </Button> */}
       </div>
     </AccordionDetails>
   );

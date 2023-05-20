@@ -32,6 +32,7 @@ const Response = () => {
       arr.push({
         question: res.data.data.data[i].question,
         answer: dataArr,
+        options: res.data.data.data[i].keys,
       });
     }
     console.log(arr);
@@ -55,17 +56,31 @@ const Response = () => {
     <div className={styles.parentContainer}>
       {response.map((res, i) => (
         <div className={styles.qsContainer} key={i}>
-          <div dangerouslySetInnerHTML={{ __html: res.question }} className={styles.qs}/>
-          
-            <Chart
-              chartType="PieChart"
-              data={res.answer}
-              options={options}
-              width={"100%"}
-            height={"100%"}
-              //className={styles.chart}
+
+          <div className={styles.innerQsContainer}>
+            <div
+              dangerouslySetInnerHTML={{ __html: res.question }}
+              className={styles.qs}
             />
-       
+            <div className={styles.optionContainer}>
+              <ul className={styles.innerOptionContainer}>
+                {res.options.map((option, idx) => (
+                  <li key={idx}>{option}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <div className={styles.innerResponaeContainer}>
+          <Chart
+            chartType="PieChart"
+            data={res.answer}
+            options={options}
+            width={"100%"}
+            height={"100%"}
+            //className={styles.chart}
+          />
+          </div>
         </div>
       ))}
     </div>
@@ -73,3 +88,24 @@ const Response = () => {
 };
 
 export default Response;
+
+/*
+<div className={styles.parentContainer}>
+      {response.map((res, i) => (
+        <div className={styles.qsContainer} key={i}>
+          <div dangerouslySetInnerHTML={{ __html: res.question }} className={styles.qs}/>
+          
+            <Chart
+              chartType="PieChart"
+              data={res.answer}
+              options={options}
+              width={"100%"}
+              height={"100%"}
+              //className={styles.chart}
+            />
+       
+        </div>
+      ))}
+    </div>
+
+*/

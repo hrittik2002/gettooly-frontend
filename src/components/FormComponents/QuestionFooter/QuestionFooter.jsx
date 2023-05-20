@@ -1,5 +1,5 @@
 import { Delete, FilterNone, MoreVert, NorthEast } from "@mui/icons-material";
-import { IconButton, Switch } from "@mui/material";
+import { IconButton, Switch, TextField } from "@mui/material";
 import React, { useState } from "react";
 import styles from "./QuestionFooter.module.css";
 import { useDispatch } from "react-redux";
@@ -17,7 +17,15 @@ import {
   updateQuestionAPICall,
   updateScoreAPICall,
 } from "../../../config/ApiCalls/formApiCalls";
-import { Box, Button, NumberInput, NumberInputField } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Input,
+  InputGroup,
+  InputLeftAddon,
+  NumberInput,
+  NumberInputField,
+} from "@chakra-ui/react";
 import { getCookie } from "../../../config/Cookie";
 
 const QuestionFooter = ({ i, questions, getFormData2, ques }) => {
@@ -70,7 +78,7 @@ const QuestionFooter = ({ i, questions, getFormData2, ques }) => {
   };
   const addScoreHandler = async () => {
     const res = await updateScoreAPICall(formCode, id, score);
-    // console.log(res)
+    console.log(res)
     getFormData2();
   };
   console.log(points);
@@ -117,14 +125,23 @@ const QuestionFooter = ({ i, questions, getFormData2, ques }) => {
           <NumberInput
             size="md"
             defaultValue={points}
-            width="20%"
+            width="10%"
+            style={{
+              border : "1px solid black",
+              height : "100%",
+            }}
             onChange={(value) => {
               setScore(value);
             }}
           >
             <NumberInputField />
           </NumberInput>
-          <Button  className={styles.addOptionBtn} onClick={addScoreHandler}>Add Score</Button>
+          {/* <TextField label="score" size="small" color="success"focused  style={{marginTop : "30px"}} onChange={(value) => {
+              setScore(value); 
+            }}/> */}
+          <Button className={styles.addOptionBtn} onClick={addScoreHandler}>
+            Add Score
+          </Button>
         </Box>
       )}
 
@@ -137,7 +154,7 @@ const QuestionFooter = ({ i, questions, getFormData2, ques }) => {
             deleteQuestion(i);
           }}
         >
-          <Delete fontSize="large" style={{ color: "red" }}/>
+          <Delete fontSize="large" style={{ color: "red" }} />
         </IconButton>
 
         {/* IS required or not switch */}

@@ -58,6 +58,9 @@
   .addQuestionBody {
     display: flex;
     align-items: center;
+    margin-left: 8px;
+    margin-bottom: 10px;
+    margin-top: 5px;
   }
   .textInput {
     outline: none;
@@ -114,4 +117,15 @@
       height: 3px;
       width: 4px;
   
+  }
+  .topHeader{
+    font-size: 24px;
+    font-weight: 600px;
+    letter-spacing: 1px;  
+  }
+  .doneBtn{
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.5rem;
+    margin-top: 3px;
   }
