@@ -10,11 +10,10 @@ export const login = async(dispatch , formData) =>{
             "http://localhost:8000/api/auth/login/token/", 
             formData,
           )
-          console.log("aaaaaaaaaaaaaaaaa")
           console.log(data);
           authenticate(data); // to set the data in the cookie storage
           const ConductUserId = getUserId(); // get the user id from the access token in cookie
-          //console.log(ConductUserId);
+          console.log(ConductUserId);
           dispatch(loginSuccess({userId : ConductUserId}));
           return ConductUserId;
     }
