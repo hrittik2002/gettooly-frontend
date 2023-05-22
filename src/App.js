@@ -30,10 +30,12 @@ function App() {
     dispatch(setUserData(data));
   }, [dispatch]);
 
-  useEffect(() => {
-    if (!userData) {
+  useMemo(() => {
+    if (!userData || userData === null || userData === undefined) {
+      console.log("hola")
       loginUserUsingCookie();
     }
+    console.log("ggggggg")
   }, [userData, loginUserUsingCookie]);
 
   console.log(userData);
