@@ -160,7 +160,7 @@ const Settings = () => {
   setInterval(async() => {
       const res = await checkIfFormValidApiCall(formId);
       //console.log(res)
-    }, 6000);
+    }, 60000);
   }, [])
 
   return (
