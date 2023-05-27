@@ -35,16 +35,16 @@ const Response = () => {
         options: res.data.data.data[i].keys,
       });
     }
-    console.log(arr);
+    //console.log(arr);
     for (let i = 0; i < arr.length; i++) {
       for (let key in arr[i].answer) {
-        console.log(key);
+        //console.log(key);
       }
     }
     setResponse(arr);
   };
   useEffect(() => {
-    console.log("hola");
+    //console.log("hola");
     getAllResponseData();
   }, []);
   const options = {

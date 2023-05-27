@@ -1,6 +1,7 @@
 import { loginFailure , loginStart , loginSuccess } from "../../redux/userSlice";
 import axios from "axios";
 import { authenticate, getCookie, getUserId, setCookie } from "../Cookie";
+import { dateFormater } from "../../Helper/dateFormater";
 // create a new Form
 export const createForm = async() =>{
     try{
@@ -232,16 +233,20 @@ export const updateBgColorApiCall = async(code , color) => {
   }
 }
 // update settings 
-export const updateSettingsApiCall = async(code , obj) => {
+export const updateSettingsApiCall = async(code , obj , selectedDate ,examDuration , formValid) => {
+  const availableTime = dateFormater(selectedDate)
   try{
-    const res = axios.put(`http://127.0.0.1:8000/api/form/update/setting/${code}/`, 
+    const res = await axios.put(`http://127.0.0.1:8000/api/form/update/setting/${code}/`, 
     {
       collect_email: obj.collect_email,
       authenticated_responder: obj.authenticated_responder,
       edit_after_submit: obj.edit_after_submit,
       confirmation_message : obj.confirmation_message,
       is_quiz: obj.is_quiz,
-      allow_view_score: obj.allow_view_score
+      allow_view_score: obj.allow_view_score,
+      available_time:availableTime,
+      exam_duration:examDuration,
+      form_valid:formValid,
     },
       {
           headers: {
@@ -250,7 +255,8 @@ export const updateSettingsApiCall = async(code , obj) => {
           withCredentials: true,
       },
     )
-    // console.log(res);
+    console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+     console.log(res);
     return res;
   }
   catch(err){
@@ -327,6 +333,7 @@ export const deleteFormApiCall = async(formId) => {
         Authorization: `Bearer ${getCookie("access_token")}`,
     }
     
+    
   },
     )
      console.log(res);
@@ -353,6 +360,26 @@ export const saveAnswerKeyApiCall = async(formCode , questionId , answerKey) => 
   },
     )
      console.log(res);
+    return res;
+  }
+  catch(err){
+    console.log(err)
+  }
+}
+
+// check whether form is valid
+export const checkIfFormValidApiCall = async(formId) => {
+  try{
+    const res = await axios.put(`http://127.0.0.1:8000/api/forms/${formId}/valid/`,
+    {}, 
+    {
+      headers: {
+        Authorization: `Bearer ${getCookie("access_token")}`,
+    },
+    withCredentials: true,
+  },
+    )
+     //console.log(res);
     return res;
   }
   catch(err){

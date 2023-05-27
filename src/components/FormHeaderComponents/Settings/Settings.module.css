@@ -162,3 +162,7 @@
    border: 2px solid var(--primary-color);
    height: 47px;
 }
+.examDurationInput{
+    border: none;
+    border: 1px solid gray;
+}

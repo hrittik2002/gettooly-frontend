@@ -40,6 +40,7 @@ import {
   set_collect_email,
   set_confirmation_message,
   set_edit_after_submit,
+  set_is_form_valid,
   set_is_quiz,
 } from "../../redux/settingsSlice";
 import AnswerKey from "../FormComponents/AnswerKey/AnswerKey";
@@ -65,7 +66,7 @@ const QuestionForm = () => {
 
   const getFormData2 = async () => {
     const res2 = await getFormData(formCode);
-    // console.log(res2);
+    console.log(res2);
     // Refresh Form
     const dummyQuestion = [];
     for (let i in res2.data.questions) {
@@ -118,6 +119,7 @@ const QuestionForm = () => {
     dispatch(set_confirmation_message(res2.data.confirmation_message));
     dispatch(set_is_quiz(res2.data.is_quiz));
     dispatch(set_allow_view_score(res2.data.allow_view_score));
+    dispatch(set_is_form_valid(res2.data.form_valid));
   };
 
   useEffect(() => {
