@@ -57,3 +57,22 @@ export const getUserData = async(id) => {
       return err;
     }
   }
+  // get all user details
+  export const getAllUserDetails = async(userId , formId) =>{
+    try{
+      const res = await axios.get(
+        `http://127.0.0.1:8000/api/conductusers/${userId}/forms/${formId}/results/`,
+        {
+          headers: {
+            Authorization: `Bearer ${getCookie("access_token")}`,
+        },
+        credentials : "include"
+        }
+      )
+    console.log(res);
+    return res;
+    }
+    catch(err){
+      return err;
+    }
+  }

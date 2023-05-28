@@ -4,6 +4,7 @@ import { getResponse } from "../../config/ApiCalls/userApiCalls";
 import styles from "./Response.module.css";
 import { useParams } from "react-router-dom";
 import { Chart } from "react-google-charts";
+import { useSelector } from "react-redux";
 
 const Response = () => {
   const data = [
@@ -17,6 +18,8 @@ const Response = () => {
   // const
   const [response, setResponse] = useState([]);
   const { formCode } = useParams();
+  const userData = useSelector((state) => state.user.currentUser);
+  const formId = useSelector((state) => state.questions.formId);
   const getAllResponseData = async () => {
     const res = await getResponse(formCode);
     console.log(res);
@@ -42,10 +45,20 @@ const Response = () => {
       }
     }
     setResponse(arr);
+    console.log(userData , formId)
+    
   };
   useEffect(() => {
     //console.log("hola");
     getAllResponseData();
+  }, []);
+  const getResults = async() => {
+    const results = await getAllResponseData(userData.id, formId) 
+    console.log(results)
+  }
+  useEffect(() => {
+    //console.log("hola");
+    getResults();
   }, []);
   const options = {
     title: "Response",
