@@ -13,16 +13,20 @@ import { useEffect } from "react";
 import { Button, EditableTextarea, Textarea, useToast } from "@chakra-ui/react";
 import {
   getIPAddress,
+  sendDetails,
   submitForm,
+  viewResponseAPICall,
 } from "../../config/ApiCalls/formSubmitApiCalls";
 //import ReactDOM from "react-dom";
 import Countdown from "react-countdown";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import AfterSubmission from "../../components/AfterSubmission/AfterSubmission";
 
 const FormViewPage = () => {
   const params = useParams();
   const toast = useToast();
+  const location = useLocation();
+  console.log(location)
   const [resultList, setResultList] = useState([]);
   const navigate = useNavigate();
   const [resulst, setResults] = useState([...resultList]);
@@ -179,8 +183,9 @@ const FormViewPage = () => {
       }
     }
     const IP = await getIPAddress();
-    console.log(IP, formId, resultArray , resultList);
-    const res = await submitForm(IP, resultArray, formId);
+    const res_email = location.state.email;
+    console.log(IP, formId, resultArray , resultList , res_email);
+    const res = await submitForm(IP, resultArray, formId , res_email);
     console.log(res);
     if(res && res.status && res.status === 200){
       setFormSubmited(true);
@@ -193,6 +198,22 @@ const FormViewPage = () => {
         duration: 3000,
         isClosable: true,
       })
+      const details = await viewResponseAPICall(formCode, res.data.data.response_code);
+      console.log(details)
+      let percentage = (details.data.score / details.data.total_score) * 100;
+      const sendUserDetails = await sendDetails(
+        details.data.response.id,
+        details.data.response.response_code,
+        details.data.response.responder_email,
+        userData.first_name,
+        details.data.score,
+        details.data.total_score,
+        percentage,
+        false,
+        details.data.response.response_to,
+        details.data.response.responder
+        )
+        console.log(sendUserDetails)
     }
   };
   const showIthQuestion = (i) => {

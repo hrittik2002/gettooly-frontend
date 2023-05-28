@@ -1,8 +1,17 @@
 import React from "react";
 import Lottie from "lottie-react";
-import styles from "./Test.module.css";
-import examAni from "../assets/animations/exam.json";
-const Test = () => {
+import styles from "./ExamStartPage.module.css";
+import examAni from "../../assets/animations/exam.json";
+import { useNavigate, useParams } from "react-router-dom";
+import { useState } from "react";
+
+const ExamStartPage = () => {
+    const {formCode} = useParams();
+    const [email , setEmail] = useState('');
+    const navigate = useNavigate();
+    const startExamHandler =() => {
+        navigate(`/form/${formCode}/view`,  { state : { email : email } });
+    }
   return (
     <div className={styles.container}>
       <div className={styles.emailInput}>
@@ -14,8 +23,8 @@ const Test = () => {
           doloremque in impedit dignissimos exercitationem et blanditiis quis.
         </div>
         <div className={styles.examContainer}>
-          <input type="email" placeholder="Enter your email" className={styles.inputEmail}/>
-          <button type="submit" className={styles.startBtn}>start</button>
+          <input type="email" placeholder="Enter your email" onChange={(e)=>{setEmail(e.target.value)}} className={styles.inputEmail}/>
+          <button type="submit" className={styles.startBtn} onClick={startExamHandler}>start</button>
         </div>
       </div>
       <div className={styles.pictureContainer}>
@@ -29,7 +38,7 @@ const Test = () => {
         />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Test;
+export default ExamStartPage

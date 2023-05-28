@@ -19,6 +19,7 @@ import FormViewPage from "./pages/FormViewPage/FormViewPage";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import ViewResponsePage from "./pages/ViewResponsePage/ViewResponsePage";
 import SubscriptionListPage from "./pages/SubscriptionListPage/SubscriptionListPage";
+import ExamStartPage from "./pages/ExamStartPage/ExamStartPage";
 
 function App() {
   const userData = useSelector((state) => state.user.currentUser);
@@ -32,10 +33,10 @@ function App() {
 
   useMemo(() => {
     if (!userData || userData === null || userData === undefined) {
-      console.log("hola")
+      console.log("hola");
       loginUserUsingCookie();
     }
-    console.log("ggggggg")
+    console.log("ggggggg");
   }, [userData, loginUserUsingCookie]);
 
   console.log(userData);
@@ -43,6 +44,7 @@ function App() {
   return (
     <Router>
       <Routes>
+      {/* conduct user related page */}
         <Route
           path="/ConductUser/:userId"
           exact
@@ -73,6 +75,8 @@ function App() {
           path="/api/auth/user/email/password-reset/:uibd/:token"
           element={<PasswordResetPage />}
         />
+
+        {/* Payment Related Page */}
         <Route
           path="/ConductUser/:userId/subscription"
           element={<SubscriptionPage />}
@@ -82,18 +86,28 @@ function App() {
           element={<SubscriptionListPage />}
         />
 
+        <Route path="/ConductUser/:userId/payment" 
+        element={<PaymentPage />} />
 
-        <Route path="/ConductUser/:userId/payment" element={<PaymentPage />} />
 
-        <Route path="/form/:formCode/edit" element={<FormEditPage />} />
+        {/* exam related page */}
+        <Route path="/form/:formCode/edit" 
+        element={<FormEditPage />} />
 
-        <Route path="/form/:formCode/view" element={<FormViewPage />} />
+        <Route path="/form/:formCode/view" 
+        element={<FormViewPage />} />
 
         <Route
           path="/form/:formCode/:responseCode/review"
           element={<ViewResponsePage />}
         />
 
+        <Route path="/form/:formCode/startExam"
+        element={<ExamStartPage/>}
+        />
+        
+
+        {/* user dashboard page */}
         <Route path="/User/:userId/dashboard" element={<Dashboard />} />
 
         {/* Testing */}
