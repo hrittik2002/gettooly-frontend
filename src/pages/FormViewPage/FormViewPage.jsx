@@ -188,32 +188,50 @@ const FormViewPage = () => {
     const res = await submitForm(IP, resultArray, formId , res_email);
     console.log(res);
     if(res && res.status && res.status === 200){
-      setFormSubmited(true);
-      setResponseCode(res.data.data.response_code);
       console.log(res.data)
-      toast({
-        title: 'Successfully Submited',
-        description: "Your Response has been successfully submitted",
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      })
-      const details = await viewResponseAPICall(formCode, res.data.data.response_code);
-      console.log(details)
-      let percentage = (details.data.score / details.data.total_score) * 100;
-      const sendUserDetails = await sendDetails(
-        details.data.response.id,
-        details.data.response.response_code,
-        details.data.response.responder_email,
-        userData.first_name,
-        details.data.score,
-        details.data.total_score,
-        percentage,
-        false,
-        details.data.response.response_to,
-        details.data.response.responder
-        )
-        console.log(sendUserDetails)
+      let isSubmitted = false;
+      if(res.data.status === false){
+        toast({
+          title: 'Limit exceeded',
+          description: res.data.message,
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        })
+        isSubmitted = false;
+      }
+      else{
+        isSubmitted = true;
+        toast({
+          title: 'Successfully Submited',
+          description: "Your Response has been successfully submitted",
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+        })
+      }
+      if(isSubmitted === true){
+        setFormSubmited(true);
+        setResponseCode(res.data.data.response_code);
+        const details = await viewResponseAPICall(formCode, res.data.data.response_code);
+        console.log(details)
+        let percentage = (details.data.score / details.data.total_score) * 100;
+        const sendUserDetails = await sendDetails(
+          details.data.response.id,
+          details.data.response.response_code,
+          details.data.response.responder_email,
+          userData.first_name,
+          details.data.score,
+          details.data.total_score,
+          percentage,
+          false,
+          details.data.response.response_to,
+          details.data.response.responder
+          )
+          console.log(sendUserDetails)
+      }
+
+      
     }
   };
   const showIthQuestion = (i) => {
