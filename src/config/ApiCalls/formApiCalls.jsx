@@ -349,8 +349,8 @@ export const saveAnswerKeyApiCall = async(formCode , questionId , answerKey) => 
   try{
     const res = axios.post(`http://localhost:8000/api/forms/${formCode}/answer-key/`, 
     {
-      questionId : questionId,
-      answerKey : answerKey
+      question_id : questionId,
+      answer_key : answerKey
     },
     {
       headers: {

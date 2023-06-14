@@ -34,7 +34,7 @@ const CARD_OPTIONS = {
 
 const plans = [
   {
-    id: 0,
+    id: 1,
     plan: "Plan 0",
     indianPricing: "price_1NIr2TSJstE3ZNVNuK1U5LsH",
     usPricing: "price_1NIr2TSJstE3ZNVNuK1U5LsH",
@@ -42,7 +42,7 @@ const plans = [
     inrPrice: 400,
   },
   {
-    id: 1,
+    id: 2,
     plan: "Plan 1",
     indianPricing: "price_1N8e0kSJstE3ZNVNLmyt8xpP",
     usPricing: "price_1N8e0kSJstE3ZNVNzjjm5OFl",
@@ -50,7 +50,7 @@ const plans = [
     inrPrice: 100,
   },
   {
-    id: 2,
+    id: 3,
     plan: "Plan 2",
     indianPricing: "price_1N8e1bSJstE3ZNVNwgCZ4sKL",
     usPricing: "price_1N8e1bSJstE3ZNVNW6LQCFiH",
@@ -58,7 +58,7 @@ const plans = [
     inrPrice: 200,
   },
   {
-    id: 3,
+    id: 4,
     plan: "Plan 3",
     indianPricing: "price_1N8e2BSJstE3ZNVN3ceChJtq",
     usPricing: "price_1N8e2BSJstE3ZNVNcl64vI9B",

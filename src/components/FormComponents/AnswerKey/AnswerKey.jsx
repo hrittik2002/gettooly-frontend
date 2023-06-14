@@ -9,23 +9,51 @@ import {
 import { ShortTextRounded, TextSnippet } from "@mui/icons-material";
 import { Button, Textarea } from "@chakra-ui/react";
 import { useState } from "react";
+import { saveAnswerKeyApiCall } from "../../../config/ApiCalls/formApiCalls";
+import { useParams } from "react-router-dom";
 
 const AnswerKey = ({ ques, i }) => {
   const dispatch = useDispatch();
   const [ansKey , setAnsKey] = useState([])
+  const params = useParams();
+  const formCode = params.formCode
+  const updateAnswerState = (ans, qsType) => {
+    if(qsType === "checkbox"){
+      const ansArr = [...ansKey];
+      let isAnsAlreadyExist = false;
+      for(let i = 0; i < ansArr.length; i++){
+        if(ansArr[i] === ans) isAnsAlreadyExist = true;
+      }
+      if(!isAnsAlreadyExist){
+        ansArr.push(ans); 
+        setAnsKey(ansArr);
+      }
+      console.log(ansArr)
+    }
+    else if(qsType === "radio"){
+      const ansArr = [ans];
+      setAnsKey(ansArr);
+    }
+    else{
+      const ansArr = [ans];
+      setAnsKey(ansArr);
+    }
+
+    console.log(ansKey)
+  }
   const setOptionAnswer = (ans, qno) => {
     dispatch(setOptionAnswerHandler({ ans, qno }));
   };
-  const doneAnswer = (i) => {
-    if(ques.questionType === "checkbox"){
-      
-    }
-    else if(ques.questionType === "radio"){
-
+  const doneAnswer = async(i , qsId , qsType) => {
+    if(qsType === "checkbox"){
+      const res = await saveAnswerKeyApiCall(formCode, qsId , ansKey)
+      console.log(res)
     }
     else{
-
+      const res = await saveAnswerKeyApiCall(formCode, qsId , ansKey[0])
+      console.log(res)
     }
+    
     dispatch(doneAnswerHandler({ i }));
   };
   const saveAnswer = (optionId) => {
@@ -40,6 +68,7 @@ const AnswerKey = ({ ques, i }) => {
         <div className={styles.textArea}>
           <Textarea
             style={{ width: "100%", height: "100%", border: "gray" }}
+            onChange={(e)=>{updateAnswerState(e.target.value , ques.questionType)}}
             placeholder="text area"
           />
         </div>
@@ -55,8 +84,9 @@ const AnswerKey = ({ ques, i }) => {
                     <label
                       style={{ fontSize: "18px" }}
                       onClick={() => {
-                        setOptionAnswer(ques.options[j].optionText, i);
+                        updateAnswerState(ques.options[j].id, ques.questionType);
                       }}
+                      
                     >
                       <input
                         type={ques.questionType}
@@ -85,24 +115,10 @@ const AnswerKey = ({ ques, i }) => {
       <div className={styles.addQuestionBottom}>
         <button
         className={styles.doneBtn}
-        onClick={() => doneAnswer(i)}
+        onClick={() => doneAnswer(i , ques.id , ques.questionType)}
         >
           Done
         </button>
-        {/* <Button
-          variant="outlined"
-          color="primary"
-          style={{
-            textTransform: "none",
-            color: "#4285f4",
-            fontSize: "12px",
-            marginTop: "12px",
-            fontWeight: "bold",
-          }}
-          onClick={() => doneAnswer(i)}
-        >
-          Done
-        </Button> */}
       </div>
     </AccordionDetails>
   );
