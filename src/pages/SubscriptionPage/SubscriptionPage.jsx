@@ -33,7 +33,7 @@ const SubscriptionPage = () => {
         <div className={styles.saasSubscriptionCardBody}>
         <div className={styles.saasSubscriptionCardPlan}>
             <h3>Pro</h3>
-            <p className={styles.saasSubscriptionCardPrice}>{currency === 'usd' ? '$1' : '₹1'}/month</p>
+            <p className={styles.saasSubscriptionCardPrice}>{currency === 'usd' ? '$0' : '₹0'}/month</p>
             <ul className={styles.saasSubscriptionCardFeatures}>
               <li>10k Users</li>
               <li>20 GB Storage</li>
@@ -45,7 +45,7 @@ const SubscriptionPage = () => {
           </div>
           <div className={styles.saasSubscriptionCardPlan}>
             <h3>Pro</h3>
-            <p className={styles.saasSubscriptionCardPrice}>{currency === 'usd' ? '$2' : '₹2'}/month</p>
+            <p className={styles.saasSubscriptionCardPrice}>{currency === 'usd' ? '$1' : '₹1'}/month</p>
             <ul className={styles.saasSubscriptionCardFeatures}>
               <li>50k Users</li>
               <li>20 GB Storage</li>
@@ -57,7 +57,7 @@ const SubscriptionPage = () => {
           </div>
           <div className={styles.saasSubscriptionCardPlan}>
             <h3>Enterprise</h3>
-            <p className={styles.saasSubscriptionCardPrice}>{currency === 'usd' ? '$3' : '₹3'}/month</p>
+            <p className={styles.saasSubscriptionCardPrice}>{currency === 'usd' ? '$2' : '₹2'}/month</p>
             <ul className={styles.saasSubscriptionCardFeatures}>
               <li>Unlimited Users</li>
               <li>150 GB Storage</li>
@@ -69,7 +69,7 @@ const SubscriptionPage = () => {
           </div>
           <div className={styles.saasSubscriptionCardPlan}>
             <h3>Enterprise</h3>
-            <p className={styles.saasSubscriptionCardPrice}>{currency === 'usd' ? '$4' : '₹4'}/month</p>
+            <p className={styles.saasSubscriptionCardPrice}>{currency === 'usd' ? '$3' : '₹3'}/month</p>
             <ul className={styles.saasSubscriptionCardFeatures}>
               <li>Unlimited Users</li>
               <li>50 GB Storage</li>

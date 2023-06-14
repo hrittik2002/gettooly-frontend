@@ -34,6 +34,14 @@ const CARD_OPTIONS = {
 
 const plans = [
   {
+    id: 0,
+    plan: "Plan 0",
+    indianPricing: "price_1NIr2TSJstE3ZNVNuK1U5LsH",
+    usPricing: "price_1NIr2TSJstE3ZNVNuK1U5LsH",
+    usdPrice: 400,
+    inrPrice: 400,
+  },
+  {
     id: 1,
     plan: "Plan 1",
     indianPricing: "price_1N8e0kSJstE3ZNVNLmyt8xpP",
@@ -57,14 +65,14 @@ const plans = [
     usdPrice: 300,
     inrPrice: 300,
   },
-  {
-    id: 4,
-    plan: "Plan 4",
-    indianPricing: "price_1N8e2eSJstE3ZNVNMmf7pNuR",
-    usPricing: "price_1N8e2eSJstE3ZNVNB2Z0UcHZ",
-    usdPrice: 400,
-    inrPrice: 400,
-  },
+  // {
+  //   id: 4,
+  //   plan: "Plan 4",
+  //   indianPricing: "price_1N8e2eSJstE3ZNVNMmf7pNuR",
+  //   usPricing: "price_1N8e2eSJstE3ZNVNB2Z0UcHZ",
+  //   usdPrice: 400,
+  //   inrPrice: 400,
+  // },
 ];
 
 export default function PaymentForm({ plan, currency }) {
