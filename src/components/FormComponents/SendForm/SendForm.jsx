@@ -21,7 +21,7 @@ const SendForm = () => {
     const formCode = useSelector((state) => state.questions.formCode);
     const toast = useToast();
     useEffect(()=>{
-        setLink(`http://localhost:3000/form/${formCode}/view`)
+        setLink(`http://localhost:3000/form/${formCode}/startExam`)
     },[formCode])
     const showToast = (title, status) => {
       toast({

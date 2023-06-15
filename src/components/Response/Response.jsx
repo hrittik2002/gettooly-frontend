@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { getResponse } from "../../config/ApiCalls/userApiCalls";
+import { getAllUserDetails, getResponse } from "../../config/ApiCalls/userApiCalls";
 import styles from "./Response.module.css";
 import { useParams } from "react-router-dom";
 import { Chart } from "react-google-charts";
@@ -15,8 +15,10 @@ const Response = () => {
     ["Watch TV", 2],
     ["Sleep", 7],
   ];
+
   // const
   const [response, setResponse] = useState([]);
+  const [allUserData , setAllUserData] = useState([]);
   const { formCode } = useParams();
   const userData = useSelector((state) => state.user.currentUser);
   const formId = useSelector((state) => state.questions.formId);
@@ -53,7 +55,10 @@ const Response = () => {
     getAllResponseData();
   }, []);
   const getResults = async() => {
-    const results = await getAllResponseData(userData.id, formId) 
+    const results = await getAllUserDetails(userData.id, formId);
+    if(results.data !== undefined) {
+      setAllUserData(results.data)
+    }
     console.log(results)
   }
   useEffect(() => {

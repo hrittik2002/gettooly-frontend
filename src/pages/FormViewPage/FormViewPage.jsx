@@ -161,8 +161,12 @@ const FormViewPage = () => {
       }
     }
   };
+
   const submitFormHandler = async (e) => {
+    // cancel the default form action
     e.preventDefault();
+    
+    // store the result in result array 
     let resultArray = [];
     for (let i = 0; i < resultList.length; i++) {
       if(resultList[i].questionType === 'checkbox'){
@@ -182,14 +186,20 @@ const FormViewPage = () => {
         });
       }
     }
+    // ip address of user
     const IP = await getIPAddress();
     const res_email = location.state.email;
-    console.log(IP, formId, resultArray , resultList , res_email);
+    //console.log(IP, formId, resultArray , resultList , res_email);
+
+    // submitting the form 
     const res = await submitForm(IP, resultArray, formId , res_email);
     console.log(res);
+    
     if(res && res.status && res.status === 200){
       console.log(res.data)
       let isSubmitted = false;
+
+      // check whether the form was submitted successfully or not
       if(res.data.status === false){
         toast({
           title: 'Limit exceeded',
@@ -210,6 +220,8 @@ const FormViewPage = () => {
           isClosable: true,
         })
       }
+
+      // if form submitted successfully then
       if(isSubmitted === true){
         setFormSubmited(true);
         setResponseCode(res.data.data.response_code);
