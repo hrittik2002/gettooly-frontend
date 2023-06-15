@@ -48,7 +48,7 @@ const Dashboard = () => {
               <tr>
             <td>{result.quiz_name}</td>
             <td>{result.total_score}</td>
-            <td>{result.socre}</td>
+            <td>{result.score}</td>
             <td>{result.percentage} %</td>
           </tr>
             ))
