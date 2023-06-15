@@ -6,9 +6,11 @@ import { useParams } from "react-router-dom";
 import { getCoductUserData } from "../../config/apiCalls";
 import { setUserData } from "../../redux/userSlice";
 import { getAllResultsApiCall, getUserData } from "../../config/ApiCalls/userApiCalls";
+import { useState } from "react";
 
 const Dashboard = () => {
   const {userId} = useParams();
+  const [resultData , setResultData] = useState([]);
     const dispatch = useDispatch();
     useEffect(() => {
         const getUserDataFun = async () => {
@@ -25,6 +27,7 @@ const Dashboard = () => {
     useEffect(async()=>{
       const res = await getAllResultsApiCall(userId);
       console.log(res)
+      setResultData(res.data);
     },[])
   return (
     <>
@@ -40,12 +43,22 @@ const Dashboard = () => {
             <th>Percentage</th>
           </tr>
 
-          <tr>
-            <td>abcd</td>
-            <td>45</td>
-            <td>10</td>
-            <td>20%</td>
+          {
+            resultData.map((result , idx)=>(
+              <tr>
+            <td>{result.quiz_name}</td>
+            <td>{result.total_score}</td>
+            <td>{result.socre}</td>
+            <td>{result.percentage} %</td>
           </tr>
+            ))
+          }
+          {
+resultData.length === 0 && (
+  <div>No result Found</div>
+)
+          }
+          
         </table>
       </div>
     </>
