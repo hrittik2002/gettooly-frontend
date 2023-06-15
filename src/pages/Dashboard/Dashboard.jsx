@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getCoductUserData } from "../../config/apiCalls";
 import { setUserData } from "../../redux/userSlice";
-import { getUserData } from "../../config/ApiCalls/userApiCalls";
+import { getAllResultsApiCall, getUserData } from "../../config/ApiCalls/userApiCalls";
 
 const Dashboard = () => {
   const {userId} = useParams();
@@ -21,6 +21,11 @@ const Dashboard = () => {
           dispatch(setUserData(userData));
         });
       }, []);
+
+    useEffect(async()=>{
+      const res = await getAllResultsApiCall(userId);
+      console.log(res)
+    },[])
   return (
     <>
       <SideNavbar2 />

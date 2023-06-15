@@ -76,3 +76,23 @@ export const getUserData = async(id) => {
       return err;
     }
   }
+
+  // get all results
+  export const getAllResultsApiCall = async(userId)=>{
+    try{
+      const res = await axios.get(
+        `http://localhost:8000/api/userquizzes/${userId}/results/`,
+        {
+          headers: {
+            Authorization: `Bearer ${getCookie("access_token")}`,
+        },
+        credentials : "include"
+        }
+      )
+    console.log(res);
+    return res;
+    }
+    catch(err){
+      return err;
+    }
+  }

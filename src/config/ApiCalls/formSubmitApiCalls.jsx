@@ -60,7 +60,7 @@ export const viewResponseAPICall = async(formCode , responseCode) =>{
 
 // send details to conduct user
 export const sendDetails = async(id , result_code , responder_email , name , score , 
-  total_score , percentage , show_score , result_to , responder
+  total_score , percentage , show_score , result_to , responder , formName
   ) =>{
   try {
     const res = await axios.post(
@@ -75,7 +75,8 @@ export const sendDetails = async(id , result_code , responder_email , name , sco
 	      percentage: percentage,
 	      show_score: show_score,
 	      result_to: result_to,
-	      responder: responder
+	      responder: responder,
+        quiz_name:formName,
       },
       {
         headers: {

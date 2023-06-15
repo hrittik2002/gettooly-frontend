@@ -228,6 +228,7 @@ const FormViewPage = () => {
         const details = await viewResponseAPICall(formCode, res.data.data.response_code);
         console.log(details)
         let percentage = (details.data.score / details.data.total_score) * 100;
+        console.log(formTitle)
         const sendUserDetails = await sendDetails(
           details.data.response.id,
           details.data.response.response_code,
@@ -238,7 +239,8 @@ const FormViewPage = () => {
           percentage,
           false,
           details.data.response.response_to,
-          details.data.response.responder
+          details.data.response.responder,
+          formTitle
           )
           console.log(sendUserDetails)
       }
