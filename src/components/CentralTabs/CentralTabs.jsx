@@ -12,6 +12,7 @@ import QuestionForm from "../QuestionForm/QuestionForm";
 import styles from './CentralTabs.module.css'
 import { useSelector } from "react-redux";
 import Response from "../Response/Response";
+import Results from "../Results/Results";
 
 const CentralTabs = () => {
   const bgColor = useSelector((state) => state.questions.bgColor);
@@ -23,6 +24,7 @@ const CentralTabs = () => {
         <TabList className={styles.tabList}>
           <Tab styles={styles.tab} color="#fff">Questions</Tab>
           <Tab styles={styles.tab} color="#fff">Responses</Tab>
+          <Tab styles={styles.tab} color="#fff">Results</Tab>
         </TabList>
         <TabIndicator
           className={styles.tabIndicator}
@@ -40,6 +42,9 @@ const CentralTabs = () => {
           </TabPanel>
           <TabPanel width="100%" height="100%" overflowY="scroll">
             <Response/>
+          </TabPanel>
+          <TabPanel width="100%" height="100%" overflowY="scroll">
+            <Results/>
           </TabPanel>
         </TabPanels>
       </Tabs>

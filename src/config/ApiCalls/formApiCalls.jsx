@@ -386,3 +386,25 @@ export const checkIfFormValidApiCall = async(formId) => {
     console.log(err)
   }
 }
+
+// publish results 
+export const publishResultApiCall = async(formId , userId , showResult) => {
+  try{
+    const res = await axios.put(`http://127.0.0.1:8000/api/results/${formId}/conductusers/${userId}/`,
+    {
+      "show_score": showResult
+    }, 
+    {
+      headers: {
+        Authorization: `Bearer ${getCookie("access_token")}`,
+    },
+    withCredentials: true,
+  },
+    )
+     //console.log(res);
+    return res;
+  }
+  catch(err){
+    console.log(err)
+  }
+}

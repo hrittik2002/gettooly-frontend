@@ -74,7 +74,7 @@ const Response = () => {
     <div className={styles.parentContainer}>
       {response.map((res, i) => (
         <div className={styles.qsContainer} key={i}>
-
+          
           <div className={styles.innerQsContainer}>
             <div
               dangerouslySetInnerHTML={{ __html: res.question }}
@@ -88,6 +88,7 @@ const Response = () => {
               </ul>
             </div>
           </div>
+          
 
           <div className={styles.innerResponaeContainer}>
           <Chart
