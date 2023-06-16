@@ -2,24 +2,45 @@ import React from 'react'
 import styles from './HomePageContents.module.css'
 import banner from '../../../assets/images/banner.svg'
 import features from '../../../assets/images/features.svg'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Animation1 from '../../../assets/animations/ani1.json'
 import Animation2 from '../../../assets/animations/quizAni.json'
 import WhyUsAnimation from '../../../assets/animations/whyUs.json'
 import Lottie from "lottie-react";
+import { useSelector } from 'react-redux'
+import { useToast } from '@chakra-ui/react'
 
 const HomePageContents = () => {
+    const userData = useSelector((state) => state.user.currentUser);
+    const navigate = useNavigate();
+    const toast = useToast()
+    const handleClickListner = () => {
+        console.log(userData)
+        if(!userData){
+            toast({
+                title: 'Login First',
+                description: "Login to your account. If you dont have an account create a new one",
+                status: 'info',
+                duration: 3000,
+                isClosable: true,
+              })
+        }
+        else{
+            navigate(`/ConductUser/${userData.id}`)
+        }
+        console.log("hola")
+    }
   return (
     <div className={styles.container}>
             <div className={styles.contentLeft}>
                 <div className={styles.heading}>
-                <h1>Create, Share <span>forms</span> easily</h1>
+                <h1>Create, Share <span>quiz</span> easily</h1>
                 </div>
                 <div className={styles.font}>
-                <p>99Types is an online platform that allows users to create and share forms with ease. The website offers a simple and user-friendly interface that allows users to create various types of forms, including MCQ exams and job recruitment forms. With a free account, users can create and customize their forms, and easily share the link with others to gather responses.</p>
+                <p>99Types is a user-friendly website for easy quiz creation and simple pie chart surveys. Create quizzes effortlessly and analyze data with visually appealing pie charts. Perfect for educators, researchers, and quick insights.</p>
                 </div>
                 <div>
-                <Link to="" className={styles.btn}>get started</Link>
+                <button onClick={()=>{handleClickListner()}} className={styles.btn}>get started</button>
                 </div>
                 
             </div>
