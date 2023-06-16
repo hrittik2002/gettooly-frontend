@@ -10,7 +10,8 @@ export const registerUser = async(formData) =>{
           "http://localhost:8000/api/auth/User/register/", 
           formData,
         )
-          // console.log(data);
+           //console.log(data);
+           return data;
       }
       catch(err){
         console.log(err);

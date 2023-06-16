@@ -57,7 +57,7 @@ const AboutPage = () => {
             src={
               userData.profile_photo
                 ? userData.profile_photo
-                : "https://www.thestatesman.com/wp-content/uploads/2022/06/TCS.jpg"
+                : "https://www.debugpoint.com/wp-content/uploads/2021/04/Debian-10-Buster-wallpaper-2560x1080-1.png"
             }
             alt="Profile Picture"
           />

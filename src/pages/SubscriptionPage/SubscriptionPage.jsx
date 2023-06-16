@@ -30,6 +30,7 @@ const SubscriptionPage = () => {
             <Button _hover={{ bg: '#ebedf0' }} onClick={()=>{setCurrency('inr')}}>INR</Button>
           </ButtonGroup>
         </div>
+        
         <div className={styles.saasSubscriptionCardBody}>
         <div className={styles.saasSubscriptionCardPlan}>
             <h3>Pro</h3>
@@ -43,6 +44,7 @@ const SubscriptionPage = () => {
               Choose Plan
             </button>
           </div>
+
           <div className={styles.saasSubscriptionCardPlan}>
             <h3>Pro</h3>
             <p className={styles.saasSubscriptionCardPrice}>{currency === 'usd' ? '$1' : '₹1'}/month</p>

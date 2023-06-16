@@ -17,7 +17,7 @@ const ToolBar = ({openSidebar}) => {
       <div className={styles.burger} onClick={openSidebar}>
             <MenuIcon fontSize="large" className={styles.burgerIcon}/>
         </div>
-        <div className={styles.title}>99Types</div>
+        <div className={styles.title}>99Type</div>
 
       </div>
       <div className={styles.right}>

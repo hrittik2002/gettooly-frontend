@@ -88,14 +88,15 @@ const RegisterByUser = () => {
           return;
         }
         const responseData = await registerUser(formData);
-        if(responseData.success === true) {
+        //console.log(responseData)
+        if(responseData.user) {
           showToast("Successfully registered" , responseData.data , "success")
         }
         else{
           showToast("Registration Failed" , responseData.data , "error")
           setLoading(false);
         }
-        console.log(responseData);
+        //console.log(responseData);
         setLoading(false);
       },
     });
